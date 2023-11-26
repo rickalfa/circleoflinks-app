@@ -18,6 +18,11 @@ class OfertaLaboralFactory extends Factory
     {
         return [
             //
+
+            
+
+
+
         ];
     }
 }

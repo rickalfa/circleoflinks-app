@@ -15,6 +15,17 @@ return new class extends Migration
     {
         Schema::create('status_ofeta_laborals', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name', 255);
+
+            $table->text('description');
+
+            $table->unsignedBigInteger('oferta_laboral_id')->unique();
+
+
+            $table->foreign('oferta_laboral_id')->references('id')->on('oferta_laborals');
+
+
             $table->timestamps();
         });
     }

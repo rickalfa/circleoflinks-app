@@ -16,8 +16,19 @@ class StatusOfetaLaboralFactory extends Factory
      */
     public function definition()
     {
+
+        $status_names = array("cancel", "building", "finish", "public");
+
+
+
+
+
         return [
-            //
+            
+            'name' => $status_names[rand(0, 3)],
+            'description' => $this->faker->text()
+
+
         ];
     }
 }

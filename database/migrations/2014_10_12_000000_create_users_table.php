@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address');
 
+            $table->unsignedBigInteger('status_user_id')->nullable();
+
 
             $table->integer('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -26,6 +28,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
+            $table->foreign('status_user_id')->references('id')->on('status_user');
 
             
         });

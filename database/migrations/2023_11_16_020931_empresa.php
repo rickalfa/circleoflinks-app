@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('addres');
+            $table->string('address');
             $table->string('rubro');
 
             $table->unsignedBigInteger('user_id')->unique();

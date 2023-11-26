@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class Status_userFactory extends Factory
 {
+
+    public $count = 0;
+
     /**
      * Define the model's default state.
      *
@@ -16,8 +19,14 @@ class Status_userFactory extends Factory
      */
     public function definition()
     {
+
+        $status_names = array("free", "pro", "suspend", "banned", "active");
+
+        
         return [
-            //
+            'name' => $status_names[0],
+            'description' => $this->faker->text()
+
         ];
     }
 }

@@ -21,12 +21,11 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('description');
 
-            $table->unsignedBigInteger('user_id')->nullable()->unique();
+           
             $table->timestamps();
 
 
-            $table->foreign('user_id')->references('id')->on('users');
-
+      
 
 
         });
