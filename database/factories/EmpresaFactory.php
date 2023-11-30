@@ -22,18 +22,18 @@ class EmpresaFactory extends Factory
     public function definition()
     {
  
-        $rubro = array("tecnologia", "servicio-delivery", "construccion", "transporte");
+        $rubro = array("tecnologia", "servicio-delivery", "construccion", "transporte", "mineria");
 
       
 
         
 
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->name()." EnterPrise",
             'email' => $this->faker->unique()->safeEmail(),
             'address' => "Street ".$this->faker->address(),
-            'rubro' => $rubro[rand(0,3)],
-            'user_id' => 2
+            'rubro' => $rubro[rand(0,4)],
+            
         ];
     }
 }

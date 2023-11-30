@@ -11,4 +11,17 @@ class Empresa extends Model
     protected $table = 'empresa';
 
     use HasFactory;
+
+
+
+    public function ofertaLaboral()
+    {
+
+        return $this->hasMany('App\Models\Oferta_laboral', 'empresa_id', 'id');
+
+
+
+    }
+
+
 }

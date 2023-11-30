@@ -13,24 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-
-        Schema::create('empresa', function (Blueprint $table) {
-
+        Schema::create('user_oferta_laborals', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('avatar', 255)->nullable();
-            $table->string('address');
-            $table->string('rubro');
+            $table->unsignedBigInteger('user_id')->unique();
+         
+            $table->text('description')->nullable();
 
+            $table->foreign('user_id')->references('id')->on('users');
+         
             $table->timestamps();
-
         });
-
-
-
     }
 
     /**
@@ -40,10 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
-
-        Schema::dropIfExists("empresa");
-
-
+        Schema::dropIfExists('user_oferta_laborals');
     }
 };

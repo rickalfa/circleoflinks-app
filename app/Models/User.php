@@ -54,7 +54,13 @@ class User extends Authenticatable
 
     public function UserStatus()
     {
-        return $this->belongsTo('App\Models\Status_user');
+        return $this->belongsTo('App\Models\Status_user', 'status_user_id');
+
+    }
+
+    public function UserOfertasLaborals()
+    {
+        return $this->hasOne('App\Models\UserOfertaLaboral');
 
     }
 

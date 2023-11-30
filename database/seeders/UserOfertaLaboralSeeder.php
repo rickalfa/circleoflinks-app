@@ -6,10 +6,13 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
-use App\Models\Empresa;
 use App\Models\User;
 
-class EmpresaSeeder extends Seeder
+use App\Models\UserOfertaLaboral;
+
+
+
+class UserOfertaLaboralSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +21,7 @@ class EmpresaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
 
         $Users_id = array();
 
@@ -32,9 +35,15 @@ class EmpresaSeeder extends Seeder
 
         $count_user = count($Users_id);
 
-        Empresa::factory()
+
+        UserOfertaLaboral::factory()
         ->count($count_user)
+        ->state(new Sequence(
+            fn ($sequence) =>['user_id' => $Users_id[$sequence->index]],
+        ))
         ->create();
+
+
 
 
     }

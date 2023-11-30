@@ -7,6 +7,8 @@ use App\Http\Controllers\EmpresaController;
 
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\User_perfilController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('/empresa', EmpresaController::class);
 
 Route::resource('/users', UserController::class);
+
+Route::resource('/usersperfil', User_perfilController::class);
+
+
+Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');

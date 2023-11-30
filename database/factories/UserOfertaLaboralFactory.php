@@ -2,12 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Oferta_laboral;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Oferta_laboral>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserOfertaLaboral>
  */
-class OfertaLaboralFactory extends Factory
+class UserOfertaLaboralFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,12 +20,9 @@ class OfertaLaboralFactory extends Factory
     public function definition()
     {
         return [
-            //
-
             
-
-
-
+            'description' => $this->faker->text
+  
         ];
     }
 }

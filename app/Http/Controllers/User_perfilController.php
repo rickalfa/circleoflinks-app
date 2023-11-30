@@ -4,57 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\User;
-use PhpParser\JsonDecoder;
+use App\Models\User_perfil;
 
-class UserController extends Controller
+class User_perfilController extends Controller
 {
-    /**
-     * Login usuario con Email y pass
-     */
-
-     public function loginUser($email, $pass)
-     {
-        $response = array();
-
-        $useremail = User::where('email', $email)->first();
-
-       // foreach($useremail as $user){
-//
-       //     $userid = $user;
-//
-       // }
-
-       // dd($useremail->password);
-        
-
-        if(isset($useremail->id))
-        {
-
-            if($useremail->password == $pass)
-            {
-
-                array_push($response, "success");
-
-            }else{
-                array_push($response, "fail-login");
-            }
-           
-
-        }else{
-
-            array_push($response, "fail-login");
-
-        }
-
-
-        $jsonresponse = json_encode($response);
-
-        return $jsonresponse;
-
-
-     }
-
     /**
      * Display a listing of the resource.
      *
@@ -63,9 +16,10 @@ class UserController extends Controller
     public function index()
     {
         
-        $users = User::all();
 
-        return $users->toJson();
+        $UserPerfils = User_perfil::all();
+
+        return $UserPerfils->toJson();
 
 
     }
@@ -99,10 +53,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user_id = User::findorfail($id);
-
-        return $user_id;
-
+        //
     }
 
     /**

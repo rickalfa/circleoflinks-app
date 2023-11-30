@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Status_user extends Model
+class Status_oferta_laboral extends Model
 {
 
-    protected $table = 'status_user';
+   
 
 
     use HasFactory;
 
 
-    public function Users()
+    public function ofertaLaboral()
     {
-
-
-        return $this->hasMany('App\Models\User');
+        return $this->belongsTo('App\Models\Oferta_laboral');
 
     }
+
 
 }
