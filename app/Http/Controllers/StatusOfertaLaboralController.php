@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Status_ofeta_laboral;
-use App\Http\Requests\StoreStatus_ofeta_laboralRequest;
-use App\Http\Requests\UpdateStatus_ofeta_laboralRequest;
+use App\Models\Status_oferta_laboral;
+use App\Http\Requests\StoreStatus_oferta_laboralRequest;
+use App\Http\Requests\UpdateStatus_oferta_laboralRequest;
 
 class StatusOfetaLaboralController extends Controller
 {
@@ -31,10 +31,10 @@ class StatusOfetaLaboralController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreStatus_ofeta_laboralRequest  $request
+     * @param  \App\Http\Requests\StoreStatus_oferta_laboralRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStatus_ofeta_laboralRequest $request)
+    public function store(StoreStatus_oferta_laboralRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class StatusOfetaLaboralController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Status_ofeta_laboral  $status_ofeta_laboral
+     * @param  \App\Models\Status_oferta_laboral  $status_ofeta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function show(Status_ofeta_laboral $status_ofeta_laboral)
+    public function show(Status_oferta_laboral $status_ofeta_laboral)
     {
         //
     }
@@ -53,10 +53,10 @@ class StatusOfetaLaboralController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Status_ofeta_laboral  $status_ofeta_laboral
+     * @param  \App\Models\Status_oferta_laboral  $status_ofeta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function edit(Status_ofeta_laboral $status_ofeta_laboral)
+    public function edit(Status_oferta_laboral $status_ofeta_laboral)
     {
         //
     }
@@ -64,11 +64,11 @@ class StatusOfetaLaboralController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateStatus_ofeta_laboralRequest  $request
-     * @param  \App\Models\Status_ofeta_laboral  $status_ofeta_laboral
+     * @param  \App\Http\Requests\UpdateStatus_oferta_laboralRequest  $request
+     * @param  \App\Models\Status_oferta_laboral  $status_ofeta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStatus_ofeta_laboralRequest $request, Status_ofeta_laboral $status_ofeta_laboral)
+    public function update(UpdateStatus_oferta_laboralRequest $request, Status_oferta_laboral $status_ofeta_laboral)
     {
         //
     }
@@ -76,10 +76,10 @@ class StatusOfetaLaboralController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Status_ofeta_laboral  $status_ofeta_laboral
+     * @param  \App\Models\Status_oferta_laboral  $status_ofeta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status_ofeta_laboral $status_ofeta_laboral)
+    public function destroy(Status_oferta_laboral $status_ofeta_laboral)
     {
         //
     }
