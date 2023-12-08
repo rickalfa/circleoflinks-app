@@ -8,10 +8,12 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\User_perfilController;
+use App\Http\Controllers\UserOfertaLaboralController;
 
 use App\Http\Controllers\PostulacionOfertaLaboralController;
 
 use App\Http\Controllers\OfertaLaboralController;
+use App\Http\Controllers\UserContactController;
 use App\Models\User_perfil;
 
 /*
@@ -37,10 +39,21 @@ Route::resource('/users', UserController::class);
 
 Route::resource('/usersperfil', User_perfilController::class);
 
+
+
 Route::patch('/usersperfil', [User_perfilController::class, 'update']);
 
-Route::resource('/PostulacionOfertaLaboral', PostulacionOfertaLaboralController::class);
+Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class);
+
+Route::delete('/postulacionofertalaboral/{id}', [PostulacionOfertaLaboralController::class, 'destroy']);
+
+
+
 
 Route::resource('/ofertalaboral', OfertaLaboralController::class);
+
+Route::resource('/userofertalaboral', UserOfertaLaboralController::class);
+
+Route::resource('/usercontact', UserContactController::class);
 
 Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');

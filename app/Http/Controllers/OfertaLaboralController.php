@@ -48,6 +48,22 @@ class OfertaLaboralController extends Controller
 
         $OfertaLaboral = Oferta_laboral::create($datesInputs);
 
+        if(isset($OfertaLaboral->id))
+        {
+            $response = ['created'=>'done'];
+
+            return json_encode($response);
+
+        }else{
+
+            
+            $response = ['created'=>'fail'];
+
+            return json_encode($response);
+
+
+        }
+        
 
     }
 

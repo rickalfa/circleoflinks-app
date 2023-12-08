@@ -15,7 +15,9 @@ class UserOfertaLaboralController extends Controller
      */
     public function index()
     {
-        //
+        $UserOfertaLaborls =UserOfertaLaboral::all();
+
+        return $UserOfertaLaborls->toJson();
     }
 
     /**
@@ -36,7 +38,34 @@ class UserOfertaLaboralController extends Controller
      */
     public function store(StoreUserOfertaLaboralRequest $request)
     {
-        //
+    
+        $datesRequest = $request->all();
+
+        $datesInputs =[
+            'user_id'=> $datesRequest['user_id'],
+            'oferta_laboral_id'=> $datesRequest['oferta_laboral_id']
+
+        ];
+
+        $UserOfertaLaboral = UserOfertaLaboral::create($datesInputs);
+
+        
+        if(isset($UserOfertaLaboral->id))
+        {
+            $response = ['created'=>'done'];
+
+            return json_encode($response);
+
+        }else{
+
+            
+            $response = ['created'=>'fail'];
+
+            return json_encode($response);
+
+
+        }
+
     }
 
     /**
@@ -45,9 +74,15 @@ class UserOfertaLaboralController extends Controller
      * @param  \App\Models\UserOfertaLaboral  $userOfertaLaboral
      * @return \Illuminate\Http\Response
      */
-    public function show(UserOfertaLaboral $userOfertaLaboral)
+    public function show($id)
     {
-        //
+        
+        $UserOfertaLaboral = UserOfertaLaboral::findorfail($id);
+
+
+        return $UserOfertaLaboral;
+
+
     }
 
     /**

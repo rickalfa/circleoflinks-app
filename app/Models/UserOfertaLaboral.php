@@ -10,6 +10,13 @@ class UserOfertaLaboral extends Model
     use HasFactory;
 
 
+    protected $fillable = [
+
+        'user_id',
+        'oferta_laboral_id'
+
+    ];
+
     public function user()
     {
 

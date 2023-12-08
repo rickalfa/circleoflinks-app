@@ -40,8 +40,40 @@ class PostulacionOfertaLaboralController extends Controller
      */
     public function store(StorePostulacion_oferta_laboralRequest $request)
     {
-        
 
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+
+            'name'=> $datesRequest['name'],
+            'description'=> $datesRequest['description'],
+            'date_expire'=> $datesRequest['date_expire'],
+            'oferta_laboral_id'=>$datesRequest['oferta_laboral_id']
+
+
+        ];
+
+
+        $PostulacionOfertaLaboral = Postulacion_oferta_laboral::create($datesInputs);
+
+
+        if(isset($PostulacionOfertaLaboral->id))
+        {
+            $response = ['created'=>'done'];
+
+            return json_encode($response);
+
+        }else{
+
+            
+            $response = ['created'=>'fail'];
+
+            return json_encode($response);
+
+
+        }
+
+        
 
     }
 
@@ -88,8 +120,11 @@ class PostulacionOfertaLaboralController extends Controller
      * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Postulacion_oferta_laboral $postulacion_oferta_laboral)
+    public function destroy($id)
     {
-        //
+
+        $postulacionDelet = Postulacion_oferta_laboral::findorfail($id)->delete();
+
+        
     }
 }

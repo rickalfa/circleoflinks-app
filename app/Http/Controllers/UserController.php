@@ -125,7 +125,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -150,6 +150,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+
+
+
     }
 }
