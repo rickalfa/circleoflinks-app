@@ -32,14 +32,12 @@ return new class extends Migration
 
             $table->unsignedBigInteger("empresa_id");
 
-            $table->unsignedBigInteger("user_oferta_laboral_id")->nullable();
-
+      
             $table->foreign("status_oferta_laboral_id")->references("id")->on("status_oferta_laborals");
 
             $table->foreign("empresa_id")->references("id")->on("empresa");
 
-            $table->foreign("user_oferta_laboral_id")->references("id")->on("user_oferta_laborals");
-
+         
 
         });
     }

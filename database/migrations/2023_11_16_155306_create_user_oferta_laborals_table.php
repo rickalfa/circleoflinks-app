@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('user_oferta_laborals', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id');
+
+            $table->unsignedBigInteger('oferta_laboral_id')->nullable();
          
             $table->text('description')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->foreign('oferta_laboral_id')->references('id')->on('oferta_laborals');
          
             $table->timestamps();
         });

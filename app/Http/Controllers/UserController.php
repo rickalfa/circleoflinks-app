@@ -88,7 +88,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+            'name'=>$datesRequest['name'],
+            'email'=>$datesRequest['email'],
+            'password'=>$datesRequest['password'],
+            'address'=>$datesRequest['address']
+        ];
+
+        $User = User::create($datesInputs);
+
+        
     }
 
     /**
@@ -125,7 +137,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        
+        
     }
 
     /**

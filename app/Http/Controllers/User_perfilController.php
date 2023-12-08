@@ -42,7 +42,37 @@ class User_perfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+
+        'info'=> $datesRequest['info'],
+        'education'=> $datesRequest['education'],
+        'exp_laboral'=> $datesRequest['exp_laboral'],
+        'habilidades'=> $datesRequest['habilidades'],
+        'profetion_name'=> $datesRequest['profetion_name'],
+        'user_id'=> $datesRequest['user_id']
+        ];
+
+        $UserPerfil = User_perfil::create($datesInputs);
+        
+        if(isset($UserPerfil->id))
+        {
+            $response = ['created'=>'done'];
+
+            return json_encode($response);
+
+        }else{
+
+            
+            $response = ['created'=>'fail'];
+
+            return json_encode($response);
+
+
+        }
+
     }
 
     /**
@@ -53,7 +83,11 @@ class User_perfilController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $UserPerfil = User_perfil::findorfail($id);
+
+        return $UserPerfil->toJson();
+
     }
 
     /**
@@ -74,9 +108,29 @@ class User_perfilController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User_perfil $UserPerfil)
     {
-        //
+        
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+
+            'info'=> $datesRequest['info'],
+            'education'=> $datesRequest['education'],
+            'exp_laboral'=> $datesRequest['exp_laboral'],
+            'habilidades'=> $datesRequest['habilidades'],
+            'profetion_name'=> $datesRequest['profetion_name'],
+            'user_id'=> $datesRequest['user_id']
+            ];
+
+       $UserPerfil = User_perfil::updateOrCreate(
+           ['id'=> $datesRequest['id']],
+           $datesInputs
+       );
+
+      //$UserPerfil->update($datesRequest);
+
+
     }
 
     /**

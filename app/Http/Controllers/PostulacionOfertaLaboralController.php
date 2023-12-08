@@ -15,7 +15,11 @@ class PostulacionOfertaLaboralController extends Controller
      */
     public function index()
     {
-        //
+        
+        $PostulacionOfertasL = Postulacion_oferta_laboral::all();
+
+        return $PostulacionOfertasL->toJson();
+
     }
 
     /**
@@ -25,7 +29,7 @@ class PostulacionOfertaLaboralController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -36,7 +40,9 @@ class PostulacionOfertaLaboralController extends Controller
      */
     public function store(StorePostulacion_oferta_laboralRequest $request)
     {
-        //
+        
+
+
     }
 
     /**
@@ -45,9 +51,12 @@ class PostulacionOfertaLaboralController extends Controller
      * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function show(Postulacion_oferta_laboral $postulacion_oferta_laboral)
+    public function show($id)
     {
-        //
+        $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
+
+        return $PostulacionOfertaL->toJson();
+        
     }
 
     /**

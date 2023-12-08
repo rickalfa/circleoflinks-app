@@ -15,6 +15,10 @@ class OfertaLaboralController extends Controller
     public function index()
     {
         //
+        $OfertaLaboral = Oferta_laboral::all(); 
+
+        return $OfertaLaboral->toJson();
+
     }
 
     /**
@@ -25,7 +29,26 @@ class OfertaLaboralController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+
+            'title'=>$datesRequest['title'],
+            'name'=>$datesRequest['name'],
+            'description'=>$datesRequest['description'],
+            'date_expire'=>date("Y-m-d H:i:s"),
+            'salary' => $datesRequest['salary'],
+            'status_oferta_laboral_id' => $datesRequest['status_oferta_laboral_id'],
+            'empresa_id'=> $datesRequest['empresa_id'],
+            'user_oferta_laboral_id'=>$datesRequest['user_oferta_laboral_id']
+
+        ];
+
+
+        $OfertaLaboral = Oferta_laboral::create($datesInputs);
+
+
     }
 
     /**
@@ -34,9 +57,15 @@ class OfertaLaboralController extends Controller
      * @param  \App\Models\Oferta_laboral  $oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function show(Oferta_laboral $oferta_laboral)
+    public function show($id)
     {
         //
+
+        $OfertaLaboral = Oferta_laboral::findorfail($id);
+
+        return $OfertaLaboral->toJson();
+
+
     }
 
     /**

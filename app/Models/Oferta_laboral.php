@@ -9,6 +9,12 @@ class Oferta_laboral extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'name',
+        'status_oferta_laboral_id',
+        'empresa_id'
+    ];
 
 
     public function empresa()

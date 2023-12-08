@@ -8,10 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class User_perfil extends Model
 {
 
+    use HasFactory;
+
     protected $table = 'user_perfil';
 
+    protected $fillable = [
 
-    use HasFactory;
+        'info',
+        'education',
+        'exp_laboral',
+        'habilidades',
+        'profetion_name',
+        'user_id'
+    ];
+
+
+    
 
 
     public function user(){

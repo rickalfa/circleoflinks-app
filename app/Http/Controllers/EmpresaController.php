@@ -14,7 +14,11 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        //
+    
+        $Empresas = empresa::all();
+
+        return $Empresas->toJson();
+
     }
 
     /**
@@ -35,7 +39,38 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $datesRequest = $request->all();
+
+        $datesInputs = [
+            'name'=>$datesRequest['name'],
+            'email'=>$datesRequest['email'],
+            'avatar'=>$datesRequest['avatar'],
+            'address'=>$datesRequest['address'],
+            'rubro'=>$datesRequest['rubro']
+
+        ];
+
+        $Empresa = Empresa::create($datesInputs);
+
+
+        if(isset($Empresa->id))
+        {
+            $response = ['created'=>'done'];
+
+            return json_encode($response);
+
+        }else{
+
+            
+            $response = ['created'=>'fail'];
+
+            return json_encode($response);
+
+
+        }
+
+
     }
 
     /**
@@ -44,9 +79,14 @@ class EmpresaController extends Controller
      * @param  \App\Models\empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function show(empresa $empresa)
+    public function show($id)
     {
-        //
+
+        $Empresa = Empresa::findorfail($id);
+
+        return $Empresa->toJson();
+
+
     }
 
     /**
