@@ -15,7 +15,7 @@ class UserController extends Controller
 
      public function loginUser($email, $pass)
      {
-        $response = array();
+        $response = array("login-state"=>"", "userauth"=>"");
 
         $useremail = User::where('email', $email)->first();
 
@@ -33,17 +33,19 @@ class UserController extends Controller
 
             if($useremail->password == $pass)
             {
+              $response['login-state'] = "success";
 
-                array_push($response, "success");
+              $response['userauth'] = $useremail;
 
             }else{
-                array_push($response, "fail-login");
+                
+                $response['login-state'] = "fail";
             }
            
 
         }else{
 
-            array_push($response, "fail-login");
+            $response['login-state'] = "fail";
 
         }
 
