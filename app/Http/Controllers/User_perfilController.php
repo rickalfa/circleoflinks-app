@@ -43,6 +43,19 @@ class User_perfilController extends Controller
     public function store(Request $request)
     {
 
+        $ValidateRe = $request->validate([
+
+            'info'=> 'required|max:255',
+            'education'=> 'required|max:255',
+            'exp_laboral'=> 'required|max:255',
+            'habilidades'=> 'required|max:255',
+            'profetion_name'=> 'required|max:255',
+            'user_id'=> 'required|max:255'
+
+
+        ]);
+
+
         $datesRequest = $request->all();
 
         $datesInputs = [
@@ -55,11 +68,14 @@ class User_perfilController extends Controller
         'user_id'=> $datesRequest['user_id']
         ];
 
+
+
         $UserPerfil = User_perfil::create($datesInputs);
         
         if(isset($UserPerfil->id))
         {
-            $response = ['created'=>'done'];
+            $response = ['created'=>'done',
+                          'perfiluser'=> $UserPerfil];
 
             return json_encode($response);
 
@@ -85,6 +101,8 @@ class User_perfilController extends Controller
     {
         
         $UserPerfil = User_perfil::findorfail($id);
+
+        
 
         return $UserPerfil->toJson();
 

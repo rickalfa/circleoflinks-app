@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\empresa;
+use App\Models\Empresa;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class EmpresaController extends Controller
 {
@@ -15,9 +17,24 @@ class EmpresaController extends Controller
     public function index()
     {
     
-        $Empresas = empresa::all();
 
-        return $Empresas->toJson();
+        try {
+
+            $Empresas = Empresa::all();
+
+            return $Empresas->toJson();
+            
+        } catch (Exception $th) {
+            return response()->json([
+
+                'success'=> false,
+                'message' => $th->getMessage()
+
+
+            ]);
+        }
+
+      
 
     }
 
@@ -51,10 +68,10 @@ class EmpresaController extends Controller
 
         ];
 
-        $Empresa = Empresa::create($datesInputs);
+        $empresa = Empresa::create($datesInputs);
 
 
-        if(isset($Empresa->id))
+        if(isset($empresa->id))
         {
             $response = ['created'=>'done'];
 
@@ -82,9 +99,22 @@ class EmpresaController extends Controller
     public function show($id)
     {
 
-        $Empresa = Empresa::findorfail($id);
+       
+        try{
+            $Empresa = Empresa::findorfail($id);
 
-        return $Empresa->toJson();
+            return $Empresa->toJson();
+
+         } catch (Exception $th) {
+             return response()->json([
+
+                 'success'=> false,
+                 'message' => $th->getMessage()
+
+
+             ], 400);
+         }
+
 
 
     }
@@ -95,7 +125,7 @@ class EmpresaController extends Controller
      * @param  \App\Models\empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function edit(empresa $empresa)
+    public function edit(Empresa $empresa)
     {
         //
     }
@@ -104,21 +134,25 @@ class EmpresaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\empresa  $empresa
+     * @param  \App\Models\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, empresa $empresa)
+    public function update(Request $request, Empresa $empresa)
     {
         //
+
+
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\empresa  $empresa
+     * @param  \App\Models\Empresa  $Empresa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(empresa $empresa)
+    public function destroy(Empresa $Empresa)
     {
         //
     }

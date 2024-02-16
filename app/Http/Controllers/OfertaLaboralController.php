@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Oferta_laboral;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class OfertaLaboralController extends Controller
 {
@@ -77,9 +79,25 @@ class OfertaLaboralController extends Controller
     {
         //
 
+        try{
+
+            
         $OfertaLaboral = Oferta_laboral::findorfail($id);
 
         return $OfertaLaboral->toJson();
+
+
+        } catch(Exception $th) {
+            return response()->json([
+
+                'success'=> false,
+                'message' => $th->getMessage()
+
+
+            ],400);
+        }
+
+        
 
 
     }

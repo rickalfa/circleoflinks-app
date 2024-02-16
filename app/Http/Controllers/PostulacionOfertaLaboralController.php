@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Postulacion_oferta_laboral;
 use App\Http\Requests\StorePostulacion_oferta_laboralRequest;
 use App\Http\Requests\UpdatePostulacion_oferta_laboralRequest;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class PostulacionOfertaLaboralController extends Controller
 {
@@ -85,10 +87,26 @@ class PostulacionOfertaLaboralController extends Controller
      */
     public function show($id)
     {
-        $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
 
-        return $PostulacionOfertaL->toJson();
+        try {
+
+            $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
+
+            return $PostulacionOfertaL->toJson();
+            
+            
+        } catch (Exception $th) {
         
+            return response()->json([
+
+                'success' => false,
+                'message' => $th->getMessage()
+
+
+            ], 400);
+
+        }
+       
     }
 
     /**
