@@ -7,11 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Status_oferta_laboral extends Model
 {
+    use HasFactory;
+
+    protected $table = 'status_oferta_laborals';
+
+    protected $fillable = [
+
+        'name',
+        'description'
+
+    ];
+
 
    
-
-
-    use HasFactory;
 
 
     public function ofertaLaboral()

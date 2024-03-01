@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Oferta_laboral;
+
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -32,40 +36,36 @@ class OfertaLaboralController extends Controller
     public function store(Request $request)
     {
         
-        $datesRequest = $request->all();
+        //$datesRequest = $request->all();
 
-        $datesInputs = [
+        try{
+        $datesInputs = $request->validate( [
 
-            'title'=>$datesRequest['title'],
-            'name'=>$datesRequest['name'],
-            'description'=>$datesRequest['description'],
-            'date_expire'=>date("Y-m-d H:i:s"),
-            'salary' => $datesRequest['salary'],
-            'status_oferta_laboral_id' => $datesRequest['status_oferta_laboral_id'],
-            'empresa_id'=> $datesRequest['empresa_id'],
-            'user_oferta_laboral_id'=>$datesRequest['user_oferta_laboral_id']
+            'title'=>'required|string|min:5|max:150',
+            'name'=>'required|string|min:5|max:150',
+            'description'=>'required|string|min:5|max:355',
+            'date_expire'=>'required|date',
+            'salary' => 'required|numeric',
+            'status_oferta_laboral_id' => 'required|exists:App\Models\Status_oferta_laboral,id',
+            'empresa_id'=>'required|exists:App\Models\Empresa,id',
+            'user_oferta_laboral_id'=>'required|exists:App\Models\UserOfertaLaboral,id' 
 
-        ];
+        ]);
 
 
         $OfertaLaboral = Oferta_laboral::create($datesInputs);
 
-        if(isset($OfertaLaboral->id))
-        {
-            $response = ['created'=>'done'];
-
-            return json_encode($response);
-
-        }else{
-
-            
-            $response = ['created'=>'fail'];
-
-            return json_encode($response);
+        return response()->json($OfertaLaboral); 
 
 
-        }
         
+       }catch(ValidationException $ex){
+
+        return response()->json($ex->errors(), 422);
+        
+
+
+       }
 
     }
 
@@ -82,12 +82,13 @@ class OfertaLaboralController extends Controller
         try{
 
             
-        $OfertaLaboral = Oferta_laboral::findorfail($id);
-
-        return $OfertaLaboral->toJson();
+           $OfertaLaboral = Oferta_laboral::findorfail($id);
+   
+           return $OfertaLaboral->toJson();
 
 
         } catch(Exception $th) {
+
             return response()->json([
 
                 'success'=> false,
@@ -111,7 +112,53 @@ class OfertaLaboralController extends Controller
      */
     public function update(Request $request, Oferta_laboral $oferta_laboral)
     {
-        //
+        /**vaidamos si existe el registro segun el id de la request */
+        try{
+
+             $existsregister = Oferta_laboral::findOrFail($request->id);
+
+            try{
+
+                $datesvalidate = $request->validate([
+
+                    'id' => 'required|numeric', 
+                    'title'=>'string|min:5|max:150',
+                    'name'=>'string|min:5|max:150',
+                    'description'=>'string|min:5|max:355',
+                    'date_expire'=>'date',
+                    'salary' => 'numeric',
+                    'status_oferta_laboral_id' => 'exists:App\Models\Status_oferta_laboral,id',
+                    'empresa_id'=>'exists:App\Models\Empresa,id',
+                    'user_oferta_laboral_id'=>'exists:App\Models\UserOfertaLaboral,id'
+                    
+        
+                ]);
+
+                        /**Metodo hace la actualizacion al registro se gun campo id */
+                     $OfertaLaboralUpdate = Oferta_laboral::updateOrCreate(
+                        ['id' => $request->id],
+                        $datesvalidate
+                     );
+
+
+                return response()->json(["success-update" => true, $OfertaLaboralUpdate], 200);
+
+            }catch(ValidationException $Ex){
+
+                return response()->json($Ex->errors(), 422);
+
+
+            }
+
+
+
+        }catch(ModelNotFoundException $ex){
+
+            return response()->json(["success-update" => false, "message" => $ex->getMessage()], 422);
+
+        }
+
+
     }
 
     /**
@@ -123,5 +170,12 @@ class OfertaLaboralController extends Controller
     public function destroy(Oferta_laboral $oferta_laboral)
     {
         //
+        $oferta_laboral->delete();
+        
+        return response()->json([
+            'success-destroy' => true,
+            'message' => 'oferta_laboral destroy'
+        ], 200);
+
     }
 }

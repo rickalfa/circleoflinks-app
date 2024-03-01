@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Postulacion_oferta_laboral;
 use App\Http\Requests\StorePostulacion_oferta_laboralRequest;
 use App\Http\Requests\UpdatePostulacion_oferta_laboralRequest;
+use App\Models\Status_user;
 use Exception;
+
+use Illuminate\Validation\ValidationException;
+
 use Illuminate\Database\Eloquent\Model;
 
 class PostulacionOfertaLaboralController extends Controller
@@ -43,37 +47,31 @@ class PostulacionOfertaLaboralController extends Controller
     public function store(StorePostulacion_oferta_laboralRequest $request)
     {
 
-        $datesRequest = $request->all();
+       try{
+         $datesInputs = $request->validate( [
 
-        $datesInputs = [
-
-            'name'=> $datesRequest['name'],
-            'description'=> $datesRequest['description'],
-            'date_expire'=> $datesRequest['date_expire'],
-            'oferta_laboral_id'=>$datesRequest['oferta_laboral_id']
-
-
-        ];
+             'name'=> 'required|string|min:5|max:255',
+             'description'=> 'required|string|min:5|max:355',
+             'date_expire'=> 'required|string|min:5|max:255',
+             'oferta_laboral_id'=> 'required|exists:App\models\Oferta_laboral,id'
 
 
-        $PostulacionOfertaLaboral = Postulacion_oferta_laboral::create($datesInputs);
+         ]);
 
 
-        if(isset($PostulacionOfertaLaboral->id))
-        {
-            $response = ['created'=>'done'];
+         $PostulacionOfertaLaboral = Postulacion_oferta_laboral::create($datesInputs);
 
-            return json_encode($response);
+         return $PostulacionOfertaLaboral;
 
-        }else{
+       }catch(ValidationException $ex){
 
-            
-            $response = ['created'=>'fail'];
+          
+        return response()->json($ex->errors(), 422);
+        
 
-            return json_encode($response);
+       }
 
-
-        }
+      
 
         
 
@@ -85,26 +83,34 @@ class PostulacionOfertaLaboralController extends Controller
      * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = 0)
     {
-
-        try {
-
-            $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
-
-            return $PostulacionOfertaL->toJson();
+        if ($id == 0) {
             
-            
-        } catch (Exception $th) {
-        
-            return response()->json([
+            $Statususer = Status_user::all();
 
-                'success' => false,
-                'message' => $th->getMessage()
+            return $Statususer->toJson();
 
+        }else{
 
-            ], 400);
-
+             try {
+     
+                 $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
+     
+                 return $PostulacionOfertaL->toJson();
+                 
+                 
+             } catch (Exception $th) {
+             
+                 return response()->json([
+     
+                     'success' => false,
+                     'message' => $th->getMessage()
+     
+     
+                 ], 400);
+     
+             }
         }
        
     }

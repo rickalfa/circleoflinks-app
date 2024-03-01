@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\ValidationException;
+
 use App\Models\UserOfertaLaboral;
 use App\Http\Requests\StoreUserOfertaLaboralRequest;
 use App\Http\Requests\UpdateUserOfertaLaboralRequest;
@@ -39,11 +41,10 @@ class UserOfertaLaboralController extends Controller
     public function store(StoreUserOfertaLaboralRequest $request)
     {
     
-        $datesRequest = $request->all();
-
+       
         $datesInputs =[
-            'user_id'=> $datesRequest['user_id'],
-            'oferta_laboral_id'=> $datesRequest['oferta_laboral_id']
+            'user_id'=> 'required|exists:App\Models\User,id',
+            'oferta_laboral_id'=> 'required|exists:App\Models\UserOfertaLaboral,id'
 
         ];
 

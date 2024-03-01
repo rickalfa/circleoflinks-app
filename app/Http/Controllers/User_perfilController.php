@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\User_perfil;
 
@@ -43,51 +45,30 @@ class User_perfilController extends Controller
     public function store(Request $request)
     {
 
-        $ValidateRe = $request->validate([
+        try{
+            $ValidateRe = $request->validate([
 
-            'info'=> 'required|max:255',
-            'education'=> 'required|max:255',
-            'exp_laboral'=> 'required|max:255',
-            'habilidades'=> 'required|max:255',
-            'profetion_name'=> 'required|max:255',
-            'user_id'=> 'required|max:255'
+            'info'=> 'required|string|min:5|max:255',
+            'education'=> 'required|string|min:10|max:255',
+            'exp_laboral'=> 'required|string|min:10|max:255',
+            'habilidades'=> 'required|string|min:10|max:255',
+            'profetion_name'=> 'required|string|min:10|max:255',
+            'user_id'=> 'required|unique:User_perfil|exists:App\Models\User,id'
 
-
-        ]);
-
-
-        $datesRequest = $request->all();
-
-        $datesInputs = [
-
-        'info'=> $datesRequest['info'],
-        'education'=> $datesRequest['education'],
-        'exp_laboral'=> $datesRequest['exp_laboral'],
-        'habilidades'=> $datesRequest['habilidades'],
-        'profetion_name'=> $datesRequest['profetion_name'],
-        'user_id'=> $datesRequest['user_id']
-        ];
+  
+           ]);
 
 
 
-        $UserPerfil = User_perfil::create($datesInputs);
+            $UserPerfil = User_perfil::create($ValidateRe);
         
-        if(isset($UserPerfil->id))
-        {
-            $response = ['created'=>'done',
-                          'perfiluser'=> $UserPerfil];
-
-            return json_encode($response);
-
-        }else{
-
-            
-            $response = ['created'=>'fail'];
-
-            return json_encode($response);
-
-
-        }
+         }catch(ValidationException $ex){
+     
+             return response()->json($ex->errors(), 422);
+             
+     
+         }
+     
 
     }
 
@@ -99,12 +80,18 @@ class User_perfilController extends Controller
      */
     public function show($id)
     {
-        
-        $UserPerfil = User_perfil::findorfail($id);
+        try{
 
-        
+          $UserPerfil = User_perfil::findorfail($id);
 
-        return $UserPerfil->toJson();
+          return $UserPerfil->toJson();
+
+        }catch(ModelNotFoundException $ex){
+
+            return response()->json(["success" => false, "message" => $ex->getMessage()], 422);
+
+
+        }
 
     }
 
@@ -126,29 +113,49 @@ class User_perfilController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User_perfil $UserPerfil)
+    public function update(Request $request)
     {
+
         
-        $datesRequest = $request->all();
+        try{
+            $findRegister = User_perfil::findOrFail($request->id);
+        
+               try{
+                  $datesInputs = $request->validate( [
 
-        $datesInputs = [
+                      'id' => 'required|numeric',
+                      'info'=> 'string|min:5|max:150',
+                      'education'=> 'string|min:5|max:255',
+                      'exp_laboral'=> 'string|min:5|max:450',
+                      'habilidades'=> 'string|min:5|max:450',
+                      'profetion_name'=> 'string|min:5|max:450',
+                     
+                      ]);
 
-            'info'=> $datesRequest['info'],
-            'education'=> $datesRequest['education'],
-            'exp_laboral'=> $datesRequest['exp_laboral'],
-            'habilidades'=> $datesRequest['habilidades'],
-            'profetion_name'=> $datesRequest['profetion_name'],
-            'user_id'=> $datesRequest['user_id']
-            ];
+                      /**Metodo hace la actualizacion al registro se gun campo id */
+                     $UserPerfil = User_perfil::updateOrCreate(
+                        ['id'=> $request->id],
+                        $datesInputs
+                    );
 
-       $UserPerfil = User_perfil::updateOrCreate(
-           ['id'=> $datesRequest['id']],
-           $datesInputs
-       );
+                     return response()->json(["success-update" =>true, $UserPerfil], 200);
 
-      //$UserPerfil->update($datesRequest);
+                 }catch(ValidationException $ex){
 
 
+                      return response()->json($ex->errors(), 422);
+                    
+                  }
+
+          }catch(ModelNotFoundException $ex){
+            
+            return response()->json(["success-update" => false, "message" => $ex->getMessage()], 422);
+
+
+          }
+
+       
+   
     }
 
     /**
@@ -159,6 +166,10 @@ class User_perfilController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+
+
+
+
     }
 }

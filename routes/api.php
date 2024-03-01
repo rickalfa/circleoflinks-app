@@ -12,6 +12,8 @@ use App\Http\Controllers\UserOfertaLaboralController;
 
 use App\Http\Controllers\PostulacionOfertaLaboralController;
 
+use App\Http\Controllers\StatusOfertaLaboralController;
+
 use App\Http\Controllers\OfertaLaboralController;
 use App\Http\Controllers\UserContactController;
 use App\Models\User_perfil;
@@ -34,26 +36,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('/empresa', EmpresaController::class);
+Route::patch('/empresa', [EmpresaController::class, 'update']);
+Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
 
 Route::resource('/users', UserController::class);
 
 Route::resource('/usersperfil', User_perfilController::class);
-
-
-
 Route::patch('/usersperfil', [User_perfilController::class, 'update']);
 
-Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class);
 
+Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class);
 Route::delete('/postulacionofertalaboral/{id}', [PostulacionOfertaLaboralController::class, 'destroy']);
 
 
-
+Route::resource('/statusofertalaboral', StatusOfertaLaboralController::class);
+Route::patch('/statusofertalaboral', [StatusOfertaLaboralController::class, 'update']);
+Route::delete('/statusofertalaboral/{id}', [StatusOfertaLaboralController::class, 'destroy']);
 
 Route::resource('/ofertalaboral', OfertaLaboralController::class);
+Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
+
 
 Route::resource('/userofertalaboral', UserOfertaLaboralController::class);
 
-Route::resource('/usercontact', UserContactController::class);
 
+Route::resource('/usercontact', UserContactController::class);
 Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');

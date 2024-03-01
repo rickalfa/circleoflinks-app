@@ -10,6 +10,13 @@ class Status_user extends Model
 
     protected $table = 'status_user';
 
+    protected $fillable = [
+
+        'name',
+        'description'
+
+    ];
+
 
     use HasFactory;
 

@@ -52,6 +52,9 @@ class UserContactController extends Controller
 
         ];
 
+        
+
+
         $UserContact = UserContact::create($datesInputs);
 
         if(isset($UserContact->id))

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEmpresaRequest;
 use App\Models\Empresa;
 use Exception;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class EmpresaController extends Controller
 {
@@ -24,7 +29,7 @@ class EmpresaController extends Controller
 
             return $Empresas->toJson();
             
-        } catch (Exception $th) {
+        } catch (\ErrorException $th) {
             return response()->json([
 
                 'success'=> false,
@@ -57,35 +62,31 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         
-        $datesRequest = $request->all();
+        //$datesRequest = $request->validated();
+//**validamos los datos OBLIGATORIOS enviados  */
+     try{
 
-        $datesInputs = [
-            'name'=>$datesRequest['name'],
-            'email'=>$datesRequest['email'],
-            'avatar'=>$datesRequest['avatar'],
-            'address'=>$datesRequest['address'],
-            'rubro'=>$datesRequest['rubro']
+       $validateDates =$request->validate( [
+           'name'=> 'required|string|min:5|max:150',
+           'email'=>'required|unique:empresa|string|min:5|max:150',
+           'avatar'=> 'string|min:5|max:150',
+           'address'=>'string|min:5|max:150',
+           'rubro'=>'required|string|min:5|max:150'
+       ]);
 
-        ];
-
-        $empresa = Empresa::create($datesInputs);
-
-
-        if(isset($empresa->id))
-        {
-            $response = ['created'=>'done'];
-
-            return json_encode($response);
-
-        }else{
-
-            
-            $response = ['created'=>'fail'];
-
-            return json_encode($response);
+      
+        $empresa = Empresa::create($validateDates);
 
 
-        }
+         return response()->json(["succes" => true]);
+
+       }catch(ValidationException $ex){
+
+         return response()->json($ex->errors(), 422);
+        
+
+       }
+  
 
 
     }
@@ -105,7 +106,7 @@ class EmpresaController extends Controller
 
             return $Empresa->toJson();
 
-         } catch (Exception $th) {
+         } catch (ValidationException $th) {
              return response()->json([
 
                  'success'=> false,
@@ -137,9 +138,49 @@ class EmpresaController extends Controller
      * @param  \App\Models\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(Request $request)
     {
-        //
+        /**
+         * Comprobamos si el registro existe
+         */
+        try{
+
+            $existsregister = Empresa::findOrFail($request->id);
+
+            try {
+                
+                $datesvalidate = $request->validate([
+
+                    'name'=> 'string|min:5|max:150',
+                    'email'=>'string|min:5|max:150',
+                    'avatar'=> 'string|min:5|max:150',
+                    'address'=>'string|min:5|max:150',
+                    'rubro'=>'string|min:5|max:150',
+                    'id' => 'required|numeric'
+                   ]);
+                   
+                   $empresaUdpate = Empresa::updateOrCreate(
+                    ['id' => $request->id],
+                    $datesvalidate
+                   );
+                 
+                return response()->json(["success-update" => true, $empresaUdpate]);   
+
+               
+            } catch (ValidationException $Ex) {
+                
+                return response()->json($Ex->errors(), 422);
+
+
+            }
+
+
+        }catch(ModelNotFoundException $ex){
+
+               return response()->json(["success" => false, "message" => $ex->getMessage()], 422);
+
+
+        }
 
 
 
@@ -152,8 +193,27 @@ class EmpresaController extends Controller
      * @param  \App\Models\Empresa  $Empresa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Empresa $Empresa)
+    public function destroy($id)
     {
-        //
+        try{
+        
+              $empresaregister = Empresa::findOrFail($id);
+
+              $empresaregister->delete();
+
+
+             
+             return response()->json([
+                 'success-destroy' => true,
+                 'message' => 'empresa destroy'
+             ], 200);
+
+          }catch(ModelNotFoundException $ex){
+
+            return response()->json(["success" => false, "message" => $ex->getMessage()], 422);
+
+
+          }
+
     }
 }
