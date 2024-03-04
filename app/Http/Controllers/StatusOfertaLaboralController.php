@@ -145,7 +145,7 @@ class StatusOfertaLaboralController extends Controller
                     $datesValidate
                 );
 
-                return response()->json(["success-update"=> true], 200);
+                return response()->json(["success-update"=> true, $statusofertalaboralUpdate], 200);
 
 
 

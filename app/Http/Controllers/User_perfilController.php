@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 use App\Models\User_perfil;
 
@@ -167,6 +168,38 @@ class User_perfilController extends Controller
     public function destroy($id)
     {
         
+        try{
+
+            $userPerfil = User_perfil::findOrFail($id);
+
+            /** Comprovamos si podemos eliminar el registro 
+             * si no tiene alguna relacion con otra tabla (foreig-key)
+             * que nos impida borrar el registro
+             * 
+             */
+            try {
+                
+                $userPerfil->delete();
+
+                return response()->json([
+                    'success-destroy' => true,
+                    'message' => 'empresa destroy'
+                ], 200);
+
+            } catch (QueryException $Qe) {
+                
+                return response()->json(["success" => false, "message" => $Qe->errorInfo], 422);
+
+
+            }
+
+
+        }catch(ModelNotFoundException $ex ){
+
+            return response()->json(["success" => false, "message" => $ex->getMessage()], 422);
+
+
+        }
 
 
 

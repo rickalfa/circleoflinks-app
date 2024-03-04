@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+
+use Exception;
+use Illuminate\Http\Request;
 
 use App\Models\UserOfertaLaboral;
 use App\Http\Requests\StoreUserOfertaLaboralRequest;
@@ -38,34 +43,30 @@ class UserOfertaLaboralController extends Controller
      * @param  \App\Http\Requests\StoreUserOfertaLaboralRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserOfertaLaboralRequest $request)
+    public function store(Request $request)
     {
     
-       
-        $datesInputs =[
+       try {
+
+         $userOfertaLaboralvalidate =  $request->validate([
             'user_id'=> 'required|exists:App\Models\User,id',
             'oferta_laboral_id'=> 'required|exists:App\Models\UserOfertaLaboral,id'
 
-        ];
+        ]);
 
-        $UserOfertaLaboral = UserOfertaLaboral::create($datesInputs);
+         $UserOfertaLaboral = UserOfertaLaboral::create( $userOfertaLaboralvalidate );
 
+         return response()->json($UserOfertaLaboral, 200);
         
-        if(isset($UserOfertaLaboral->id))
-        {
-            $response = ['created'=>'done'];
 
-            return json_encode($response);
+       } catch (ValidationException $ex) {
+        
+         return response()->json($ex->errors(), 422);
+        
 
-        }else{
+       }
+      
 
-            
-            $response = ['created'=>'fail'];
-
-            return json_encode($response);
-
-
-        }
 
     }
 
@@ -77,12 +78,28 @@ class UserOfertaLaboralController extends Controller
      */
     public function show($id)
     {
-        
-        $UserOfertaLaboral = UserOfertaLaboral::findorfail($id);
+     
+        try {
+            //code...
+
+            $UserOfertaLaboral = UserOfertaLaboral::findorfail($id);
 
 
-        return $UserOfertaLaboral;
+            return $UserOfertaLaboral->toJson();
+    
 
+        } catch (Exception  $th) {
+           
+            return response()->json([
+
+                'success'=> false,
+                'message' => $th->getMessage()
+
+
+            ],400);
+
+        }
+    
 
     }
 
@@ -104,9 +121,53 @@ class UserOfertaLaboralController extends Controller
      * @param  \App\Models\UserOfertaLaboral  $userOfertaLaboral
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserOfertaLaboralRequest $request, UserOfertaLaboral $userOfertaLaboral)
+    public function update(Request $request)
     {
-        //
+
+
+        try {
+            $datesValidate = $request->validate([
+    
+                'id' => 'required|numeric',
+                'user_id'=> 'numeric|exists:App\Models\User,id',
+                'oferta_laboral_id'=> 'numeric|exists:App\Models\UserOfertaLaboral,id',
+                'description' => 'string|min:5|max:500'
+
+            ]);
+
+         
+            try {
+                
+            
+                $existsregister = UserOfertaLaboral::findOrFail($request->id);
+      
+
+                $UserOfertaLaboral = UserOfertaLaboral::updateOrCreate(
+                    ['id' => $request->id],
+                    $datesValidate);
+
+                return response()->json(["success-update" => true, $UserOfertaLaboral], 200);
+
+
+                
+            } catch (ModelNotFoundException $ex ){
+
+                return response()->json(["success-update" => false, "message" => $ex->getMessage()], 422);
+
+   
+
+         }
+
+            
+        } catch (ValidationException $Ex) {
+            
+           
+            return response()->json($Ex->errors(), 422);
+           
+
+        }
+
+
     }
 
     /**

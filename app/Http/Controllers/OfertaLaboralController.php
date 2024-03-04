@@ -6,6 +6,7 @@ use App\Models\Oferta_laboral;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 use Exception;
 use Illuminate\Http\Request;
@@ -167,15 +168,49 @@ class OfertaLaboralController extends Controller
      * @param  \App\Models\Oferta_laboral  $oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Oferta_laboral $oferta_laboral)
+    public function destroy($id)
     {
-        //
-        $oferta_laboral->delete();
+
+        /**siexiste el ID si no lanzara una exception */
+        try{
         
-        return response()->json([
-            'success-destroy' => true,
-            'message' => 'oferta_laboral destroy'
-        ], 200);
+            $oferta_laboral = Oferta_laboral::findOrFail($id);
+
+               /** Comprovamos si podemos eliminar el registro 
+             * si no tiene alguna relacion con otra tabla (foreig-key)
+             * que nos impida borrar el registro
+             * 
+             */
+
+            try{
+              
+                $oferta_laboral->delete();
+
+                return response()->json([
+                    'success-destroy' => true,
+                    'message' => 'empresa destroy'
+                ], 200);
+
+            }catch(QueryException $Qe){
+
+                return response()->json(["success" => false, "message" => $Qe->errorInfo], 422);
+
+
+
+            }
+
+
+            return response()->json([
+                'success-destroy' => true,
+                'message' => 'oferta_laboral destroy'
+            ], 200);
+
+        }catch(ModelNotFoundException $ex){
+
+            return response()->json(["success" => false, "message" => $ex->getMessage()], 422);
+
+
+        }
 
     }
 }

@@ -13,7 +13,8 @@ class UserOfertaLaboral extends Model
     protected $fillable = [
 
         'user_id',
-        'oferta_laboral_id'
+        'oferta_laboral_id',
+        'description'
 
     ];
 
