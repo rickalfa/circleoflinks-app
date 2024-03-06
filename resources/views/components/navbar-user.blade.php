@@ -29,9 +29,20 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="#">Perfil</a></li>
-              <li><a class="dropdown-item" href="#">Config</a></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
-            </ul>
+          
+              <li>
+                <!-- Button REGISTER Modal-->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  Register
+                 </button>
+             </li>
+
+            <li> 
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
+                Login
+              </button>
+            </li>
+          </ul>
           </div>
 
         </div>

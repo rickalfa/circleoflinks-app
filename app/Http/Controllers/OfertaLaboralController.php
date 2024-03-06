@@ -56,7 +56,7 @@ class OfertaLaboralController extends Controller
 
         $OfertaLaboral = Oferta_laboral::create($datesInputs);
 
-        return response()->json($OfertaLaboral); 
+        return response()->json($OfertaLaboral, 200); 
 
 
         
@@ -171,7 +171,7 @@ class OfertaLaboralController extends Controller
     public function destroy($id)
     {
 
-        /**siexiste el ID si no lanzara una exception */
+        /**si existe el ID si no lanzara una exception */
         try{
         
             $oferta_laboral = Oferta_laboral::findOrFail($id);
@@ -200,10 +200,7 @@ class OfertaLaboralController extends Controller
             }
 
 
-            return response()->json([
-                'success-destroy' => true,
-                'message' => 'oferta_laboral destroy'
-            ], 200);
+     
 
         }catch(ModelNotFoundException $ex){
 
