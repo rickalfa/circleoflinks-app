@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
-use App\Models\User;
+use App\Models\UserApp;
 
 use App\Models\UserOfertaLaboral;
 
@@ -25,7 +25,7 @@ class UserOfertaLaboralSeeder extends Seeder
 
         $Users_id = array();
 
-        $Users = User::all();
+        $Users = UserApp::all();
 
         foreach ($Users as $User) {
             

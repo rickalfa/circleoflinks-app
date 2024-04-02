@@ -44,13 +44,7 @@ class User extends Authenticatable
     ];
 
 
-    public function UserPerfil()
-    {
-
-        return $this->hasOne('App\Models\User_perfil', 'user_id', 'id');
-
-
-    }
+   
 
 
     public function UserStatus()

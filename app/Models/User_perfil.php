@@ -29,7 +29,7 @@ class User_perfil extends Model
     public function user(){
 
 
-        return $this->belongsTo('App\models\User', 'user_id');
+        return $this->belongsTo('App\models\UserApp', 'user_id');
 
 
     }

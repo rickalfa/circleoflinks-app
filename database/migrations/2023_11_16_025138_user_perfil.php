@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger("user_id")->unique();
 
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->foreign("user_id")->references("id")->on("user_app");
 
 
             $table->timestamps();

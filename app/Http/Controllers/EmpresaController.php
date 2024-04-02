@@ -63,19 +63,19 @@ class EmpresaController extends Controller
     {
         
         //$datesRequest = $request->validated();
-//**validamos los datos OBLIGATORIOS enviados  */
+    //**validamos los datos OBLIGATORIOS enviados  */
      try{
 
-       $validateDates =$request->validate( [
+         $validateDates =$request->validate( [
            'name'=> 'required|string|min:5|max:150',
            'email'=>'required|unique:empresa|string|min:5|max:150',
            'avatar'=> 'string|min:5|max:150',
            'address'=>'string|min:5|max:150',
            'rubro'=>'required|string|min:5|max:150'
-       ]);
+         ]);
 
       
-        $empresa = Empresa::create($validateDates);
+         $empresa = Empresa::create($validateDates);
 
 
          return response()->json(["succes" => true]);
@@ -175,6 +175,7 @@ class EmpresaController extends Controller
             }
 
 
+            //error si el modelo que se busca no existe 
         }catch(ModelNotFoundException $ex){
 
                return response()->json(["success" => false, "message" => $ex->getMessage()], 422);

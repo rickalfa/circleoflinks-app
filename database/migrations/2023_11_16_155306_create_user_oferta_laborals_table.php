@@ -22,7 +22,7 @@ return new class extends Migration
          
             $table->text('description')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('user_app');
 
             $table->foreign('oferta_laboral_id')->references('id')->on('oferta_laborals');
          

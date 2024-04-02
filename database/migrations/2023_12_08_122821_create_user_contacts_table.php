@@ -23,10 +23,11 @@ return new class extends Migration
             $table->integer('status');
 
 
-            $table->foreign('user_id')->references('id')->on('users');
-
+            $table->foreign('user_id')->references('id')->on('user_app');
 
             $table->timestamps();
+            
+
         });
     }
 

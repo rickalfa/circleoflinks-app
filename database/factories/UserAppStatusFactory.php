@@ -16,8 +16,17 @@ class UserAppStatusFactory extends Factory
      */
     public function definition()
     {
+
+        $status_names = array("email-no-verificed", "verificed", "subcrito");
+
+
+
         return [
-            //
+            
+            'name'=>  $status_names[0],
+            'description'=> $this->faker->text,
+
+
         ];
     }
 }

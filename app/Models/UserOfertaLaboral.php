@@ -21,7 +21,7 @@ class UserOfertaLaboral extends Model
     public function user()
     {
 
-        return $this->belongsTo('App\Models\Users', 'user_id', 'id');
+        return $this->belongsTo('App\Models\UserApp', 'user_id', 'id');
 
     }
 

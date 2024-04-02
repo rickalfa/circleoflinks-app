@@ -27,12 +27,15 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
+      <!-- Mensaje -->
+      <div id="messageresponse"></div>
       <div class="modal-body">
-        <!--- FORMULARIO  -->
-        <form action="{{ route('register')}}" method="POST" class="was-validated">
+        <!--- FORMULARIO  REGISTER-->
+        <form id="formregister"  class="was-validated">
 
           @csrf
 
@@ -58,7 +61,7 @@
 
           <div class="mb-3">
             <label for="pwd" class="form-label">Password-confirm:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password_confirmation" required>
+            <input type="password" class="form-control" id="pwdconfirm" placeholder="Enter password" name="password_confirmation" required>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
           </div>
@@ -111,7 +114,7 @@
             <div class="invalid-feedback">Please fill out this field.</div>
           </div>
  
-        <button type="submit" class="btn btn-primary">Submit</button>
+         <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
       </div>

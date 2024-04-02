@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserApp;
 use App\Models\User;
 
 
@@ -37,7 +38,7 @@ class RegisteredUserController extends Controller
         try{
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class.',email'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
     
@@ -58,7 +59,8 @@ class RegisteredUserController extends Controller
 
        }catch(Exception $Ex){
 
-          return response()->json(["messagge" => $Ex->getMessage()], 422);
+          return response()->json(["success" => false,
+                                  "massage" => $Ex->getMessage()], 422);
 
        }
     }

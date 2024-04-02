@@ -11,7 +11,6 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
-
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,13 +32,14 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         try{
-        $request->authenticate();
 
-        $request->session()->regenerate();
+           $request->authenticate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+           $request->session()->regenerate();
 
-        //return response()->json(["data-Auth" => Auth::user()], 200);
+           //return redirect()->intended(RouteServiceProvider::HOME);
+
+           return response()->json(["data-Auth" => Auth::user()], 200);
 
         }catch(Exception $Ex){
 

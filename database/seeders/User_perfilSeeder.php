@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use App\Models\User_perfil;
-use App\Models\User;
+use App\Models\UserApp;
 use Database\Factories\User_perfilFactory;
 
 class User_perfilSeeder extends Seeder
@@ -22,7 +22,7 @@ class User_perfilSeeder extends Seeder
         
         $Users_id = array();
 
-        $Users = User::all();
+        $Users = UserApp::all();
 
         foreach ($Users as $User) {
             
@@ -40,9 +40,7 @@ class User_perfilSeeder extends Seeder
         ->create();
 
 
-        
-
-
+    
 
     }
 }

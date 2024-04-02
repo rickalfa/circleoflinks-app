@@ -50,9 +50,9 @@ class Oferta_laboralSeeder extends Seeder
 
        
         Oferta_laboral::factory()
-        ->count(14)
+        ->count($count_empresas)
         ->state(new Sequence(
-            ['empresa_id' => $Empresas_id[rand(0, $count_empresas)]],
+            ['empresa_id' => $Empresas_id[rand(0, $count_empresas - 1)]],
         ))
         ->create();
 

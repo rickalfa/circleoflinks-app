@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_app_statuses', function (Blueprint $table) {
+        Schema::create('user_app_status', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
+
+            $table->text('description');
+
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_app_statuses');
+        Schema::dropIfExists('user_app_status');
     }
 };

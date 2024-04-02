@@ -31,7 +31,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Oferta_laboralSeeder::class);
         
+        /**
+         * seeder user app web
+         */
 
+         $this->call(UserAppStatusSeeder::class);
+         $this->call(UserAppSeeder::class);
+         
 
 
     }

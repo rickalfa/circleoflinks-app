@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusUserController;
 use App\Http\Controllers\User_perfilController;
 use App\Http\Controllers\UserOfertaLaboralController;
+use App\Http\Controllers\UserAppController;
 
 use App\Http\Controllers\PostulacionOfertaLaboralController;
 
@@ -39,7 +40,7 @@ Route::resource('/empresa', EmpresaController::class);
 Route::patch('/empresa', [EmpresaController::class, 'update']);
 Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
 
-Route::resource('/users', UserController::class);
+Route::resource('/users', UserAppController::class);
 
 Route::resource('/statususer', StatusUserController::class);
 Route::patch('/statususer', [StatusUserController::class, 'update']);
