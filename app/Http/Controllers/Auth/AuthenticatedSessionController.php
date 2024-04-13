@@ -39,11 +39,13 @@ class AuthenticatedSessionController extends Controller
 
            //return redirect()->intended(RouteServiceProvider::HOME);
 
-           return response()->json(["data-Auth" => Auth::user()], 200);
+           return response()->json(["success" => true,
+                                   "data-Auth" => Auth::user()], 200);
 
         }catch(Exception $Ex){
 
-            return response()->json(["messagge" => $Ex->getMessage()], 422);
+            return response()->json(["success" => false,
+                              "messagge" => $Ex->getMessage()], 422);
 
 
 

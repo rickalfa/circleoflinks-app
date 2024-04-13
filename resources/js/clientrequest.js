@@ -1,8 +1,9 @@
 
 import './requestajax.js';
+import {responseAjaxClient } from './responsesrequest.js';
 import { hellojson } from './requestajax.js';
 
-
+/// Form register 
 let FormRegister = document.getElementById('formregister');
 
 if (FormRegister  != null) {
@@ -16,6 +17,34 @@ if (FormRegister  != null) {
     console.log(" formulario register Fail");
 
 }
+
+
+/// FORM  Login
+
+let FormLogin = document.getElementById('formlogin');
+
+
+if (FormLogin != null) 
+{
+    
+    FormLogin.addEventListener('submit', loginUser);
+
+    console.log(" Formulario Login DONE");
+
+
+}else{
+
+
+    console.log(" Formulario Login FAIL");
+
+
+
+
+}
+
+
+
+
 
 
 function registerUser(e){
@@ -65,6 +94,8 @@ function responseAjax(dates){
         messageelement.innerHTML =   '<div class="alert alert-success alert-dismissible">'+
                                     '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'+
                                     '<strong>Success!</strong> usuario registrado.</div>';
+
+        recargarPaginaEnSegundos(2000);
         
     }else{
      
@@ -72,5 +103,59 @@ function responseAjax(dates){
         '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'+
         '<strong>Danger! </strong>'+ datesre.massage +'.</div>'
     }
+
+   
+
+}
+
+
+
+
+//LOGIN Request
+
+
+function loginUser(e){
+
+    e.preventDefault();
+
+    let formLogin = document.getElementById('formlogin');
+
+    const dates = {};
+    let count = 0;
+    let senddates = "";
+
+    for(const elemtform of formLogin.elements){
+
+        dates[elemtform.name] = elemtform.value;
+
+
+    }
+
+
+    senddates = "_token="+dates['_token']+"&email="+dates['email']+"&password="+dates['password'];
+     
+
+    console.log(" datos enviar : " + senddates);
+
+    hellojson('http://localhost/circleoflinks-app/public/login', senddates, responseAjaxClient);
+
+
+
+
+
+
+}
+
+function recargarPagina() {
+    location.reload();
+  
+}
+
+
+function recargarPaginaEnSegundos(milisegundos) {
+    setTimeout(recargarPagina, milisegundos); // 2 segundos en milisegundos
+
+
+
 
 }

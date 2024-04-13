@@ -94,10 +94,13 @@
         <h5 class="modal-title" id="staticBackdropLabel">Login</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
+        <!-- Mensaje -->
+        <div id="messageresponselogin"></div>
       <div class="modal-body">
 
         <!-- Formulario LOGIN-->
-        <form  method="POST" action="{{ route('login')}}"  class="was-validated">
+        <form id="formlogin" method="POST" action="{{ route('login')}}"  class="was-validated">
 
           @csrf
 
