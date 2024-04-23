@@ -32,9 +32,9 @@
 
  <footer class="bg-body-tertiary text-center text-lg-start">
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    <div class="text-center text-light p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.05);">
       © 2024 Copyright:
-      <a class="text-body" href="https://circleoflinks.cloud/">circleoflinks.cloud</a>
+      <a class="text-light" href="https://circleoflinks.cloud/">circleoflinks.cloud</a>
     </div>
     <!-- Copyright -->
   </footer>

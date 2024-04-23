@@ -36,9 +36,41 @@
 
                       @php
                   
-                      $user = Auth::user()
+                      $userm = Auth::user();
+
+                      //dd($userm->hasVerifiedEmail());
+
+                ////     if($userm->hasVerifiedEmail()) {
+                ////             echo 'La dirección de correo electrónico del usuario ha sido verificada';
+                ////         } else {
+                ////             echo '  <div class="alert alert-danger alert-dismissible fade show">
+                ////             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                ////             <strong>Danger!</strong> Email no verificed . <a href="{{  }}"> verified email </a></div>';
+                ////         }
+
               
                       @endphp
+
+
+
+                      @if ($userm->hasVerifiedEmail())
+
+                        <h1> email verificed</h1>
+
+                      @else
+
+
+                        <div class="alert alert-danger alert-dismissible fade show">
+                          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                          <strong>Danger!</strong> Email no verificed . <a href="{{ url('verify-email') }}"> verified email </a></div>
+
+
+                        @endif
+         
+                      
+
+
+
                   
                       <div class="row">
                         <div class="col-lg-4">

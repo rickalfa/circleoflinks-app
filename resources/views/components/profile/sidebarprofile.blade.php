@@ -3,14 +3,14 @@
 
     <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link" href="#">Profile</a>
+          <a class="nav-link" href="{{ url('/profile')}}">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Access-API</a>
+          <a class="nav-link" href="{{ url('/profile/accesstoken')}}">Access-API</a>
         </li>
     
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
+          <a class="nav-link " href="#">Disabled</a>
         </li>
       </ul>
 
