@@ -14,11 +14,36 @@ use Illuminate\Support\Facades\Validator;
 
 class EmpresaController extends Controller
 {
+
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+* show user
+* @OA\Get(
+*     path="/api/v1/empresa",
+*     summary="Se muestra todos los registros empresa ",
+*     tags={"Empresa"},
+*
+*     @OA\Response(
+*         response=200,
+*         description="Oferta laboral encontrada",
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="id", type="integer", example=3),
+*             @OA\Property(property="name", type="string", example="closed"),
+*             @OA\Property(property="email", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="avatar", type="string", example="comercio exterior"),
+*             @OA\Property(property="address", type="string", example="street brlmoor #3453"),
+*             @OA\Property(property="rubro", type="string", example="transporte comercio local"),
+*             @OA\Property( property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+*             @OA\Property( property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+* 
+*         )
+*      )
+*
+*     
+* )
+*
+*/
     public function index()
     {
     
@@ -29,7 +54,7 @@ class EmpresaController extends Controller
 
             return $Empresas->toJson();
             
-        } catch (\ErrorException $th) {
+        } catch (Exception $th) {
             return response()->json([
 
                 'success'=> false,
@@ -91,12 +116,39 @@ class EmpresaController extends Controller
 
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\empresa  $empresa
-     * @return \Illuminate\Http\Response
-     */
+* show  empresa 
+* @OA\Get(
+*     path="/api/v1/empresa/{id}",
+*     summary="Se muestra un solo registro Empresa ",
+*     tags={"Empresa"},
+*     @OA\parameter(
+*       name="id",
+*       in="path",
+*       required=false   
+*        ),
+
+*     @OA\Response(
+*         response=200,
+*         description="Oferta laboral encontrada",
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="id", type="integer", example=3),
+*             @OA\Property(property="name", type="string", example="closed"),
+*             @OA\Property(property="email", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="avatar", type="string", example="comercio exterior"),
+*             @OA\Property(property="address", type="string", example="street brlmoor #3453"),
+*             @OA\Property(property="rubro", type="string", example="transporte comercio local"),
+*             @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+*             @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+* 
+*         )
+*      )
+*     
+*  )
+*
+*/
     public function show($id)
     {
 
@@ -106,7 +158,7 @@ class EmpresaController extends Controller
 
             return $Empresa->toJson();
 
-         } catch (ValidationException $th) {
+         } catch (Exception $th) {
              return response()->json([
 
                  'success'=> false,

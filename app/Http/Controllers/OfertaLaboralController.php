@@ -14,11 +14,38 @@ use Illuminate\Database\Eloquent\Model;
 
 class OfertaLaboralController extends Controller
 {
+ 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ *  show  todos los registros ofertalaboral
+ * @OA\Get(
+ *     path="/api/v1/ofertalaboral",
+ *     tags={"Oferta laboral"},
+ *     summary="Obtener todos los registros de una oferta laboral",
+ *     description="Devuelve información detallada sobre una oferta laboral específica.",
+
+ *     @OA\Response(
+ *         response=200,
+ *         description="Oferta laboral encontrada",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=3),
+ *             @OA\Property(property="title", type="string", example="se necesita Dev Junior Front"),
+ *             @OA\Property(property="name", type="string", example="trabajo desarrollo"),
+ *             @OA\Property(property="description", type="string", example=" se necesita con urgencia"),
+ *             @OA\Property(property="salary", type="number", example=2.000),
+ *             @OA\Property(property="date_expire", type="string", format="date", example="2024-11-11")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Oferta laboral no encontrada",
+ * 
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Oferta laboral no encontrada con ID: {id}")
+ *         )
+ *     )
+ * )
+ */
     public function index()
     {
         //
@@ -70,12 +97,46 @@ class OfertaLaboralController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Oferta_laboral  $oferta_laboral
-     * @return \Illuminate\Http\Response
-     */
+     
+/**
+ *  show ofertalaboral
+ * @OA\Get(
+ *     path="/api/v1/ofertalaboral/{id}",
+ *     tags={"Oferta laboral"},
+ *     summary="Obtener detalles de una oferta laboral",
+ *     description="Devuelve información detallada sobre una oferta laboral específica.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID de la oferta laboral",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Oferta laboral encontrada",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=3),
+ *             @OA\Property(property="title", type="string", example="se necesita Dev Junior Front"),
+ *             @OA\Property(property="name", type="string", example="trabajo desarrollo"),
+ *             @OA\Property(property="description", type="string", example=" se necesita con urgencia"),
+ *             @OA\Property(property="salary", type="number", example=2.000),
+ *             @OA\Property(property="date_expire", type="string", format="date", example="2024-11-11")
+ *             
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Oferta laboral no encontrada",
+ * 
+ *         @OA\Property(property="success", type="booleana", example=false),
+ *        
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Oferta laboral no encontrada con ID: {id}")
+ *         )
+ *     )
+ * )
+ */
     public function show($id)
     {
         //
@@ -103,14 +164,6 @@ class OfertaLaboralController extends Controller
 
 
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Oferta_laboral  $oferta_laboral
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Oferta_laboral $oferta_laboral)
     {
         /**vaidamos si existe el registro segun el id de la request */

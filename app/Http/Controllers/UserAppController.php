@@ -9,21 +9,74 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use Exception;
 
 use App\Http\Requests\StoreUserAppRequest;
 use App\Http\Requests\UpdateUserAppRequest;
 
+
+/**
+* @OA\Info(
+*             title="API circleoflinks", 
+*             version="1.0",
+*             description="API de red social de profecionales "
+* )
+*
+* @OA\Server(url="http://localhost/circleoflinks-app/public")
+
+*/
 class UserAppController extends Controller
 {
  
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ /**
+* all users 
+* @OA\Get(
+*     path="/public/api/v1/users",
+*     tags={"Users"},
+*     @OA\Response(
+*         response=200,
+*         description="descripción o el nombre del código de la petición",
+*         @OA\JsonContent(
+*             @OA\Property(
+*                 type="array",
+*                 property="rows",
+*                 @OA\Items(
+*                     type="object",
+*                     @OA\Property(
+*                         property="id",
+*                         type="number",
+*                         example="1"
+*                     ),
+*                     @OA\Property(
+*                         property="name",
+*                         type="string",
+*                         example="Aderson Felix"
+*                     ),
+*                     @OA\Property(
+*                         property="email",
+*                         type="string",
+*                         example="angelshamael@gmail.com"
+*                     ),
+*                     @OA\Property(
+*                         property="created_at",
+*                         type="string",
+*                         example="2023-02-23T00:09:16.000000Z"
+*                     ),
+*                     @OA\Property(
+*                         property="updated_at",
+*                         type="string",
+*                         example="2023-02-23T12:33:45.000000Z"
+*                     )
+*                 )
+*             )
+*         )
+*     )
+* )
+*
+*/
     public function index()
     {
+      
         
         $users = UserApp::all();
 
@@ -32,22 +85,66 @@ class UserAppController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     /** 
+    * agregar usuario
+    * @OA\Post(
+    *     path="/api/v1/users",
+    *     tags={"Users"},
+    *     @OA\Parameter(
+    *        in="path",
+    *       name="name",
+    *       required=true
+    *       ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="descripción o el nombre del código de la petición",
+    *         @OA\JsonContent(
+    *             @OA\Property(
+    *                 type="array",
+    *                 property="rows",
+    *                 @OA\Items(
+    *                     type="object",
+    *                     @OA\Property(
+    *                         property="id",
+    *                         type="number",
+    *                         example="1"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="name",
+    *                         type="string",
+    *                         example="Aderson Felix"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="email",
+    *                         type="string",
+    *                         example="angelshamael@gmail.com"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="password",
+    *                         type="string",
+    *                         example="mypass_1234$"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="address",
+    *                         type="string",
+    *                         example="calle olivos 2345"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="updated_at",
+    *                         type="string",
+    *                         example="2023-02-23T12:33:45.000000Z"
+    *                     )
+    *                 )
+    *             )
+    *         )
+    *     )
+    * )
+    */  
     public function store(Request $request)
     {
 
@@ -68,23 +165,64 @@ class UserAppController extends Controller
             ]);
 
 
-    }catch(ValidationException $ex){
-        
-        return response()->json($ex->errors(), 422);
-        
-
-    }
+        }catch(ValidationException $ex){
+            
+            return response()->json($ex->errors(), 422);
+            
+    
+        }
 
 
         
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+* show user
+* @OA\Get(
+*     path="/api/v1/users/{id}",
+*     summary="Se muestra un solo registro user ",
+*     tags={"Users"},
+*     @OA\parameter(
+*       name="id",
+*       in="path",
+*       required=true    
+*        ),
+*     @OA\Response(
+*         response=200,
+*         description="descripción o el nombre del código de la petición",
+*         @OA\JsonContent(
+
+*                     type="object",
+*                     @OA\Property(
+*                         property="id",
+*                         type="number",
+*                         example="1"
+*                     ),
+*                     @OA\Property(
+*                         property="name",
+*                         type="string",
+*                         example="Aderson Felix"
+*                     ),
+*                     @OA\Property(
+*                         property="email",
+*                         type="string",
+*                         example="angelshamael@gmail.com"
+*                     ),
+*                     @OA\Property(
+*                         property="address",
+*                         type="string",
+*                         example="calle ventura"
+*                     ),
+
+*                 
+*             
+*         )
+*     )
+* )
+*
+*/
+
+
     public function show($id)
     {
         try {
@@ -96,7 +234,7 @@ class UserAppController extends Controller
                 "user" => $User
                 ]);
 
-        } catch (ValidationException $th) {
+        } catch (Exception $th) {
             
             return response()->json([
 
@@ -113,37 +251,68 @@ class UserAppController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+  /**
+* update user
+* @OA\Patch(
+*     path="/api/v1/users/",
+*     summary="Se muestra un solo registro user ",
+*     tags={"Users"},
+*     @OA\parameter(
+*       name="id",
+*       in="query",
+*       required=true    
+*        ),
+*     @OA\Response(
+*         response=200,
+*         description="descripción o el nombre del código de la petición",
+*         @OA\JsonContent(
+*             @OA\Property(
+*                 type="array",
+*                 property="rows",
+*                 @OA\Items(
+*                     type="object",
+*                     @OA\Property(
+*                         property="id",
+*                         type="number",
+*                         example="1"
+*                     ),
+*                     @OA\Property(
+*                         property="name",
+*                         type="string",
+*                         example="Aderson Felix"
+*                     ),
+*                     @OA\Property(
+*                         property="email",
+*                         type="string",
+*                         example="angelshamael@gmail.com"
+*                     ),
+*                     @OA\Property(
+*                         property="created_at",
+*                         type="string",
+*                         example="2023-02-23T00:09:16.000000Z"
+*                     ),
+*                     @OA\Property(
+*                         property="updated_at",
+*                         type="string",
+*                         example="2023-02-23T12:33:45.000000Z"
+*                     )
+*                 )
+*             )
+*         )
+*     )
+* )
+*
+*/
     public function update(Request $request)
     {
 
-        /**
-         * validamos si existe el registro
-         */
         try {
             
             $existsregister = UserApp::findOrFail($request->id);
 
-            /**
-             * Validamos los inputs
-             */
+          
             try {
 
                 $datesvalidate = $request->validate([
@@ -180,12 +349,13 @@ class UserAppController extends Controller
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function edit($id)
+    {
+        
+    }
+
+
     public function destroy($id)
     {
         

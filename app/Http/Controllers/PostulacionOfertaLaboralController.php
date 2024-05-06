@@ -19,11 +19,41 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostulacionOfertaLaboralController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
+    
+           /**
+* show postulacion oferta laboral
+* @OA\Get(
+*     path="/api/v1/postulacionuserofertalaboral",
+*     summary="Se muestran los registros de user oferta laborales del user ",
+*     tags={"Postulacion oferta laboral"},
+
+ *     @OA\Response(
+ *         response=200,
+ *         description="Oferta laboral encontrada",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="id", type="integer", example=3),
+ *             @OA\Property(property="name", type="string", example="closed"),
+ *             @OA\Property(property="description", type="string", example=" oferta laboral cerrada"),
+ *             @OA\Property(property="date_expire", type="string", format="date", example="2024-11-11"),
+ *             @OA\Property(property="oferta_laboral_id", type="integer", example=10)
+ * 
+ *         )
+ *      ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Oferta laboral no encontrada",
+ * 
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="status Oferta laboral no encontrada con ID: {id}")
+ *         )
+ *     )
+*     )
+* )
+*
+*/
     public function index()
     {
         
@@ -82,12 +112,44 @@ class PostulacionOfertaLaboralController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
-     * @return \Illuminate\Http\Response
-     */
+            /**
+* show muestra registro especifico de postulacion oferta laboral
+* @OA\Get(
+*     path="/api/v1/postulacionuserofertalaboral/{id}",
+*     summary="Se muestran los registros de user oferta laborales del user ",
+*     tags={"Postulacion oferta laboral"},
+*      @OA\parameter(
+*          name="id",
+*          in="path",
+*          required=false   
+*        ),
+*
+*     @OA\Response(
+*         response=200,
+*         description="Oferta laboral encontrada",
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="id", type="integer", example=3),
+*             @OA\Property(property="name", type="string", example="closed"),
+*             @OA\Property(property="description", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="date_expire", type="string", format="date", example="2024-11-11"),
+*             @OA\Property(property="oferta_laboral_id", type="integer", example=10)
+* 
+*         )
+*      ),
+*     @OA\Response(
+*         response=404,
+*         description="Oferta laboral no encontrada",
+* 
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="message", type="string", example="status Oferta laboral no encontrada con ID: {id}")
+*         )
+*     )
+*     )
+* )
+*
+*/
     public function show($id = 0)
     {
         if ($id == 0) {

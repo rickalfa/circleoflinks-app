@@ -13,7 +13,7 @@ window.onscroll = function() {scrollnav()};
 
 function scrollnav() {
     const scrollTop = document.documentElement.scrollTop;
-    const opacity = scrollTop / 100; // Ajustar según la altura del componente
+    const opacity = scrollTop / 500; // Ajustar según la altura del componente
     
 
     if (opacity < 1) {

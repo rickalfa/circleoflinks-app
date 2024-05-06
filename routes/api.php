@@ -30,9 +30,26 @@ use App\Models\User_perfil;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+///Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+///    return $request->user();
+///});
+
+
+/**
+ * Acceso TOKEN Sanctum
+ */
+
+ Route::middleware(['auth:sanctum'])->group(function (){
+
+
+
+    Route::resource('/statususer', StatusUserController::class);
+    Route::post('/userofertalaboral', [UserOfertaLaboralController::class, 'store']);
+
+
+
+ });
+
 
 
 
@@ -42,8 +59,7 @@ Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
 
 Route::resource('/users', UserAppController::class);
 
-Route::resource('/statususer', StatusUserController::class);
-Route::patch('/statususer', [StatusUserController::class, 'update']);
+Route::resource('/statususer', StatusUserController::class)->only(['show', 'index']);
 
 Route::resource('/usersperfil', User_perfilController::class);
 Route::patch('/usersperfil', [User_perfilController::class, 'update']);
@@ -62,8 +78,12 @@ Route::resource('/ofertalaboral', OfertaLaboralController::class);
 Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
 
 
-Route::resource('/userofertalaboral', UserOfertaLaboralController::class);
 Route::patch('/userofertalaboral', [UserOfertaLaboralController::class, 'update']);
+
+Route::get('/userofertalaboral/{id}', [UserOfertaLaboralController::class, 'show'])->name('/userofertalaboral/{id}');
+Route::get('/userofertalaboral', [UserOfertaLaboralController::class, 'index']);
+
+
 
 Route::resource('/usercontact', UserContactController::class);
 Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');

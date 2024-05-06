@@ -8,11 +8,8 @@ use App\Http\Requests\UpdateUserAppStatusRequest;
 
 class UserAppStatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    
     public function index()
     {
         //
@@ -39,12 +36,7 @@ class UserAppStatusController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\UserAppStatus  $userAppStatus
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(UserAppStatus $userAppStatus)
     {
         //

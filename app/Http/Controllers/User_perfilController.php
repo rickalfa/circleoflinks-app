@@ -11,11 +11,43 @@ use App\Models\User_perfil;
 
 class User_perfilController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+                   /**
+* show muestra registro especifico de postulacion oferta laboral
+* @OA\Get(
+*     path="/api/v1/userperfil",
+*     summary="Se muestran los registros de user oferta laborales del user ",
+*     tags={"User profile"},
+
+*     @OA\Response(
+*         response=200,
+*         description="Oferta laboral encontrada",
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="id", type="integer", example=3),
+*             @OA\Property(property="info", type="string", example="closed"),
+*             @OA\Property(property="education", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="exp_laboral", type="string", example="2024-11-11"),
+*             @OA\Property(property="habilidades", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="profetion_name", type="string", example="comercio exterior"),
+*             @OA\Property( property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+*             @OA\Property( property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+* 
+*         )
+*      ),
+*     @OA\Response(
+*         response=404,
+*         description="Oferta laboral no encontrada",
+* 
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="message", type="string", example="status Oferta laboral no encontrada con ID: {id}")
+*         )
+*      )
+*     )
+* )
+*
+*/
     public function index()
     {
         
@@ -72,13 +104,48 @@ class User_perfilController extends Controller
      
 
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
+   /**
+* show muestra registro especifico de postulacion oferta laboral
+* @OA\Get(
+*     path="/api/v1/userperfil/{id}",
+*     summary="Se muestran los registros de user oferta laborales del user ",
+*     tags={"User profile"},
+*      @OA\parameter(
+*          name="id",
+*          in="path",
+*          required=false   
+*        ),
+*
+*     @OA\Response(
+*         response=200,
+*         description="Oferta laboral encontrada",
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="id", type="integer", example=3),
+*             @OA\Property(property="info", type="string", example="closed"),
+*             @OA\Property(property="education", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="exp_laboral", type="string", example="2024-11-11"),
+*             @OA\Property(property="habilidades", type="string", example=" oferta laboral cerrada"),
+*             @OA\Property(property="profetion_name", type="string", example="comercio exterior"),
+*             @OA\Property( property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+*             @OA\Property( property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+* 
+*         )
+*      ),
+*     @OA\Response(
+*         response=404,
+*         description="Oferta laboral no encontrada",
+* 
+*         @OA\JsonContent(
+*             @OA\Property(property="success", type="boolean", example=false),
+*             @OA\Property(property="message", type="string", example="status Oferta laboral no encontrada con ID: {id}")
+*         )
+*     )
+*     
+* )
+*
+*/
     public function show($id)
     {
         try{

@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //SWAGGER modulo de creacion de documentacion para API
+        L5Swagger\L5SwaggerServiceProvider::class,
+
     ],
 
     /*
