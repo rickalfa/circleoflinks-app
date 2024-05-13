@@ -12155,9 +12155,10 @@ textarea.form-control-lg {
 }
 
 .boxsimple {
+  top: 100px;
   background-color: aqua;
-  height: 400px;
-  width: 400px;
+  height: 100vh;
+  width: 100vw;
 }
 
 .backopa {

@@ -16,7 +16,7 @@
             <a class="nav-link " href="#scrollspyHeading2">Project</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="#scrollspyHeading3" >API V1 Doc</a>
+            <a class="nav-link " href="{{ route('l5-swagger.default.api')}}" >API V1 Doc</a>
          
           </li>
 
