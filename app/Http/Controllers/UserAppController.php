@@ -29,9 +29,9 @@ class UserAppController extends Controller
 {
  
  /**
-* all users 
+* all users Json
 * @OA\Get(
-*     path="/public/api/v1/users",
+*     path="/api/v1/users",
 *     tags={"Users"},
 *     @OA\Response(
 *         response=200,
@@ -165,9 +165,9 @@ class UserAppController extends Controller
             ]);
 
 
-        }catch(ValidationException $ex){
+        }catch(Exception $ex){
             
-            return response()->json($ex->errors(), 422);
+            return response()->json($ex->getMessage(), 422);
             
     
         }

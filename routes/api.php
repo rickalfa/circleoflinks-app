@@ -46,18 +46,20 @@ use App\Models\User_perfil;
     Route::resource('/statususer', StatusUserController::class);
     Route::post('/userofertalaboral', [UserOfertaLaboralController::class, 'store']);
 
-
+ 
 
  });
 
 
+ Route::post('/users', [UserAppController::class, 'store']);
 
 
 Route::resource('/empresa', EmpresaController::class);
 Route::patch('/empresa', [EmpresaController::class, 'update']);
 Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
 
-Route::resource('/users', UserAppController::class);
+
+Route::get('/users', [UserAppController::class, 'index']);
 
 Route::resource('/statususer', StatusUserController::class)->only(['show', 'index']);
 
