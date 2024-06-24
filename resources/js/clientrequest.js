@@ -3,8 +3,13 @@ import './requestajax.js';
 import {responseAjaxClient } from './responsesrequest.js';
 import { hellojson } from './requestajax.js';
 
+
+const url = window.location.href;
+
+
 /// Form register 
 let FormRegister = document.getElementById('formregister');
+
 
 if (FormRegister  != null) {
 
@@ -29,7 +34,11 @@ if (FormLogin != null)
     
     FormLogin.addEventListener('submit', loginUser);
 
-    console.log(" Formulario Login DONE");
+    console.log(" Formulario Login DONE codigo de obetener la URL : ");
+
+    
+    console.log(url);
+
 
 
 }else{
@@ -76,7 +85,7 @@ function registerUser(e){
 
     console.log(senddates);
 
-   hellojson('http://localhost/circleoflinks-app/public/register',senddates,responseAjax);
+   hellojson(url+'register',senddates,responseAjax);
 
 
 }
@@ -135,9 +144,11 @@ function loginUser(e){
     senddates = "_token="+dates['_token']+"&email="+dates['email']+"&password="+dates['password'];
      
 
-    console.log(" datos enviar : " + senddates);
+    console.log(" datos enviar : " + senddates + "/n");
 
-    hellojson('http://localhost/circleoflinks-app/public/login', senddates, responseAjaxClient);
+  
+
+    hellojson(url+'login', senddates, responseAjaxClient);
 
 
 
