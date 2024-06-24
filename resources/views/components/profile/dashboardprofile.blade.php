@@ -6,7 +6,10 @@
     <nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 backopa" 
 >
     <div class="container">
-      <a class="bg-info navbar-brand text-white rounded-pill" href="{{ url('/')}}">Circle of links</a>
+      <div class="bg-info rounded-pill p-2">
+        <a class="navbar-brand text-white  " href="{{ url('/')}}">{{ env('APP_NAME') }}</a>
+
+      </div>
 
       <button id="buttonnav" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

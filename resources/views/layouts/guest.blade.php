@@ -34,7 +34,7 @@
     <!-- Copyright -->
     <div class="text-center text-light p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.05);">
       © 2024 Copyright:
-      <a class="text-light" href="https://circleoflinks.cloud/">circleoflinks.cloud</a>
+      <a class="text-light" href="https://circleoflinks.cloud/">{{ env('APP_NAME') }}</a>
     </div>
     <!-- Copyright -->
   </footer>

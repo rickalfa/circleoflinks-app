@@ -375,12 +375,14 @@
         <div class="row gy-4">
 
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p class="who-we-are">Who We Are</p>
-            <h3>Unleashing Potential with Creative Strategy</h3>
+            <p class="who-we-are">Quienes Somos ? </p>
+            <h3> DemoServicioWSP: La Solución Integral para la Atención al Cliente Automatizada
+              </h3>
             <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
+             
+              En DemoServicioWSP, estamos comprometidos en ofrecerte una herramienta que no solo mejora tu relación con los clientes,
+              sino que también optimiza tus procesos internos, ahorrándote tiempo y recursos.
+             </p>
             <ul>
               <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
               <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
@@ -1197,7 +1199,7 @@
                 <i class="fa fa-play"></i>
             </div>
             <div class="wcs_popup_avatar">
-                <img src="https://avatars.githubusercontent.com/janl?s=180" alt="">
+                <img src="https://avatars.githubusercontent.com/janl?s=77" alt="">
             </div>
         </div>
     </div>
