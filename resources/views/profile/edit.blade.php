@@ -7,7 +7,10 @@
         <div class="col h-25 d-inline-block" >
           <div style="height: 70px;">
        
-           <x-profile.dashboardprofile/>
+           <!--  <x-profile.dashboardprofile/> -->
+
+
+
 
           </div>
         </div>
@@ -15,10 +18,22 @@
       </div>
 
      <div class="row">
-        <div class="col-lg-3">
-          <x-profile.sidebarprofile/>
+        <div class="col-lg-2">
+       
+          
+          <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+            <button class="w3-bar-item w3-button w3-large"
+            onclick="w3_close()">Close &times;</button>
+            <a href="#" class="w3-bar-item w3-button">Link 1</a>
+            <a href="#" class="w3-bar-item w3-button">Link 2</a>
+            <a href="#" class="w3-bar-item w3-button">Link 3</a>
+          </div>
+          <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+
         </div>
-        <div class="col-lg-9">
+
+    <div id="main">
+        <div class="col-lg-10">
              <div class="py-12">
                 <section style="background-color: #eee;">
                     <div class="container py-5">
@@ -161,7 +176,7 @@
 
        </div>
      </div>
-
+  </div> <!-- END id _ main -->
      <!-- END Container-fluid-->
     </div>
 </x-guest-layout>

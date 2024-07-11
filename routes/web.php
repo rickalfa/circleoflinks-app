@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WhatsappApi\WspbController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,16 @@ Route::get('/login', function (){
     return view('auth.login');
 
 });
+
+
+/**
+ * rutas donde se conecta la Plataforma de META Whatssap API para autenticar la App 
+ *  se utiliza WebHook
+ */
+Route::get('/wspservice', [WspbController::class, 'webhook']);
+
+Route::post('/wspservice', [WspbController::class, 'recibir']);
+
 
 
 
