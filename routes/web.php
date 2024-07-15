@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WhatsappApi\WspbController;
 
+use App\Http\Controllers\Web\UserAppController as UserAppWeb;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +25,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/admindashboard',function(){
+
+    return view('dashboard');
+
+});
+
+
+Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindashboard/user');
+
+Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admindashboard/user/');
+
+
+
 Route::get('/login', function (){
 
     return view('auth.login');
@@ -38,6 +54,8 @@ Route::get('/wspservice', [WspbController::class, 'webhook']);
 
 Route::post('/wspservice', [WspbController::class, 'recibir']);
 
+
+Route::get('/sendmessage', [WspbController::class, 'sendmessage']);
 
 
 

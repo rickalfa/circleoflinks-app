@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
          $this->call(UserAppSeeder::class);
          
 
+         $this->call(AgentSeeder::class);
 
     }
 }
