@@ -20,6 +20,8 @@ return new class extends Migration
             $table->longText('json_logic_response');
             $table->text('description')->nullable();
             $table->string('version')->nullable();
+            $table->string('status')->nullable();
+
 
 
             $table->timestamps();

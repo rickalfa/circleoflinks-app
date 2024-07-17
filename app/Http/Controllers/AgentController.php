@@ -6,6 +6,8 @@ use App\Models\Agent;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
 
+
+
 class AgentController extends Controller
 {
     /**
@@ -15,7 +17,10 @@ class AgentController extends Controller
      */
     public function index()
     {
-        //
+        $Bots = Agent::all(); // Obtener todos los usuarios
+        return view('whatsapp_service.agent.index', compact('Bots'));
+
+
     }
 
     /**
@@ -25,7 +30,8 @@ class AgentController extends Controller
      */
     public function create()
     {
-        //
+        return view('whatsapp_service.agent.create');
+
     }
 
     /**
@@ -36,7 +42,13 @@ class AgentController extends Controller
      */
     public function store(StoreAgentRequest $request)
     {
-        //
+        
+        $dates_request = $request->all();
+
+        print($dates_request);
+
+        dd($dates_request);
+
     }
 
     /**
@@ -45,9 +57,13 @@ class AgentController extends Controller
      * @param  \App\Models\Agent  $agent
      * @return \Illuminate\Http\Response
      */
-    public function show(Agent $agent)
+    public function show($id)
     {
-        //
+
+        $Bot = Agent::findOrFail($id);
+        
+
+        return view('whatsapp_service.agent.show')->with('Bot', $Bot);
     }
 
     /**

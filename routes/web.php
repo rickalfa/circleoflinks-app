@@ -6,6 +6,8 @@ use App\Http\Controllers\WhatsappApi\WspbController;
 
 use App\Http\Controllers\Web\UserAppController as UserAppWeb;
 
+use App\Http\Controllers\AgentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +38,15 @@ Route::get('/admindashboard',function(){
 Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindashboard/user');
 
 Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admindashboard/user/');
+
+/**
+ * RUTAS  AGENTE BOTS de Respuesta para Chats
+ */
+Route::get('/admindashboard/bots-r',[AgentController::class, 'index'])->name('/admindashboard/bots-r');
+Route::get('/admindashboard/bots-r/{id}',[AgentController::class, 'show'])->name('/admindashboard/bots-r/');
+Route::get('/admindashboard/bots-r-fabric',[AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
+Route::post('/admindashboard/bots-r',[AgentController::class, 'store'])->name('/admindashboard/bots-r');
+
 
 
 

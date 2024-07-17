@@ -20,16 +20,17 @@ class Status_userSeeder extends Seeder
     public function run()
     {
      
-      $status_names = array("free", "pro", "suspend", "reclutador", "active");
+      $status_names = array("free", "pro", "suspend", "reclutador", "active", "contanc");
 
 
       Status_user::factory()
-      ->count(4)
+      ->count(5)
       ->state(new Sequence(
         ['name' => $status_names[0] ],
         ['name' => $status_names[1] ],
         ['name' => $status_names[2] ],
-        ['name' => $status_names[3] ]
+        ['name' => $status_names[3] ],
+        ['name' => $status_names[4] ]
       )
     )
     ->create();

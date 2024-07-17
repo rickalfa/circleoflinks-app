@@ -1,46 +1,46 @@
+  
+          <nav class="sidebar bg-dark text-white p-3">
 
+            <div class="bg-info rounded-pill p-2">
+              <a class="text-white" href="{{ url('/')}}">Demo Service</a>
+      
+            </div>
 
+            <h2 class="text-center">Panel </h2>
+            <button class="w3-bar-item w3-button w3-large"
+            onclick="w3_close()">Close</button>
+            <a href="#" class="w3-bar-item w3-button">Secure</a>
+       
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white w3-button" href="#submenu1" data-bs-toggle="collapse">Servicios</a>
+                    <ul class="collapse nav flex-column ms-3" id="submenu1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white w3-button" href="{{ url('/admindashboard')}}">Dashboard Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Servicio 2</a>
+                        </li>
+                    </ul>
+                </li>
 
+                <li class="nav-item">
+                  <a class="nav-link text-white w3-button" href="#submenu2" data-bs-toggle="collapse">Segurity</a>
+                  <ul class="collapse nav flex-column ms-3" id="submenu2">
+                      <li class="nav-item">
+                          <a class="nav-link text-white w3-button" href="{{ url('/profile/accesstoken')}}">API Token</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link text-white" href="#">Servicios 2</a>
+                      </li>
+                  </ul>
+              </li>
 
-
-
-
-
-<div class="d-flex">
-  <nav class="sidebar bg-light " style="top:40px;">
-    <ul class="list-unstyled">
-      <li>
-        <a href="{{ url('/profile')}}" class="d-block py-2 px-3">Profile</a>
-      </li>
-      <li>
-        <a href="#about" class="d-block py-2 px-3">About</a>
-      </li>
-      <li>
-        <a href="#services" class="d-block py-2 px-3" data-bs-toggle="collapse" data-bs-target="#servicesSubmenu" aria-expanded="false">Services</a>
-        <ul id="servicesSubmenu" class="collapse list-unstyled">
-          <li><a href="#service1" class="d-block py-2 px-4">Service 1</a></li>
-          <li><a href="#service2" class="d-block py-2 px-4">Service 2</a></li>
-          <li><a href="#service3" class="d-block py-2 px-4">Service 3</a></li>
-        </ul>
-      </li>
-
-       <li>
-        <a class="d-block py-2 px-3" href="{{ url('/profile/accesstoken')}}">Access-API</a>
-       </li>
-
-      <li>
-        <a href="#contact" class="d-block py-2 px-3">Contact</a>
-      </li>
-
-      <li>
-        <a href="{{ url('/#about')}}" class="d-block py-2 px-3" >About</a>
-      </li>
-
-
-
-    </ul>
-  </nav>
-  <div class="content flex-grow-1 p-3">
-    <!-- Main content goes here -->
-  </div>
-</div>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Contacto</a>
+                </li>
+            </ul>
+        </nav>

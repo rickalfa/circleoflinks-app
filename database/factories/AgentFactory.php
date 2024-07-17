@@ -28,9 +28,9 @@ class AgentFactory extends Factory
                 ],
                 [
                     'id' => 1,
-                    'name_response_bot' => $this->faker->words(3),
+                    'name_response_bot' => $this->faker->words(1),
                     'key_trigger' => $this->faker->words(1),
-                    'response' => $this->faker->words(4),
+                    'response' => $this->faker->words(3),
                 ],
                 [
                     'id' => 2,

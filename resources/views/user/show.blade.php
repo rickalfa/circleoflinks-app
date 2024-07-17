@@ -15,8 +15,8 @@
         <h4 class="card-title">{{ $user->name}}</h4>
         <p class="card-text">.
         
-          email : {{ $user->email}}
-          address : {{ $user->address}}
+          Email : {{ $user->email}} <br>
+          Address : {{ $user->address}}
           
         </p>
         <a href="#" class="btn btn-primary">See Contact</a>
