@@ -11,7 +11,7 @@
         
        
 
-        <div class="row vh-100">
+        <div class="row">
             <div class="col-3 col-md-2">
                 <x-navadmindashboard.nav-admindashboard/>
                 

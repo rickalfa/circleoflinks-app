@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WhatsappApi\WspbController;
+use App\Http\Controllers\WhatsappApi\WspSendMessageController;
 
 use App\Http\Controllers\Web\UserAppController as UserAppWeb;
 
@@ -66,7 +67,7 @@ Route::get('/wspservice', [WspbController::class, 'webhook']);
 Route::post('/wspservice', [WspbController::class, 'recibir']);
 
 
-Route::get('/sendmessage', [WspbController::class, 'sendmessage']);
+Route::get('/sendmessage', [WspSendMessageController::class, 'sendmessage']);
 
 
 

@@ -22,6 +22,7 @@ class UserApp extends Model
         'email',
         'password',
         'address',
+        'phone',
         'avatar'
     ];
 

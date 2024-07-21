@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WhatsappApi;
 
 use App\Http\Controllers\Controller;
+use App\Http\Whatsappservice\Daterecolection\ConversationWsp;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
@@ -13,7 +14,7 @@ class WspbController extends Controller
 {
     
 
-    private $dates_message;
+    private $dates_message = "";
 
 
   /**recepion de comprovacion de TOKEN de 
@@ -63,7 +64,7 @@ class WspbController extends Controller
 
       }
       /*
-      * RECEPCION DE MENSAJES
+      * RECEPCION DE MENSAJES desde WhatsApp  API
       */
       public function recibir(Request $request){
         //LEEMOS LOS DATOS ENVIADOS POR WHATSAPP
@@ -75,6 +76,9 @@ class WspbController extends Controller
         
 
          $data =  $request->all();
+
+         $this->dates_message =$data;
+
 
          
          if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
@@ -89,68 +93,16 @@ class WspbController extends Controller
         }
 
 
+        $convessation = new ConversationWsp($data);
+
+        $convessation->startConversation();
+
+        return "peticion recibir";
 
       }
 
-      public function sendmessage(Request $request){
+     
 
-
-        $mensaje = $request->message;
-        $number_to = $request->numberto;
-
-        $response_sendm = $this->sendMessageWsp($mensaje, $number_to);
-              
-
-
-        echo $response_sendm;
-   
-
-      }
-
-      public function GetDateMenssageUser(){
-
-        $date_massage_user = $this->dates_message;
-
-        return $date_massage_user;
-
-      }
-
-
-      public function sendMessageWsp($mensaje, $numberTo){
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://graph.facebook.com/v19.0/275797412294692/messages',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{
-          "messaging_product": "whatsapp",
-          "to": "'.$numberTo.'",
-              "type": "text",
-            "text": {
-                "body": "'.$mensaje.'"
-            }
-
-        }',
-          CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'Authorization: Bearer '.env('WHATSSAP_API_TOKEN')
-          ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        echo $response;
-
-
-      }
 
 
 }

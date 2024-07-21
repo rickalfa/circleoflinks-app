@@ -2,15 +2,15 @@
 
     <h2> Create Bot </h2>
 
-    <form action="" method="post">
+    <form action="{{url('/admindashboard/bots-r')}}" method="post">
 
-        @csrf
-        <section class="vh-100" style="background-color: #2779e2;">
+        
+        <section style="background-color: #2779e2;">
             <div class="container h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="row d-flex justify-content-center align-items-center p-3 h-100">
                 <div class="col-xl-9">
           
-                  <h1 class="text-white mb-4">Apply for a job</h1>
+                  <h1 class="text-white mb-4">Bot Form</h1>
           
                   <div class="card" style="border-radius: 15px;">
                     <div class="card-body">
@@ -18,13 +18,13 @@
                       <div class="row align-items-center pt-4 pb-3">
                         <div class="col-md-3 ps-5">
           
-                          <h6 class="mb-0">Full name</h6>
+                          <h6 class="mb-0">name BOT</h6>
           
                         </div>
                         <div class="col-md-9 pe-5">
           
-                          <input type="text" class="form-control form-control-lg" />
-          
+                          <input type="text" name="name" class="form-control form-control-lg" />
+                          @csrf
                         </div>
                       </div>
           
@@ -33,27 +33,46 @@
                       <div class="row align-items-center py-3">
                         <div class="col-md-3 ps-5">
           
-                          <h6 class="mb-0">Email address</h6>
+                          <h6 class="mb-0">Description </h6>
           
                         </div>
                         <div class="col-md-9 pe-5">
           
-                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+                          <input type="text" name="description" class="form-control form-control-lg" placeholder="example@example.com" />
           
                         </div>
                       </div>
+
+
+
+                      
+                      <hr class="mx-n3">
+          
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+          
+                          <h6 class="mb-0">Version Bot </h6>
+          
+                        </div>
+                        <div class="col-md-9 pe-5">
+          
+                          <input type="text" name="version" class="form-control form-control-lg" placeholder="example@example.com" />
+          
+                        </div>
+                      </div>
+
           
                       <hr class="mx-n3">
           
                       <div class="row align-items-center py-3">
                         <div class="col-md-3 ps-5">
           
-                          <h6 class="mb-0">Full name</h6>
+                          <h6 class="mb-0">logic response</h6>
           
                         </div>
                         <div class="col-md-9 pe-5">
           
-                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+                          <textarea name="json_logic_response" class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
           
                         </div>
                       </div>
@@ -89,5 +108,7 @@
             </div>
           </section>
     </form>
+
+
 
 </x-admindashboard>

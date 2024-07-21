@@ -45,7 +45,7 @@ class AgentController extends Controller
         
         $dates_request = $request->all();
 
-        print($dates_request);
+        print_r($dates_request);
 
         dd($dates_request);
 

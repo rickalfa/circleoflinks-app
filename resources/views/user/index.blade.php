@@ -10,6 +10,7 @@
               <th scope="col">#</th>
               <th scope="col">name</th>
               <th scope="col">email</th>
+              <th scope="col">phone</th>
               <th scope="col">address</th>
             </tr>
           </thead>
@@ -22,6 +23,7 @@
               <th scope="row">{{ $count++}}</th>
               <td>{{ $user->name}}</td>
               <td>{{ $user->email}}</td>
+              <td>{{ $user->phone}}</td>
               <td>{{ $user->address}}</td>
               <td> <a href="{{ route('/admindashboard/user/', $user->id) }}">Details</a> </td>
             </tr>
