@@ -19,6 +19,7 @@ class WspbController extends Controller
 
   /**recepion de comprovacion de TOKEN de 
    * WHATSSAP API CLOUD
+   * https://developers.facebook.com/docs/whatsapp/cloud-api/get-started
    */
     public function webhook(Request $request){
         //TOQUEN QUE QUERRAMOS PONER 
@@ -65,6 +66,13 @@ class WspbController extends Controller
       }
       /*
       * RECEPCION DE MENSAJES desde WhatsApp  API
+      *  
+      * Summary of __construct
+      * @param mixed $dates
+      * el Parametro $dates son los datos enviados por la WhatsApp API Cloud
+      * son enviados por e usuario cuando envia un Mensaje al numero Configurado para el projecto 
+      * que esta utilizando la API de WhatsApp la documentacion oficial
+      *  https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-messages#solicitudes
       */
       public function recibir(Request $request){
         //LEEMOS LOS DATOS ENVIADOS POR WHATSAPP

@@ -22,36 +22,48 @@
 
 
     </head>
-    <body class="font-sans text-gray-900 ">
+<body class="font-sans">
 
-            <div class="w-full  px-6 py-4 bg-secondary dark:bg-gray-800 shadow-md ">
-                {{ $slot }}
-            </div>
-    
-       
-            
-<script>
-  function w3_open() {
-    document.getElementById("main").style.marginLeft = "25%";
-    document.getElementById("mySidebar").style.width = "25%";
-    document.getElementById("mySidebar").style.display = "block";
-    document.getElementById("openNav").style.display = 'none';
-  }
-  function w3_close() {
-    document.getElementById("main").style.marginLeft = "0%";
-    document.getElementById("mySidebar").style.display = "none";
-    document.getElementById("openNav").style.display = "inline-block";
-  }
-  </script>
- </body>
+   
+<div class="container-fluid">
+ <div class="row-fluid bg-secondary " >
+     <div class="px-2 py-4  shadow-md ">
+         {{ $slot }}
+      </div>
+
+ </div>
+ 
+
+  <div class="row align-items-end">
+      <footer class="bg-body-tertiary text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center text-light p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.05); buttom: 10px">
+          © 2024 Copyright:
+          <a class="text-light" href="https://circleoflinks.cloud/">{{ env('APP_NAME') }}</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+
+  </div>
+</div>
 
 
- <footer class="bg-body-tertiary text-center text-lg-start">
-    <!-- Copyright -->
-    <div class="text-center text-light p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-light" href="https://circleoflinks.cloud/">{{ env('APP_NAME') }}</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
+     
+    <script>
+      function w3_open() {
+        document.getElementById("main").style.marginLeft = "25%";
+        document.getElementById("mySidebar").style.width = "25%";
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("openNav").style.display = 'none';
+      }
+      function w3_close() {
+        document.getElementById("main").style.marginLeft = "0%";
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("openNav").style.display = "inline-block";
+      }
+      </script>
+</body>
+
+
+
 </html>

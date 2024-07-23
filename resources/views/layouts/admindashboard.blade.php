@@ -16,7 +16,7 @@
                 <x-navadmindashboard.nav-admindashboard/>
                 
             </div>
-            <div class="col bg-warning">
+            <div class="col bg-warning h-100 p-2 m-2">
                
                     <!-- Page Content -->
          

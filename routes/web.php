@@ -6,6 +6,7 @@ use App\Http\Controllers\WhatsappApi\WspbController;
 use App\Http\Controllers\WhatsappApi\WspSendMessageController;
 
 use App\Http\Controllers\Web\UserAppController as UserAppWeb;
+use App\Http\Controllers\Web\UserAppContactController as ContactsApp;
 
 use App\Http\Controllers\AgentController;
 
@@ -48,6 +49,11 @@ Route::get('/admindashboard/bots-r/{id}',[AgentController::class, 'show'])->name
 Route::get('/admindashboard/bots-r-fabric',[AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
 Route::post('/admindashboard/bots-r',[AgentController::class, 'store'])->name('/admindashboard/bots-r');
 
+/**
+ * RUTAS  Contact Usuarios que contactaron por WSP a la APP
+ */
+
+ Route::get('/admindashboard/contacts', [ContactsApp::class, 'index'])->name('/admindashboard/contacts');
 
 
 

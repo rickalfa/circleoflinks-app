@@ -38,7 +38,7 @@ class WspSendMessageController extends Controller
        * @param mixed $numberTo
        * @return void
        */
-      protected function sendMessageWsp($mensaje, $numberTo){
+      public function sendMessageWsp($mensaje, $numberTo){
 
         $curl = curl_init();
 

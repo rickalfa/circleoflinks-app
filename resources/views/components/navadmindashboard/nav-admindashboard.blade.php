@@ -12,7 +12,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="{{ route('/admindashboard/user')}}" class="link-dark rounded">user-app</a></li>
             <li><a href="{{ route('/admindashboard/bots-r')}}" class="link-dark rounded">Bots-R</a></li>
-            <li><a href="#" class="link-dark rounded">Contacts</a></li>
+            <li><a href="{{ route('/admindashboard/contacts')}}" class="link-dark rounded">Contacts</a></li>
           </ul>
         </div>
       </li>

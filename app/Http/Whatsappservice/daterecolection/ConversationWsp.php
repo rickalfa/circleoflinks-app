@@ -3,15 +3,26 @@
 namespace App\Http\Whatsappservice\Daterecolection;
 
 use App\Http\Controllers\Controller;
-use APp\Http\Whatsappservice\Daterecolection\UserWsp;
+use App\Http\Whatsappservice\Daterecolection\UserWsp;
+use App\Http\Whatsappservice\Daterecolection\BotWsp;
 use App\Models\Conversation;
 use App\Models\UserApp;
+use App\Models\userAppContact;
 
 class ConversationWsp extends Controller{
 
 
     protected $Userwsp;
+    protected $Botwsp;
 
+    /**
+     * Summary of __construct
+     * @param mixed $dates
+     * el Parametro $dates son los datos enviados por la WhatsApp API Cloud
+     * son enviados por e usuario cuando envia un Mensaje al numero Configurado para el projecto 
+     * que esta utilizando la API de WhatsApp la documentacion oficial
+     *  https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-messages#solicitudes
+     */
     public function __construct( $dates){
 
        
@@ -20,12 +31,10 @@ class ConversationWsp extends Controller{
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
             $phoneUser = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
 
-
-
             // Convertir el valor a string, aunque deberÃ­a serlo ya
             $phoneAsString = (string) $phoneUser ;
   
-            $Userexist = UserApp::where('phone', '=', $phoneAsString)->first();
+            $Userexist = UserAppContact::where('phone_number', '=', $phoneAsString)->first();
 
 
            print_r($Userexist);
@@ -34,9 +43,11 @@ class ConversationWsp extends Controller{
 
                 echo "el usuario existe  ";
                 
-                
 
-
+                /**SI no EXISTE el usuario se 
+                 * crea uno nuevo y como contacto y usuario UNKNOW 
+                 * con el status "no registrado"
+                 */
             }else{
 
                 echo "el usuario NO existe";
@@ -47,11 +58,20 @@ class ConversationWsp extends Controller{
 
                  $usernew = UserApp::create([
                     'name' => "unknow",
-                    'phone' => $phoneAsString,
                     'password' => "provisorio",
                     'user_app_status_id' => 2 
 
                  ]);
+
+
+                 $usernewcontact = UserAppContact::create(
+                    [
+                    'user_id'=> $usernew->id,
+                    'phone_number'=>  $phoneAsString,
+                    'status'=> "no register"
+
+                    ]
+                 );
 
                  if(isset($usernew)){
 
@@ -64,12 +84,20 @@ class ConversationWsp extends Controller{
 
             }
 
-            // Registrar el valor en el log
-        
+          
          
           }
   
-        
+
+               /**
+             * Creamos a   $UserWsp con los $dates
+             */
+
+             $this->Userwsp = new UserWsp($dates);
+
+             $this->Botwsp = new BotWsp();
+
+
 
        
 
@@ -79,15 +107,22 @@ class ConversationWsp extends Controller{
 
     public function startConversation(){
 
+        echo "  start Conversation from ".__CLASS__;
 /**
  * 1_nr
  *  Comprovamos si el usuario es la Primera vez que chatea con nosotros, si esta
  * en la tabla contactos, si no lo creamos con el UserApp y su relacion Contact
  */
 
+     $user_msg_wsp = $this->Userwsp->getMessage();
+     $user_phone_wsp = $this->Userwsp->getPhone();
+ 
+     $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
 
+    
 
-      echo "  start Conversation  ";
+      
+
 /**
  * 2_nr
  * identificamos que Bot se utilizara para responder al nuevo contacto
