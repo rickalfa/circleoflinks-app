@@ -37,9 +37,15 @@ class DatabaseSeeder extends Seeder
 
          $this->call(UserAppStatusSeeder::class);
          $this->call(UserAppSeeder::class);
+         $this->call(UserAppContactSeeder::class);
          
 
          $this->call(AgentSeeder::class);
+
+
+         $this->call(ConversationSeeder::class);
+         $this->call(MessageSeeder::class);
+
 
     }
 }

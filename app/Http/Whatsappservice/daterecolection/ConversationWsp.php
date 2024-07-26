@@ -34,6 +34,11 @@ class ConversationWsp extends Controller{
             // Convertir el valor a string, aunque deberÃ­a serlo ya
             $phoneAsString = (string) $phoneUser ;
   
+             /**
+             * 1_nr
+             *  Comprovamos si el usuario es la Primera vez que chatea con nosotros, si esta
+             * en el Modelo UserAppContact, si no lo creamos con el UserApp y su relacion Contact
+             */
             $Userexist = UserAppContact::where('phone_number', '=', $phoneAsString)->first();
 
 
@@ -44,7 +49,9 @@ class ConversationWsp extends Controller{
                 echo "el usuario existe  ";
                 
 
-                /**SI no EXISTE el usuario se 
+                /**
+                 * 2_nr
+                 * SI no EXISTE el usuario se 
                  * crea uno nuevo y como contacto y usuario UNKNOW 
                  * con el status "no registrado"
                  */
@@ -63,6 +70,9 @@ class ConversationWsp extends Controller{
 
                  ]);
 
+                 /**
+                  * y el usuario como contacto de la App
+                  */
 
                  $usernewcontact = UserAppContact::create(
                     [
@@ -75,7 +85,7 @@ class ConversationWsp extends Controller{
 
                  if(isset($usernew)){
 
-                    echo "Usuario-App creado : </br>";
+                    echo "</br> Usuario-App creado : </br>";
 
                     print_r($usernew);
 
@@ -91,6 +101,8 @@ class ConversationWsp extends Controller{
 
                /**
              * Creamos a   $UserWsp con los $dates
+             *
+             * y $BotWsp segun los que estan activos
              */
 
              $this->Userwsp = new UserWsp($dates);
@@ -110,26 +122,24 @@ class ConversationWsp extends Controller{
         echo "  start Conversation from ".__CLASS__;
 /**
  * 1_nr
- *  Comprovamos si el usuario es la Primera vez que chatea con nosotros, si esta
- * en la tabla contactos, si no lo creamos con el UserApp y su relacion Contact
+ *  
+ * recivimos el mensaje de WSP del UserWsp y su numero de celular 
  */
 
      $user_msg_wsp = $this->Userwsp->getMessage();
      $user_phone_wsp = $this->Userwsp->getPhone();
  
-     $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
-
-    
-
-      
 
 /**
  * 2_nr
- * identificamos que Bot se utilizara para responder al nuevo contacto
- * se determina la Logica de respuesta
+ * le entregamos el mensaje y el numero de quien iso el mensaje al BotWsp
+ * identificamos que BotWsp se utilizara para responder al nuevo contacto
+ * se determina la Logica de respuesta 
  */
 
+     $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
 
+    
  
   /**
    * 3_nr

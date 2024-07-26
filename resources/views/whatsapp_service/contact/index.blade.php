@@ -25,7 +25,7 @@
          
               <td>{{  $Contact->phone_number}}</td>
               <td>{{  $Contact->status}}</td>
-              <td> <a href="{{ route('/admindashboard/contacts', $Contact->id) }}">Details</a> </td>
+              <td> <a href="{{ route('/admindashboard/userconversation/', $Contact->userApp->id) }}">Details</a> </td>
             </tr>
             @endforeach
    

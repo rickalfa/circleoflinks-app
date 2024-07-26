@@ -44,7 +44,27 @@ class UserApp extends Model
 
 
     }
+
+    public function contact()
+     {
+        
+        return $this->hasOne(UserAppContact::class, 'user_id');
+     
+    }
     
     
+    public function Conversations()
+    {
+
+        return $this->hasMany('App\Models\Conversation', 'user_id', 'id');
+
+
+    }
+
+
+    public static function getUserAppIdsWithContact()
+    {
+        return self::has('contact')->pluck('id');
+    }
 
 }

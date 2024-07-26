@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conversation;
-use App\Http\Requests\StoreConversationRequest;
-use App\Http\Requests\UpdateConversationRequest;
+use App\Models\Message;
+use App\Http\Requests\StoreMessageRequest;
+use App\Http\Requests\UpdateMessageRequest;
 
-class ConversationController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class ConversationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreConversationRequest  $request
+     * @param  \App\Http\Requests\StoreMessageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreConversationRequest $request)
+    public function store(StoreMessageRequest $request)
     {
         //
     }
@@ -43,27 +43,21 @@ class ConversationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Message $message)
     {
-
-        $conversations = Conversation::findOrFail($id);
-        
-
-        return view('whatsapp_service.userconversation.show', compact('conversations'));
-    
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function edit(Conversation $conversation)
+    public function edit(Message $message)
     {
         //
     }
@@ -71,11 +65,11 @@ class ConversationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateConversationRequest  $request
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Http\Requests\UpdateMessageRequest  $request
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateConversationRequest $request, Conversation $conversation)
+    public function update(UpdateMessageRequest $request, Message $message)
     {
         //
     }
@@ -83,10 +77,10 @@ class ConversationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Conversation $conversation)
+    public function destroy(Message $message)
     {
         //
     }

@@ -27,6 +27,21 @@ class Conversation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function agent()
+    {
+
+        return $this->belongsTo(Agent::class);
+
+
+    }
+
+    public function messages()
+    {
+
+        return $this->hasMany('App\Models\Message', 'conversation_id', 'id');
+
+    }
+
 
 
 }

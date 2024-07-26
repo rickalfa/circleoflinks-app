@@ -42,6 +42,16 @@ Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindas
 Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admindashboard/user/');
 
 /**
+ * RUTAS CONVERSATIONS USER 
+ */
+
+ Route::get('/admindashboard/userconversation/{id}',[UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
+ Route::get('/admindashboard/userconversation-detail/{id}',[UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
+ 
+ 
+
+
+/*******************************************************************
  * RUTAS  AGENTE BOTS de Respuesta para Chats
  */
 Route::get('/admindashboard/bots-r',[AgentController::class, 'index'])->name('/admindashboard/bots-r');

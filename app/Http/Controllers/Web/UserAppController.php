@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Conversation;
+
+
 use App\Models\UserApp;
+use Exception;
 
 class UserAppController extends Controller
 {
@@ -19,6 +23,32 @@ class UserAppController extends Controller
         
         $users = UserApp::all(); // Obtener todos los usuarios
         return view('user.index', compact('users'));
+
+    }
+
+    public function conversations($id){
+
+     
+           $user = UserApp::findOrFail($id);
+           $conversationsuser = Conversation::where('user_id', '=', $id )->get();
+
+        //  dd($conversationsuser );
+
+           return view('whatsapp_service.userconversation.index', compact('conversationsuser'));
+    
+            
+    
+    }
+
+    public function conversationDetail($id){
+
+        $conversations = Conversation::findOrFail($id);
+
+
+
+        return view('whatsapp_Service.userconversation.show', compact('conversations'));
+
+
 
     }
 

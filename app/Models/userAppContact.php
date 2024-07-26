@@ -15,4 +15,18 @@ class userAppContact extends Model
         'status',
         'user_id'
     ];
+
+
+    public function userApp()
+    {
+
+        return $this->belongsTo('App\Models\UserApp', 'user_id', 'id');
+
+
+
+    }
+
+
+
+
 }

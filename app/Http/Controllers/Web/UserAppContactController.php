@@ -16,8 +16,15 @@ class UserAppContactController extends Controller
      */
     public function index()
     {
+
         
         $Contacts = UserAppContact::all(); // Obtener todos los usuarios
+
+        
+
+        
+        
+
         return view('whatsapp_service.contact.index', compact('Contacts'));
 
 

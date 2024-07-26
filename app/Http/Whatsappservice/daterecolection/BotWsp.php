@@ -48,7 +48,7 @@ Class BotWsp extends WspbController{
         echo " Recepcion de mensaje desde ".__CLASS__;
 
 
-        
+
 
         $succes_key =  $this->logicResponseToMessage($message, ["pilar"]);
 
@@ -78,7 +78,7 @@ Class BotWsp extends WspbController{
                 }, $patterns);
             
          // Crear una expresión regular que busque cualquiera de los patrones
-    $regex = '/(' . implode('|', $escapedPatterns) . ')/';
+            $regex = '/(' . implode('|', $escapedPatterns) . ')/';
 
             // Usar preg_match para verificar si el patrón existe en el texto
             if (preg_match($regex, $text)) {
@@ -103,6 +103,8 @@ Class BotWsp extends WspbController{
 
     private function selectBotActive(){
 
+
+        
 
 
 
