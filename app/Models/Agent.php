@@ -27,5 +27,14 @@ class Agent extends Model
     }
 
 
+    public function logicResponses()
+    {
+
+
+        return $this->hasMany('App\Models\LogicResponse', 'agent_id', 'id');
+
+    }
+
+
 
 }

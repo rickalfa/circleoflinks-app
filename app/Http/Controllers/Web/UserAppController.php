@@ -46,7 +46,7 @@ class UserAppController extends Controller
 
 
 
-        return view('whatsapp_Service.userconversation.show', compact('conversations'));
+        return view('whatsapp_Service.userconversation.show', compact('conversations'))->with('id', $id);
 
 
 

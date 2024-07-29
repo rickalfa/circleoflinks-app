@@ -1,6 +1,17 @@
 
 <x-admindashboard>
 
+
+  
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url('/admindashboard')}}">Dashboardadmin</a></li>
+    <li class="breadcrumb-item"><a href="{{route('/admindashboard/contacts')}}">Contact</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Conversations user</li>
+  </ol>
+</nav>
+
+
     <h3> Conversation Service WhatsApp </h3>
 
     

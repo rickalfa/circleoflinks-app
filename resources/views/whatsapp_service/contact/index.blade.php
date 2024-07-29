@@ -1,5 +1,13 @@
 <x-admindashboard>
 
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{url('/admindashboard')}}">Dashboardadmin</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Contacts</li>
+    </ol>
+  </nav>
+
     <h3> Contact app </h3>
 
     

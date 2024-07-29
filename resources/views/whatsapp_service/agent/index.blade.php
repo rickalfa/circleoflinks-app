@@ -19,8 +19,12 @@
           </thead>
           <tbody>
             @php
-             $count = 1;   
-            @endphp
+
+            $count = ($Bots->currentPage() - 1) * $Bots->perPage() + 1;
+        @endphp
+
+
+
             @foreach ($Bots as $Bot)
             <tr>
               <th scope="row">{{ $count++}}</th>
@@ -33,5 +37,10 @@
    
           </tbody>
       </table>
+
+            <!-- Agregar enlaces de paginación -->
+      <div class="d-flex justify-content-center">
+        {{ $Bots->links('pagination::bootstrap-5') }}
+      </div>
 
 </x-admindashboard>

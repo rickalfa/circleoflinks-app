@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agents', function (Blueprint $table) {
+        Schema::create('logic_responses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->string('key_trigger');
+            $table->text('response');
 
-            $table->string('name')->unique();
-            $table->longText('json_logic_response')->nullable();
-            $table->text('description')->nullable();
-            $table->string('version');
-            $table->string('status')->nullable();
+            $table->unsignedBigInteger('agent_id');
 
-
+            $table->foreign('agent_id')->references('id')->on('agents');
 
             $table->timestamps();
         });
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agents');
+        Schema::dropIfExists('logic_responses');
     }
 };

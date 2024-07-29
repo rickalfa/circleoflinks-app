@@ -16,7 +16,7 @@
                 <x-navadmindashboard.nav-admindashboard/>
                 
             </div>
-            <div class="col bg-warning h-100 p-2 m-2">
+            <div class="col bg-warning p-2 " style="height: auto; min-height: 85vh ">
                
                     <!-- Page Content -->
          

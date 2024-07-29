@@ -12191,6 +12191,16 @@ textarea.form-control-lg {
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
+.box-message {
+  background-image: url("/public/imgs/bg/fondo_wsp.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  height: 40rem;
+  width: 70rem;
+  overflow-y: scroll;
+}
+
 .boxsimple {
   top: 100px;
   background-color: aqua;
