@@ -48,7 +48,9 @@ Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admi
 
  Route::get('/admindashboard/userconversation/{id}',[UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
  Route::get('/admindashboard/userconversation-detail/{id}',[UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
- 
+
+
+
  /**
   * RUTAS LOGIC RESPONSE
   */
@@ -66,6 +68,8 @@ Route::get('/admindashboard/bots-r/{id}',[AgentController::class, 'show'])->name
 Route::get('/admindashboard/bots-r-fabric',[AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
 Route::post('/admindashboard/bots-r-store',[AgentController::class, 'store'])->name('bot.store');
 Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
+Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBots'])->name('bot.actives');
+Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
 
 /**
  * RUTAS  Contact Usuarios que contactaron por WSP a la APP

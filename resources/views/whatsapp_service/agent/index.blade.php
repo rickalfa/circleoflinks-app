@@ -2,10 +2,39 @@
 
     <h3> Bots service Whatsapp </h3>
 
-    
+
     <h1> Bots Table </h1>
 
-    <a class="btn btn-primary btn-lg" href="{{url('/admindashboard/bots-r-fabric')}}"> Fabric-bot</a>
+      <div class="row">
+        <div class="d-grid gap-2 d-md-block">
+
+            <a  href="{{url('/admindashboard/bots-r-fabric')}}" class="btn btn-primary" role="button"> 
+              Fabric-bot
+              <img src="{{ asset('imgs/svg/ampolleta_bot.svg') }}" alt="Descripción de la imagen" width="32px" height="32px">
+          
+            </a>
+        </div>
+
+          
+          <div class="d-flex justify-content-center">
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+              <label class="btn btn-outline-primary" for="btnradio1">Bots-R</label>
+            
+
+              <label class="btn btn-outline-primary" for="btnradio2">
+                <a href="{{route('bot.actives') }}"> Bots-R Actives </a>
+              </label>
+            
+              
+              
+            </div>
+        </div>
+
+    </div>
 
     <table class="table table-dark table-striped">
         

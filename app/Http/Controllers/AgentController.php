@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agent;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
-
+use Exception;
 use Illuminate\Http\Request;
 
 
@@ -35,6 +35,17 @@ class AgentController extends Controller
 
     }
 
+    /**
+     * 
+     */
+    public function activesBots(){
+
+        $Bots = Agent::paginate(10); 
+
+        return view('whatsapp_service.agent.actives', compact('Bots'));
+
+
+    } 
 
     public function createlogicresponse($Agent)
     {
@@ -114,9 +125,37 @@ class AgentController extends Controller
      * @param  \App\Models\Agent  $agent
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAgentRequest $request, Agent $agent)
+    public function update(Request $request, $id)
     {
-        //
+         try {
+          
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'version' => 'required|numeric',
+                'status' => 'required|string',
+            ]);
+            
+    
+            //dd($request);
+    
+            $bot = Agent::findOrFail($id);
+
+            $bot->update($request->all());
+    
+            return redirect()->route('bot.actives', compact(['success' =>'Bot-r updated successfully.']));
+                            
+       
+         } catch (Exception $th) {
+            
+            return redirect()->route('bot.actives')
+                             ->with('success', ' no se pudo actualizar');
+
+
+         }
+  
+
+
     }
 
     /**

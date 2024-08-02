@@ -38,7 +38,7 @@
 
           @php
 
-           echo '<p class="fs-6">'.$Bot->logicResponses.'</p>';
+           echo '<p class="fs-6"> <code>'.$Bot->logicResponses.'</code> </p>';
 
            $count_l = 0;
 
@@ -80,9 +80,20 @@
               </h2>
               <div id="collapseTwo{{$count_l}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <strong> trigger-key : {{$Lresponses->key_trigger}} -</strong>
-                  
-                     response of trigger-key : {{ $Lresponses->response}} <code>date create : {{ $Lresponses->created_at}}</code>,
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong> trigger-key : <span class="badge text-bg-success"> {{$Lresponses->key_trigger}} </span></strong>
+                    </li> 
+                    <li class="list-group-item">
+                      <strong> response of trigger-key : </strong> {{ $Lresponses->response}} 
+                    </li>  
+                    <li class="list-group-item">
+                        <code>date create : {{ $Lresponses->created_at}}</code>
+                    </li>   
+                  </ul>
+                
+                   
+                   
                 </div>
               </div>
             </div>

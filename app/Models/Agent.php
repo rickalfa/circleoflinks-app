@@ -13,7 +13,8 @@ class Agent extends Model
         'name',
         'json_logic_response',
         'description',
-        'version'
+        'version',
+        'status'
     ];
 
 

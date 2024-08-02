@@ -12201,6 +12201,26 @@ textarea.form-control-lg {
   overflow-y: scroll;
 }
 
+.light-point-green {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, rgba(43, 255, 0, 0.815), transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(43, 255, 0, 0.3), 0 0 30px rgba(43, 255, 0, 0.3), 0 0 45px rgba(43, 255, 0, 0.3), 0 0 60px rgba(43, 255, 0, 0.3);
+  position: relative;
+  margin: auto;
+}
+
+.light-point-red {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, rgba(255, 0, 0, 0.815), transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), 0 0 30px rgba(255, 0, 0, 0.3), 0 0 45px rgba(255, 0, 0, 0.3), 0 0 60px rgba(255, 0, 0, 0.3);
+  position: relative;
+  margin: auto;
+}
+
 .boxsimple {
   top: 100px;
   background-color: aqua;
