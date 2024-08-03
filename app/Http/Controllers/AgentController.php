@@ -38,11 +38,25 @@ class AgentController extends Controller
     /**
      * 
      */
-    public function activesBots(){
+    public function activesBots(Request $request){
 
         $Bots = Agent::paginate(10); 
 
-        return view('whatsapp_service.agent.actives', compact('Bots'));
+        $pass_var = isset($success);
+
+
+        if ($pass_var) {
+
+            $success = "";
+
+        } else {
+            $success = $request->success;
+        }
+        
+
+        echo $request->success;
+
+        return view('whatsapp_service.agent.actives', compact('Bots'))->with('success', $success);
 
 
     } 
@@ -143,7 +157,7 @@ class AgentController extends Controller
 
             $bot->update($request->all());
     
-            return redirect()->route('bot.actives', compact(['success' =>'Bot-r updated successfully.']));
+            return redirect()->route('bot.actives')->with('success', 'se pudo actualizar');
                             
        
          } catch (Exception $th) {

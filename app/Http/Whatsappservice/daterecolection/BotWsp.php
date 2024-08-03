@@ -17,6 +17,7 @@ Class BotWsp extends WspbController{
     private $logic_response;
     private $SendMsgWsp;
 
+    private $num_phone = 0;
 
     public function __constructor(Agent $BotAgentwsp, WspSendMessageController $Sendmsgwsp){
 
@@ -45,32 +46,39 @@ Class BotWsp extends WspbController{
 
 
        
-        echo " Recepcion de mensaje desde ".__CLASS__;
+        echo "</br> Recepcion de mensaje desde ".__CLASS__;
+
+        echo $message;
+
+        /**
+         * buscamos todas las key_Trigger de los bots Activados
+         */
+        $this->logic_response = $this->selectResponsesFromBotActive($message);
 
 
+        $this->num_phone = $number_user;
 
+        $respuesta = $this->logic_response;
 
-        $succes_key =  $this->logicResponseToMessage($message, ["pilar"]);
+        echo " </br> <br> respuesta del Bot : ";
 
-        if ($succes_key) {
+        print_r($respuesta);
 
-            $this->SendMsgWsp->sendMessageWsp("hola como estas un gusto pilar ?", $number_user);
-
-            echo " mensaje enviado desde ".__CLASS__;
-
-          
-        }else{
-
-            echo " No se detecto la Key mensaje NO enviado desde ".__CLASS__;
-
-
-        }
-        
 
 
     }
+    
+    public function sendWspMessage(){
+ 
+        $respuesta_bot = $this->SendMsgWsp->sendMessageWsp($this->logic_response, $this->num_phone);
 
-    private function logicResponseToMessage($text, $patterns){
+
+        echo $respuesta_bot;
+
+    }
+
+
+    private function logicResponseToMessage($text, $patterns): bool{
 
                 // Escapar caracteres especiales del patrón para uso en expresión regular
                 $escapedPatterns = array_map(function($pattern) {
@@ -95,19 +103,71 @@ Class BotWsp extends WspbController{
 
     }
 
-    private function sendWspMessage(){
+    private function selectResponsesFromBotActive($key_string)
+    {
 
 
-
-    }
-
-    private function selectBotActive(){
+        $BotsActives = Agent::where('status', 'active')->get();
 
 
-        
+        $Keys_arr = array();
+
+        $count = 0;
+
+        /**
+         * recorrimos el arreglo de Bots que estan con status = 'active'
+         * 
+         */
+        foreach($BotsActives as $Bot){
+
+          
+
+            /**
+             * recorrimos el areglo de Logicresponses que contiene el Bot
+             * y comparamos sus Key_trigger para saber si hace algun match 
+             * con el mensaje WSP del usuario
+             */
+            foreach($Bot->logicResponses as $LoResponse){
+
+               
+                array_push($Keys_arr, $LoResponse->key_trigger);
+
+                $key_str_ar = array($Keys_arr[$count]);
+
+                $match_key = $this->logicResponseToMessage($key_string, $key_str_ar);
 
 
+                if ($match_key) {
+                    
+                    echo "match encontrado de las keys : ";
+                    print($Keys_arr[$count]);
 
+                    return $LoResponse->response;
+
+    
+                }else{
+    
+                    echo " NO hiso match de las keys : ";
+                    print_r($Keys_arr);
+    
+    
+                }
+    
+                $count++;
+
+            }
+           
+
+           echo '<br> Bots dentro de FOREACH :</br>';
+           print_r($Keys_arr);
+
+       
+          
+
+        }
+
+        return $Keys_arr;
+       
     }
 
 

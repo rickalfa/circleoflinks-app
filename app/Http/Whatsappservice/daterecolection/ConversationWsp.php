@@ -139,6 +139,9 @@ class ConversationWsp extends Controller{
 
      $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
 
+
+     $this->Botwsp->sendWspMessage();
+     
     
  
   /**
