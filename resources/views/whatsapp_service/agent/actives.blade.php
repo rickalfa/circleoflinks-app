@@ -41,21 +41,17 @@
 
   </div>
 
-  @isset($success)
+  @if (session('success'))
     <div class="row">
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong> Bots-r State</strong> {{$success}}
+          <strong> Bots-r State </strong> {{session('success')}}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 
-@endisset
-<div class="row">
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong> Bots-r State</strong> 
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-</div>
+@endif
+
+
 
 
   @foreach($Bots as $Bot)

@@ -34,6 +34,8 @@ Class UserWsp extends Controller{
           }
 
           if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['text'])) {
+
+            
             $messageBody = $data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
   
             // Convertir el valor a string, aunque deberÃ­a serlo ya

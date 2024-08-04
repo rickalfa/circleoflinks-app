@@ -87,6 +87,7 @@ class WspbController extends Controller
 
          $this->dates_message =$data;
 
+         
 
          
          if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
@@ -105,7 +106,7 @@ class WspbController extends Controller
 
         $convessation->startConversation();
 
-        return "peticion recibir";
+        return " peticion recibir";
 
       }
 

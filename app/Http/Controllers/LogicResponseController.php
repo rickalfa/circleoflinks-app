@@ -51,7 +51,7 @@ class LogicResponseController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'key_trigger' => 'required|string|max:255',
-            'response' => 'required',
+            'response' => 'required|string|max:220',
         ]);
 
         $data = $request->all();

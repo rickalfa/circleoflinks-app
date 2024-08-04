@@ -36,13 +36,23 @@
 
           </div>
 
-          @php
+          <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+           Logic_responses Json Format :
+          </button>
 
-           echo '<p class="fs-6"> <code>'.$Bot->logicResponses.'</code> </p>';
+          <div class="collapse m-2" id="collapseExample">
+            <div class="card text-white bg-dark card-body">
+            
+              @php
 
-           $count_l = 0;
+              echo '<p class="fs-6"> <code>'.$Bot->logicResponses.'</code> </p>';
 
-          @endphp
+              $count_l = 0;
+
+              @endphp
+
+            </div>
+          </div>
 
       <div class="row">
         <div class="col-2 m-2">
