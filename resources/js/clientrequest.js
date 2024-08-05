@@ -2,9 +2,10 @@
 import './requestajax.js';
 import {responseAjaxClient } from './responsesrequest.js';
 import { hellojson } from './requestajax.js';
+import { hellojsonGet } from './requestajax.js';
 
 
-const url = window.location.href;
+const url = window.location.origin;
 
 
 /// Form register 
@@ -51,11 +52,56 @@ if (FormLogin != null)
 
 }
 
+/////////////////////////////////////////////////////////////
+// BUTTON MODAL SHOW CHATLEAD
+
+let butonChatLead = document.getElementById('btmodal');
+
+
+if (butonChatLead != null) 
+    {
+        
+        butonChatLead.addEventListener('click', showChatLead);
+    
+        console.log(" Btn Modal encontrado ");
+    
+        
+        console.log(url);
+    
+    
+    
+    }else{
+    
+    
+        console.log(" Btn Modal NO encontrado ");
+    
+    
+    
+    
+    }
+
+
+function showChatLead()
+{
+
+
+    hellojsonGet(url+"/circleoflinks-app/public/component/chatlead/1", showchat);
 
 
 
 
+ }
 
+ function showchat(dates)
+ {
+
+    let idshowchat = document.getElementById('chatwsplead');
+
+    idshowchat.innerHTML = dates;
+
+ }
+
+//// REGSITER USER
 function registerUser(e){
 
     e.preventDefault();

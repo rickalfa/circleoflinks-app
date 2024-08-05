@@ -10,6 +10,9 @@ use App\Http\Controllers\Web\UserAppContactController as ContactsApp;
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\LogicResponseController;
+use App\Http\Controllers\LeadController;
+
+use App\Http\Controllers\WhatsappApi\ChatLeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,10 +75,21 @@ Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBo
 Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
 
 /**
- * RUTAS  Contact Usuarios que contactaron por WSP a la APP
+ * RUTAS  CONTACTS Usuarios que contactaron por WSP a la APP
  */
 
  Route::get('/admindashboard/contacts', [ContactsApp::class, 'index'])->name('/admindashboard/contacts');
+
+ /**
+  * RUTAS LEADS 
+  */
+
+  Route::get('/admindashboard/leads',[LeadController::class, 'index'])->name('leads.index');
+
+  /**
+   * CHAT LEADS Route 
+   */
+  Route::get('/component/chatlead/{id_lead}', [ChatLeadController::class, 'create'])->name('chatlead.create');
 
 
 

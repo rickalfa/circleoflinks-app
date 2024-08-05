@@ -13,6 +13,7 @@
             <li><a href="{{ route('/admindashboard/user')}}" class="link-dark rounded">user-app</a></li>
             <li><a href="{{ route('/admindashboard/bots-r')}}" class="link-dark rounded">Bots-R</a></li>
             <li><a href="{{ route('/admindashboard/contacts')}}" class="link-dark rounded">Contacts</a></li>
+            <li><a href="{{ route('leads.index')}}" class="link-dark rounded">Leads</a></li>
           </ul>
         </div>
       </li>

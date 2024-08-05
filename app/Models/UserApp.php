@@ -36,6 +36,13 @@ class UserApp extends Model
         return $this->belongsTo('App\Models\UserAppStatus', 'user_app_status_id');
 
     }
+
+    public function lead()
+    {
+
+        return $this->hasOne('App\Models\Whatsappservice\lead','user_id', 'id');
+
+    }
     
     public function UserPerfil()
     {

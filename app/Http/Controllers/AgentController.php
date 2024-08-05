@@ -157,7 +157,8 @@ class AgentController extends Controller
 
             $bot->update($request->all());
     
-            return redirect()->route('bot.actives')->with('success', 'se pudo actualizar');
+            return redirect()->route('bot.actives')
+                              ->with('success', 'se pudo actualizar');
                             
        
          } catch (Exception $th) {
