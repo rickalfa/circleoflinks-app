@@ -97,8 +97,20 @@ class WspbController extends Controller
           $messageBodyAsString = (string) $messageBody;
 
           // Registrar el valor en el log
-          Log::info('WhatsApp message user: ' . $messageBodyAsString);
 
+         if(isset($messageBodyAsString)){
+
+          Log::info('WhatsApp message user : ' . $messageBodyAsString);
+
+
+         }else{
+
+          Log::info('Message no Encontrado :  $messageBodyAsString');
+
+
+         }
+
+         
         }
 
 

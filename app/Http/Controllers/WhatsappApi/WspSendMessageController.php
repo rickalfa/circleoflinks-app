@@ -38,8 +38,9 @@ class WspSendMessageController extends Controller
        * @param mixed $numberTo
        * @return void
        */
-      public function sendMessageWsp($mensaje, $numberTo){
+      public function sendMessageWsp($mensaje, $numberTo): string{
 
+        $response = "";
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -69,7 +70,7 @@ class WspSendMessageController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        return $response;
 
 
       }

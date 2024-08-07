@@ -8,6 +8,21 @@ import { hellojsonGet } from './requestajax.js';
 const url = window.location.origin;
 
 
+
+
+
+// Con esta funcion averiguamos si la app esta en local o en Produccion
+
+function isLocalhost() {
+    return window.location.hostname === "localhost" || 
+           window.location.hostname === "127.0.0.1" || 
+           window.location.hostname === "";
+}
+
+
+const localpath = isLocalhost() ? "/circleoflinks-app/public" : "/";
+
+
 /// Form register 
 let FormRegister = document.getElementById('formregister');
 
@@ -52,45 +67,75 @@ if (FormLogin != null)
 
 }
 
+
+
+// Asegúrate de que el DOM esté completamente cargado antes de agregar el evento
+//document.addEventListener('DOMContentLoaded', function() {
+//    document.getElementById('btmodal').addEventListener('click', function() {
+//        showChatLead(count);
+//    });
+//});
+
 /////////////////////////////////////////////////////////////
 // BUTTON MODAL SHOW CHATLEAD
 
-let butonChatLead = document.getElementById('btmodal');
 
 
-if (butonChatLead != null) 
-    {
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionar todos los botones con la clase 'btn'
+    const buttons = document.querySelectorAll('button.btn');
+
+    // Iterar sobre los botones y agregarles el evento click
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            console.log('El valor del botón es:', value);
+
+            showChatLead(value);
+
+            // Aquí puedes agregar el código adicional que necesites ejecutar
+        });
+    });
+});
+
+
+    
+    
+    function showChatLead(id) {
+        // Obtener el valor del input usando el identificador dinámico
         
-        butonChatLead.addEventListener('click', showChatLead);
+       
+
+        console.log("El valor del id del Lead : "+ id);
+
+        hellojsonGet(url+localpath+"/component/chatlead/"+id, showchat);
+        ///        
     
-        console.log(" Btn Modal encontrado ");
-    
-        
-        console.log(url);
-    
-    
-    
-    }else{
-    
-    
-        console.log(" Btn Modal NO encontrado ");
-    
-    
-    
-    
+
+        // Aquí puedes agregar el código adicional que necesites ejecutar
     }
 
 
-function showChatLead()
-{
 
 
-    hellojsonGet(url+"/circleoflinks-app/public/component/chatlead/1", showchat);
+    
+    /////   document.addEventListener('DOMContentLoaded', function() {
+///        document.getElementById('btmodal').addEventListener('click', showChatLead);
+///    });///
 
+///    function showChatLead()
+///    {
+///    
+///    
+///        hellojsonGet(url+localpath+"/component/chatlead/1", showchat);
+///        console.log("El evento onclick se ha activado.");
+///    
+///    
+///    
+///     }
 
-
-
- }
 
  function showchat(dates)
  {
@@ -100,6 +145,9 @@ function showChatLead()
     idshowchat.innerHTML = dates;
 
  }
+
+
+
 
 //// REGSITER USER
 function registerUser(e){
@@ -131,7 +179,7 @@ function registerUser(e){
 
     console.log(senddates);
 
-   hellojson(url+'register',senddates,responseAjax);
+   hellojson(url+localpath+'/register',senddates,responseAjax);
 
 
 }
@@ -194,7 +242,7 @@ function loginUser(e){
 
   
 
-    hellojson(url+'login', senddates, responseAjaxClient);
+    hellojson(url+localpath+'/login', senddates, responseAjaxClient);
 
 
 

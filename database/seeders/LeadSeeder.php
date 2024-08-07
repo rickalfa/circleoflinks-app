@@ -19,17 +19,25 @@ class LeadSeeder extends Seeder
      */
     public function run()
     {
-        
+        $count = 0;
 
         $users = UserApp::all();
 
         foreach ($users as $user) {
+
+            $count++;
+
             Lead::create([
                 'user_id' => $user->id,
                 'name' => "default name",
                 'phone_number' => '123456789',
                 'last_message_time' => Carbon::now()->subMinutes(rand(1, 60)),
             ]);
+
+            if ($count == 5) {
+                break;
+            }
+
         }
 
     }

@@ -52,6 +52,11 @@ Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admi
  Route::get('/admindashboard/userconversation/{id}',[UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
  Route::get('/admindashboard/userconversation-detail/{id}',[UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
 
+ /**
+  * CHAT LIVE
+  */
+
+  Route::post('/sendmessagewsp', [ChatLeadController::class, 'sendmessage'])->name('chatlead.sendmessage');
 
 
  /**
@@ -73,6 +78,8 @@ Route::post('/admindashboard/bots-r-store',[AgentController::class, 'store'])->n
 Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
 Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBots'])->name('bot.actives');
 Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
+
+
 
 /**
  * RUTAS  CONTACTS Usuarios que contactaron por WSP a la APP

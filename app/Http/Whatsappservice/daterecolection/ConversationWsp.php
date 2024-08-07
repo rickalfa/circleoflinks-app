@@ -71,7 +71,7 @@ class ConversationWsp extends Controller{
                  ]);
 
                  /**
-                  * y el usuario como contacto de la App
+                  * y el usuario como CONTACTO de la App
                   */
 
                  $usernewcontact = UserAppContact::create(
@@ -82,6 +82,12 @@ class ConversationWsp extends Controller{
 
                     ]
                  );
+
+                  /**
+                  * usuario como LEAD de la App
+                  */
+
+                  
 
                  if(isset($usernew)){
 

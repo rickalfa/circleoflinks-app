@@ -1,6 +1,7 @@
 <x-admindashboard>
 
 
+
 <div class="container-fluid">
     
     <div class="row">
@@ -75,12 +76,16 @@
                                                 
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">+ {{$Lead->phone_number}}</li>
-                                                     
+                                               
                                                 </ul>
                                                     <!-- Button trigger modal -->
-                                                     <button id="btmodal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                     <button  data-value={{$Lead->id}}  id="btmodal"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+
                                                         chat Live 
-                                                       </button>
+
+                                                        <input type="hidden" id="phone_number_"{{$count}} value={{$Lead->id}}>
+
+                                                     </button>
                                                
                                             </div>
                                    </div>
@@ -104,9 +109,9 @@
 
         </div>
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
+<div style="height: width:80wv;" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content" >
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -128,16 +133,17 @@
 
 </div>
 
+<script>
+
+function showinlog(msg){
 
 
+console.log("mensaje de la funcion showinlog : " + msg);
+showChatLead(msg);
 
+}
 
-
-
-
-
-
-
+</script>
 
 
 </x-admindashboard>

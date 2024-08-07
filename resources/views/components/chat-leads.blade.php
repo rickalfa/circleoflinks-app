@@ -59,11 +59,19 @@
     
       </div>
 
-      <form action="" method="post">
-        <input type="text" name="message" id="">
+      <form id="formchat" action="{{route('chatlead.sendmessage')}}" method="POST">
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        @csrf
+        <div class="d-flex flex-row-reverse bg-secondary">
+        
+        
+        <input type="text" class="form-control-plaintext" name="message" id="">
 
+        <input type="hidden"  class="form-control-plaintext" name="phone" id="" value="56984693206">
+
+        <button type="submit" class="btn btn-primary">enviar</button>
+
+        </div>
       </form>
 
 </div>

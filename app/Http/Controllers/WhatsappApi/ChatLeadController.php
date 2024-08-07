@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Conversation;
-
+use App\Http\Controllers\WhatsappApi\WspSendMessageController;
 use App\Models\Whatsappservice\lead;
+use Exception;
 
 class ChatLeadController extends Controller
 {
@@ -21,6 +22,27 @@ class ChatLeadController extends Controller
         //
     }
 
+    public function sendmessage(Request $request)
+    {
+ 
+        $message = $request->message;
+
+        $phone = $request->phone;
+
+       // dd($phone);
+
+
+
+        $SendMessage = new WspSendMessageController();
+
+
+        $succes_msg = $SendMessage->sendMessageWsp($message, $phone);
+
+       
+
+        return $succes_msg;
+        
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -28,15 +50,37 @@ class ChatLeadController extends Controller
      */
     public function create($id_lead)
     {
-        
-        $Lead = Lead::findOrFail($id_lead);
+        try {
+            
+            $Lead = Lead::findOrFail($id_lead);
 
-        $User = $Lead->user;
+            $User = $Lead->user;
+    
+            $conversations = Conversation::where('user_id', $User->id)->latest()->first();
+    
 
-        $conversations = Conversation::where('user_id', $User->id)->latest()->first();
+            if ($conversations && method_exists($conversations, 'messages') && $conversations->messages != null) {
+                
+                return view('whatsapp_service.leads.chat', compact('conversations'));
+    
+            }else{
 
-        return view('whatsapp_service.leads.chat', compact('conversations'));
+                return response()->json([
+                    'message' => "no se encontraron conversaciones del Lead "
+                ], 422);
+               
+            }
 
+         
+
+        } catch (Exception $th) {
+            
+            return response()->json([
+                'message' => "<p>".$th->getMessage()
+            ], 422);
+
+        }
+   
 
     }
 
