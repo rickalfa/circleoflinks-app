@@ -15,16 +15,6 @@ use App\Http\Requests\StoreUserAppRequest;
 use App\Http\Requests\UpdateUserAppRequest;
 
 
-/**
-* @OA\Info(
-*             title="API circleoflinks", 
-*             version="1.0",
-*             description="API de red social de profecionales "
-* )
-*
-* @OA\Server(url="http://localhost/circleoflinks-app/public")
-
-*/
 class UserAppController extends Controller
 {
  

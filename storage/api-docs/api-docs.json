@@ -2,12 +2,12 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API circleoflinks",
-        "description": "API de red social de profecionales ",
+        "description": "API de red social de profecionales test",
         "version": "1.0"
     },
     "servers": [
         {
-            "url": "http://localhost/circleoflinks-app/public"
+            "url": "http://localhost/proyectos_composer/circleoflinks-app/public"
         }
     ],
     "paths": {
@@ -834,13 +834,13 @@
                 }
             }
         },
-        "/public/api/v1/users": {
+        "/api/v1/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "all users",
-                "operationId": "5fbeb63d902a31938704539e132227df",
+                "summary": "all users Json",
+                "operationId": "0e4dcb150e6428cad11237b5f307e338",
                 "responses": {
                     "200": {
                         "description": "descripción o el nombre del código de la petición",
@@ -883,9 +883,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/users": {
+            },
             "post": {
                 "tags": [
                     "Users"
@@ -1268,14 +1266,14 @@
                 }
             }
         },
-        "/api/v1/userperfil": {
+        "/api/v1/usersperfil": {
             "get": {
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "1f48b5b7be862fb7015a71830ef03f18",
+                "operationId": "f551cd82014993b36210146be39afbc9",
                 "responses": {
                     "200": {
                         "description": "Oferta laboral encontrada",
@@ -1348,14 +1346,14 @@
                 }
             }
         },
-        "/api/v1/userperfil/{id}": {
+        "/api/v1/usersperfil/{id}": {
             "get": {
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "6ef48432b0e363dd0c0f3758c9407430",
+                "operationId": "e4a28ae3932df0ab0bfc1ef954b26d88",
                 "parameters": [
                     {
                         "name": "id",

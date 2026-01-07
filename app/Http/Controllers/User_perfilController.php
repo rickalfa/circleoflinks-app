@@ -15,7 +15,7 @@ class User_perfilController extends Controller
                    /**
 * show muestra registro especifico de postulacion oferta laboral
 * @OA\Get(
-*     path="/api/v1/userperfil",
+*     path="/api/v1/usersperfil",
 *     summary="Se muestran los registros de user oferta laborales del user ",
 *     tags={"User profile"},
 
@@ -108,7 +108,7 @@ class User_perfilController extends Controller
    /**
 * show muestra registro especifico de postulacion oferta laboral
 * @OA\Get(
-*     path="/api/v1/userperfil/{id}",
+*     path="/api/v1/usersperfil/{id}",
 *     summary="Se muestran los registros de user oferta laborales del user ",
 *     tags={"User profile"},
 *      @OA\parameter(
