@@ -15,9 +15,7 @@
         <!-- Scripts -->
         
    
-        @vite(['resources/css/styleboots.css', 'resources/js/app.js'])
-      
-
+       @vite(['resources/js/main.ts'])
 
     </head>
     <body class="font-sans text-gray-900 ">

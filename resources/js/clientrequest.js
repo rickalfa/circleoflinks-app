@@ -76,7 +76,7 @@ function registerUser(e){
 
     console.log(senddates);
 
-   hellojson('http://localhost/circleoflinks-app/public/register',senddates,responseAjax);
+   hellojson('http://localhost/proyectos_composer/circleoflinks-app/public/register',senddates,responseAjax);
 
 
 }
@@ -137,7 +137,7 @@ function loginUser(e){
 
     console.log(" datos enviar : " + senddates);
 
-    hellojson('http://localhost/circleoflinks-app/public/login', senddates, responseAjaxClient);
+    hellojson('http://localhost/proyectos_composer/circleoflinks-app/public/login', senddates, responseAjaxClient);
 
 
 

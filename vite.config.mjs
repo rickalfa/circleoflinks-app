@@ -6,8 +6,8 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel([
-            'resources/css/app.css',
-            'resources/js/app.js',
+            'resources/css/styleboots.css',
+            'resources/js/main.ts',
             'resources/css/styleboots.css'
         ]),
         // react(),
