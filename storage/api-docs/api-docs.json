@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost/proyectos_composer/circleoflinks-app/public"
+            "url": "http://localhost/circleoflinks-app/public"
         }
     ],
     "paths": {

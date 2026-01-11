@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <title>{{ env('APP_NAME') }}</title>
+    <!-- Fuente y Bootstrap Icons -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- CSS + JS compilados por Vite -->
+    @vite(['resources/js/main.ts'])
+  </head>
 
-        <!-- Scripts -->
-        
-   
-       @vite(['resources/js/main.ts'])
+  <body class="bg-light">
+    <div class="min-vh-100 d-flex flex-column">
+      <main class="flex-grow-1">
+        {{ $slot }}
+      </main>
 
-    </head>
-    <body class="font-sans text-gray-900 ">
-
-            <div class="w-full  px-6 py-4 bg-secondary dark:bg-gray-800 shadow-md ">
-                {{ $slot }}
-            </div>
-    
-       
- </body>
-
-
- <footer class="bg-body-tertiary text-center text-lg-start">
-    <!-- Copyright -->
-    <div class="text-center text-light p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-light" href="https://circleoflinks.cloud/">circleoflinks.cloud</a>
+      <footer class="bg-dark text-center text-light py-3 mt-auto">
+        © 2024 <a class="text-light text-decoration-none" href="https://circleoflinks.cloud/">
+          circleoflinks.cloud
+        </a>
+      </footer>
     </div>
-    <!-- Copyright -->
-  </footer>
+  </body>
 </html>

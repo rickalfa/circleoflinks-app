@@ -1,8 +1,16 @@
 import * as bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// Si necesitas habilitar Popper u otros plugins personalizados
-// (Bootstrap 5 ya lo maneja automáticamente con import)
-console.log('Bootstrap cargado correctamente 🧩');
+// Asegura que Bootstrap se cargó
+(window as any).bootstrap = bootstrap;
 
+// Opcional: activa tooltips globalmente
+document.addEventListener('DOMContentLoaded', () => {
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltipTriggerList.forEach((tooltipTriggerEl) => {
+    new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+});
 
+console.log('✅ Bootstrap JS inicializado correctamente');

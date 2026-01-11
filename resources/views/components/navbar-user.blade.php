@@ -75,15 +75,17 @@
                  
               <li>
                 <!-- Button REGISTER Modal-->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Register
-                 </button>
+               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegister">
+                 Registrarse
+              </button>
+               
               </li>
               
               <li> 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
-                 Login
-               </button>
+             <!-- Botón para abrir login -->
+             <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                Iniciar sesión
+              </button>
               </li>
               @endguest
         
