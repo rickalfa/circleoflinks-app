@@ -5,7 +5,7 @@
   </div>
 
   {{-- ======== SECCIÓN HERO / HOME ======== --}}
-  <section id="home" class="container-fluid py-5 bg-light">
+  <section id="home" class="container-fluid py-5 bg-light" style="top: 40px; position: relative;">
     <div class="row align-items-center justify-content-center text-center text-md-start">
       <div class="col-12 col-md-6 px-4">
         <h1 class="fw-bold mb-3">
@@ -14,12 +14,19 @@
         <p class="lead mb-4">
           Aprende, prueba y experimenta con APIs de forma fácil y rápida.
         </p>
-        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Registrarse
-        </button>
-        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
-          Iniciar sesión
-        </button>
+
+          {{-- ======== Mostramos los botones solo si el usuario NO esta autentiado ======== --}}
+        @guest
+          <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalRegister">
+            Registrarse
+          </button>
+          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLogin">
+            Iniciar sesión
+          </button>
+
+        @endguest
+   
+
       </div>
 
       <div class="col-12 col-md-5 mt-5 mt-md-0">

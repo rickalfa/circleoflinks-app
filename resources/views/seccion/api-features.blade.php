@@ -10,8 +10,8 @@
       <h2 class="accordion-header" id="featureOneHeader">
         <button class="accordion-button collapsed" type="button"
                 data-bs-toggle="collapse" data-bs-target="#featureOne"
-                aria-expanded="false" aria-controls="featureOne">
-          🧩 Modelo relacional educativo
+               aria-expanded="false" aria-controls="featureOne">
+           Modelo relacional educativo
         </button>
       </h2>
       <div id="featureOne" class="accordion-collapse collapse"
@@ -33,7 +33,7 @@
         <button class="accordion-button collapsed" type="button"
                 data-bs-toggle="collapse" data-bs-target="#featureTwo"
                 aria-expanded="false" aria-controls="featureTwo">
-          ⚙️ Sistema de proyectos y ofertas laborales
+           Sistema de proyectos y ofertas laborales
         </button>
       </h2>
       <div id="featureTwo" class="accordion-collapse collapse"
@@ -55,7 +55,7 @@
         <button class="accordion-button collapsed" type="button"
                 data-bs-toggle="collapse" data-bs-target="#featureThree"
                 aria-expanded="false" aria-controls="featureThree">
-          🎓 Enfoque práctico para aprender y colaborar
+           Enfoque práctico para aprender y colaborar
         </button>
       </h2>
       <div id="featureThree" class="accordion-collapse collapse"

@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
     
-            event(new Registered($user));
+          //  event(new Registered($user));
     
             Auth::login($user);
     
@@ -59,7 +59,7 @@ class RegisteredUserController extends Controller
 
        }catch(Exception $Ex){
 
-          return response()->json(["success" => false,
+          return response()->json(["fail" => false,
                                   "massage" => $Ex->getMessage()], 422);
 
        }

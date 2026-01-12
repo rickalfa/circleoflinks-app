@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fuente y Bootstrap Icons -->
@@ -12,8 +14,11 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- CSS + JS compilados por Vite -->
-    @vite(['resources/js/main.ts'])
+   @vite(['resources/js/main.ts', 'resources/css/styleboots.css'])
   </head>
 
   <body class="bg-light">

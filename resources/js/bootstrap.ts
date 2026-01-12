@@ -13,4 +13,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-console.log('✅ Bootstrap JS inicializado correctamente');
+console.log(' Bootstrap JS inicializado correctamente');
