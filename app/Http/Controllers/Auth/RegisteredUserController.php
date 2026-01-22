@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\DB;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -35,34 +37,40 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class.',email'],
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            ]);
-    
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-    
-          //  event(new Registered($user));
-    
-            Auth::login($user);
-    
-           // return redirect(RouteServiceProvider::HOME);
 
-           return response()->json(["success"=> true, 
-                                     "user" => $user], 200);
+            try {
+                $request->validate([
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                    'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
+                ]);
 
-       }catch(Exception $Ex){
+               
+                $register = User::create($request->all());
 
-          return response()->json(["fail" => false,
-                                  "massage" => $Ex->getMessage()], 422);
+                /**
+                 * Evento de envio de EMAIL
+                 */
+                event(new Registered($register));
+                
+            } catch (ValidationException $e) {
+                // Retornamos los errores estructurados que espera tu TypeScript
+                return response()->json([
+                    "success" => false,
+                    "message" => "Los datos proporcionados no son válidos.",
+                    "errors" => $e->errors() // Esto envía: { email: ["The email has already been taken."] }
+                ], 422);
 
-       }
+            } catch (\Exception $Ex) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Error interno: " . $Ex->getMessage()
+                ], 500);
+            }
+
+
     }
     
-}
+
+ }
+ 

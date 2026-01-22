@@ -7,40 +7,58 @@ export function initRegisterHandler(): void {
 
   if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (messageBox) messageBox.innerHTML = "";
+  form.addEventListener("submit", async (e) => 
+    {
+              e.preventDefault();
+              if (messageBox) messageBox.innerHTML = "";
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+              const formData = new FormData(form);
+              const data = Object.fromEntries(formData.entries());
 
-    try {
-      const response = await authService.register(data as any);
-
-      if (response.success) {
-        if (messageBox)
-          messageBox.innerHTML = `
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-               Registro exitoso. Bienvenido <strong>${response.data?.name}</strong>.
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>`;
-        form.reset();
+              console.log(" datos del formulario ");
+              console.log(formData.entries());
+              console.log(data);
 
 
+              try {
+                const response = await authService.register(data as any);
+
+                if (response.success) {
+                  if (messageBox)
+                    messageBox.innerHTML = `
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Registro exitoso. Bienvenido <strong>${response.data?.name}</strong>.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>`;
+                  form.reset();
+
+
+                }
+              } catch (error: any) {
+         console.error("Detalle del error:", error.response?.data);
+
+      let errorMsg = "Error inesperado al registrar.";
+
+      // Verificamos si hay errores de validación específicos (el objeto 'errors')
+      if (error.response?.data?.errors) {
+        const errors = error.response.data.errors;
+        errorMsg = Object.values(errors).flat().join("<br>");
+      } 
+      // Si no hay objeto 'errors', usamos el mensaje general
+      else if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
       }
-    } catch (error: any) {
-      const errorMsg =
-        error.response?.data?.message ||
-        error.response?.data?.errors
-          ? Object.values(error.response.data.errors).flat().join("<br>")
-          : " Error inesperado al registrar. Intenta nuevamente.";
 
-      if (messageBox)
+      if (messageBox) {
         messageBox.innerHTML = `
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            ${errorMsg}
+            <i class="bi bi-exclamation-circle me-2"></i> ${errorMsg}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`;
+      }
+                
+                
+                  }
     }
-  });
+ );
 }

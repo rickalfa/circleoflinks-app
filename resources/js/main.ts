@@ -1,6 +1,6 @@
 // Importar estilos y dependencias
 import '../sass/app.scss';
-import './clientrequest.js'
+
 
 import './components/anim'
 

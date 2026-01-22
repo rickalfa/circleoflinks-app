@@ -17,7 +17,11 @@ export default class AuthService extends ApiService {
     password: string;
     password_confirmation: string;
   }): Promise<ApiResponse<User>> {
+
+    
     return this.post<User>("/register", data);
+
+
   }
 
   async login(data: { email: string; password: string }): Promise<ApiResponse<User>> {
