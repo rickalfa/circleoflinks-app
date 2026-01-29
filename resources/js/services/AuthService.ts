@@ -5,6 +5,18 @@ interface User {
   name: string;
   email: string;
 }
+interface responselaravel{
+
+  success: boolean;
+  data: {
+    user: User;
+  };
+}
+
+
+
+
+
 
 export default class AuthService extends ApiService {
   constructor() {
@@ -16,11 +28,20 @@ export default class AuthService extends ApiService {
     email: string;
     password: string;
     password_confirmation: string;
-  }): Promise<ApiResponse<User>> {
+  }): Promise<ApiResponse<User>>{
 
-    
-    return this.post<User>("/register", data);
-
+    const response = await this.post<responselaravel>("/register", data);
+  
+  return {
+    success: response.success,
+    data: response.data?.data.user
+  };
+  
+   //const user = res.data?.user;
+   // {
+   //  success: res.success,
+   //  data: user
+   //}
 
   }
 

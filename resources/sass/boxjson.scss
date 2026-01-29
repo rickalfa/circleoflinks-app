@@ -1,0 +1,33 @@
+
+.boxjson{
+
+
+background-color: #171717;
+height: 33.4rem;
+width: 33.6rem;
+color: #abb2bf;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre; // Mantiene el orden y sangría
+
+    .json-key {
+        color: #e06c75; // Rojo/Rosado para las llaves
+        font-weight: bold;
+    }
+    .json-string {
+        color: #98c379; // Verde para texto
+    }
+    .json-number {
+        color: #d19a66; // Naranja para números
+    }
+    .json-boolean {
+        color: #56b6c2; // Cian para booleans
+    }
+    .json-null {
+        color: #c678dd; // Púrpura para null
+    }
+
+}

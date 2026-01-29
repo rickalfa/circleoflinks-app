@@ -24,6 +24,23 @@ export function initRegisterHandler(): void {
                 const response = await authService.register(data as any);
 
                 if (response.success) {
+
+                  console.log(" respuesta sucess");
+
+                    const DataresJson = JSON.stringify(response.data);
+
+                    console.log(DataresJson);
+                   
+
+
+                    if(response.data){
+                    const User = response.data;
+                    
+                    }else{
+                      const User = "null";
+                    }
+
+
                   if (messageBox)
                     messageBox.innerHTML = `
                       <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -37,7 +54,7 @@ export function initRegisterHandler(): void {
               } catch (error: any) {
          console.error("Detalle del error:", error.response?.data);
 
-      let errorMsg = "Error inesperado al registrar.";
+         let errorMsg = "Error inesperado al registrar.";
 
       // Verificamos si hay errores de validación específicos (el objeto 'errors')
       if (error.response?.data?.errors) {

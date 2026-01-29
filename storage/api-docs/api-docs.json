@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost/circleoflinks-app/public"
+            "url": "http://localhost/proyectos_composer/circleoflinks-app/public"
         }
     ],
     "paths": {
@@ -16,51 +16,82 @@
                 "tags": [
                     "Empresa"
                 ],
-                "summary": "Se muestra todos los registros empresa ",
-                "description": "show user",
+                "summary": "Obtines una paginacion con 10 registros ",
+                "description": "show Empresa",
                 "operationId": "0aa607cb3de922d1314b976f5b385fbb",
                 "responses": {
                     "200": {
-                        "description": "Oferta laboral encontrada",
+                        "description": "Empresa encontrada",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "success": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "boolean"
                                         },
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 3
+                                        "status": {
+                                            "type": "integer"
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "closed"
+                                        "message": {
+                                            "type": "string"
                                         },
-                                        "email": {
-                                            "type": "string",
-                                            "example": " oferta laboral cerrada"
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": " cencocud"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": " oferta laboral cerrada"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "comercio exterior"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "street brlmoor #3453"
+                                                },
+                                                "rubro": {
+                                                    "type": "string",
+                                                    "example": "transporte comercio local"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2023-02-23T00:09:16.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2023-02-23T12:33:45.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
-                                        "avatar": {
-                                            "type": "string",
-                                            "example": "comercio exterior"
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
                                         },
-                                        "address": {
-                                            "type": "string",
-                                            "example": "street brlmoor #3453"
-                                        },
-                                        "rubro": {
-                                            "type": "string",
-                                            "example": "transporte comercio local"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T00:09:16.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T12:33:45.000000Z"
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                },
+                                                "total": {
+                                                    "type": "integer"
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

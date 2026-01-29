@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, formToJSON } from "axios";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -21,6 +21,9 @@ export default class ApiService {
         "X-Requested-With": "XMLHttpRequest",
       },
       withCredentials: true,
+
+      responseType: 'json'
+
     });
 
     this.api.interceptors.request.use((config) => {
@@ -36,7 +39,7 @@ export default class ApiService {
     return Promise.reject(error);
   });
 
-  // Tu interceptor de respuesta existente...
+  // interceptor de respuesta existente...
   this.api.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -71,6 +74,13 @@ export default class ApiService {
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
     const response: AxiosResponse<T> = await this.api.post(url, data, config);
+
+    const rest = response.data;
+
+    const respojson = JSON.stringify(rest);
+
+    console.log("apiService : "+ respojson);
+
     return { success: true, data: response.data };
   }
 

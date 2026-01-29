@@ -1,4 +1,9 @@
 // Importar estilos y dependencias
+
+
+import { SchemaRenderer } from './components/schemaRenderer.ts';
+
+
 import '../sass/app.scss';
 
 
@@ -11,6 +16,7 @@ import './components/login';
 
 import { initRegisterHandler } from "./components/registerHandler";
 
+import {jsonView } from './components/view/jsonview.ts'
 
 import AuthService from "./services/AuthService";
 
@@ -45,7 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
  ///   });
  /// }
 
+    
+    const renderer = new SchemaRenderer();
+    renderer.render('schema-viewer');
 
+    jsonView();
 
   
 });

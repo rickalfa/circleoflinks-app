@@ -60,6 +60,21 @@
   {{-- ======== SECCIÓN API DOC ======== --}}
   <section id="apidoc" class="container py-5">
     <h2 class="text-center mb-4">Documentación API</h2>
+
+    <div class="row">
+        <div class="col-lg-12 p-3">
+          <div class="d-flex justify-content-center">
+            <div class="bg-dark text-white p-2 fs-3" style="width: 30rem"><p> Estrtuctura general de Respuesta Json de la API. en la la key "Data" es donde 
+              van los datos del modelo</p> </div>
+              <div id="box-json" class="boxjson m-4">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+     
+
     <p class="text-center text-muted">
       
       visita nuestra documentacion para aprender mas sobre la API y hacer request 
@@ -75,6 +90,16 @@
  {{-- ======== SECCIÓN API-FETURES ======== --}}
    @include('seccion.api-features')
  
+
+   <section>
+
+    <div class="container my-5">
+    <h2 class="text-center mb-4">Modelo de Datos: Circle Of Links</h2>
+    <div id="schema-viewer"></div>
+    </div>
+
+   </section>
+
 
   {{-- ======== MODALES LOGIN & REGISTER ======== --}}
   @include('seccion.modals') {{-- mueve tus modales a un parcial para mantener limpio --}}

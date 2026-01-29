@@ -51,7 +51,14 @@ class RegisteredUserController extends Controller
                 /**
                  * Evento de envio de EMAIL
                  */
-                event(new Registered($register));
+              //  event(new Registered($register));
+
+               return response()->json([
+                     "success" => true, 
+                     "data" =>["user" => $register]
+                   ], 200);
+
+
                 
             } catch (ValidationException $e) {
                 // Retornamos los errores estructurados que espera tu TypeScript
@@ -68,6 +75,9 @@ class RegisteredUserController extends Controller
                 ], 500);
             }
 
+
+            
+              
 
     }
     
