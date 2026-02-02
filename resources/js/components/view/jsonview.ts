@@ -3,19 +3,23 @@ import { syntaxHighlight } from "../../utils/jsonFormatter.ts";
 
 export function jsonView(): void{
         const apiResponse = {
+        
             success: true,
             status: 200,
-            message: "Listado de empresas obtenido correctamente",
-            data: [
-                { id: 1, name: "Empresa X", email: "contacto@empresa.cl" }
-            ],
-            errors: null,
-            meta: {
-                current_page: 1,
-                per_page: 10,
-                total: 120,
-                last_page: 12
-            }
+            message: "Empresa encontrada",
+            data: {
+                id: 2,
+                name: "Ms. Yolanda Nolan II EnterPrise",
+                email: "ford35@example.net",
+                avatar: null,
+                address: "Street 6944 Vivian Curve\nLake Juwan, TN 75283",
+                rubro: "mineria",
+                created_at: "2026-02-02T01:33:42.000000Z",
+                updated_at: "2026-02-02T01:33:42.000000Z"
+            },
+            "errors": null,
+            "meta": []
+            
         };
 
         const viewer = document.getElementById('box-json');
