@@ -23,11 +23,10 @@ class Empresa extends Model
 
 
 
-    public function ofertaLaboral()
+    public function oferta_laborals()
     {
 
         return $this->hasMany('App\Models\Oferta_laboral', 'empresa_id', 'id');
-
 
 
     }

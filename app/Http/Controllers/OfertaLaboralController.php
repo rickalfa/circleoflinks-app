@@ -8,6 +8,9 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
+use App\Services\ResponseService;
+use App\Http\Resources\OfertaLaboralResource;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -46,12 +49,41 @@ class OfertaLaboralController extends Controller
  *     )
  * )
  */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $OfertaLaboral = Oferta_laboral::all(); 
+    
+       try {
+        
+            $perPage = $request->input('per_page', 10);
+            $page    = $request->input('page', 1);
 
-        return $OfertaLaboral->toJson();
+            $ofertasLaborales = Oferta_laboral::paginate($perPage, ['*'], 'page', $page);
+
+            return ResponseService::success(
+                $ofertasLaborales,
+                'Listado de paginas de Ofertas laborales Obtenidos',
+                200,
+                  [
+                        'current_page' => $ofertasLaborales->currentPage(),
+                        'total'        => $ofertasLaborales->total(),
+                        'last_page'    => $ofertasLaborales->lastPage()
+                  ]
+            );
+        
+       
+
+       } catch (Exception $e) {
+        //thr
+         return ResponseService::error(
+                'Error inesperado',
+                 500,
+                  $e->getMessage());
+       }
+        
+
+         
+
+        
 
     }
 
@@ -144,20 +176,24 @@ class OfertaLaboralController extends Controller
         try{
 
             
-           $OfertaLaboral = Oferta_laboral::findorfail($id);
+           $ofertaLaboral = Oferta_laboral::with(['empresa', 'statusofertalaboral'])->findOrFail($id);
+
    
-           return $OfertaLaboral->toJson();
+           return ResponseService::success(
+                new OfertaLaboralResource($ofertaLaboral),
+                ' Oferta laboral encontrada',
+                200
+
+            );
 
 
         } catch(Exception $th) {
 
-            return response()->json([
-
-                'success'=> false,
-                'message' => $th->getMessage()
-
-
-            ],400);
+           return ResponseService::Error(
+                "error al buscar la oferta laboral",
+                404,
+                $th->getMessage()
+             );
         }
 
         
@@ -263,4 +299,36 @@ class OfertaLaboralController extends Controller
         }
 
     }
+
+
+    public function showOfertaLaboralWithEmpresa($id)
+    {
+
+         try {
+         
+           $oferta = Oferta_laboral::with(['empresa', 'status_oferta_laborals'])->findOrFail($id);
+
+             return ResponseService::success(
+                 new OfertaLaboralResource($oferta),
+                 "oferta y emrpesa encontrados",
+                 200
+
+                 );
+
+
+         } catch (Exception $e) {
+         
+            return ResponseService::error(
+                    " error al buscar la empresa a la que pertenece La oferta laboral",
+                    404,
+                    $e->getMessage()
+                    );
+
+          }
+
+
+
+    }
+
+
 }

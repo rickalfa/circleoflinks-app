@@ -16,61 +16,89 @@
                 "tags": [
                     "Empresa"
                 ],
-                "summary": "Obtines una paginacion con 10 registros ",
+                "summary": "Obtiene un listado paginado de empresas",
                 "description": "index Empresa",
                 "operationId": "0aa607cb3de922d1314b976f5b385fbb",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Empresa encontrada",
+                        "description": "Empresas encontradas",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "success": {
-                                            "type": "boolean"
+                                            "type": "boolean",
+                                            "example": true
                                         },
                                         "status": {
-                                            "type": "integer"
+                                            "type": "integer",
+                                            "example": 200
                                         },
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Listado de empresas obtenido correctamente"
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 3
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cencocud"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "contacto@empresa.cl"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "comercio_exterior.png"
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": "Street Brlmoor #3453"
+                                                    },
+                                                    "rubro": {
+                                                        "type": "string",
+                                                        "example": "Transporte comercio local"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                    }
                                                 },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": " cencocud"
-                                                },
-                                                "email": {
-                                                    "type": "string",
-                                                    "example": " oferta laboral cerrada"
-                                                },
-                                                "avatar": {
-                                                    "type": "string",
-                                                    "example": "comercio exterior"
-                                                },
-                                                "address": {
-                                                    "type": "string",
-                                                    "example": "street brlmoor #3453"
-                                                },
-                                                "rubro": {
-                                                    "type": "string",
-                                                    "example": "transporte comercio local"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "example": "2023-02-23T00:09:16.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "example": "2023-02-23T12:33:45.000000Z"
-                                                }
-                                            },
-                                            "type": "object"
+                                                "type": "object"
+                                            }
                                         },
                                         "errors": {
                                             "type": "object",
@@ -79,16 +107,20 @@
                                         "meta": {
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
                                                 "per_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "example": 10
                                                 },
                                                 "total": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "example": 120
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "example": 12
                                                 }
                                             },
                                             "type": "object"
@@ -107,7 +139,7 @@
                 "tags": [
                     "Empresa"
                 ],
-                "summary": "Obtines una paginacion con 10 registros ",
+                "summary": "Obtienes los datos del registro empresa ",
                 "description": "Mostramos la empresa especificada por el id",
                 "operationId": "cb1885f1bb5e7501e5988feb440d5bcc",
                 "responses": {
@@ -176,6 +208,95 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/v1/empresa/{id}/ofertalaboral": {
+            "get": {
+                "tags": [
+                    "Empresa"
+                ],
+                "summary": "Obtiene luna paginacion de las Ofertas Laborales de la empresa con {id} ",
+                "description": "Obtener empresa con sus ofertas laborales",
+                "operationId": "9787236871de8572af58e67c5a7b722c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa y ofertas encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Empresa y sus ofertas obtenidas"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Empresa X"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "contacto@empresa.com"
+                                                },
+                                                "ofertas": {
+                                                    "description": "Listado de ofertas asociadas",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 101
+                                                            },
+                                                            "titulo": {
+                                                                "type": "string",
+                                                                "example": "Desarrollador Fullstack"
+                                                            },
+                                                            "salario": {
+                                                                "type": "integer",
+                                                                "example": 1500000
+                                                            },
+                                                            "fecha_limite": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-12-31"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
                     }
                 }
             }

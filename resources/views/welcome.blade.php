@@ -127,7 +127,7 @@
                                   <div class="input-group">
                                     <i class="bi bi-link-45deg me-2 text-primary"></i>
                                     <span class="input-group-text" id="basic-addon3">{{ env('L5_SWAGGER_CONST_HOST') }}/api/v1/empresa/</span>
-                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" placeholder="2" readonly>
                                   </div>
                                   <div class="form-text" id="basic-addon4">ejemplo de url request.</div>
                                 </div>

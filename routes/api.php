@@ -10,6 +10,9 @@ use App\Http\Controllers\StatusUserController;
 use App\Http\Controllers\User_perfilController;
 use App\Http\Controllers\UserOfertaLaboralController;
 use App\Http\Controllers\UserAppController;
+use App\Http\Controllers\ProyectosController;
+
+
 
 use App\Http\Controllers\PostulacionOfertaLaboralController;
 
@@ -57,6 +60,11 @@ use App\Models\User_perfil;
 Route::resource('/empresa', EmpresaController::class);
 Route::patch('/empresa', [EmpresaController::class, 'update']);
 Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
+Route::get('empresa/{id}/ofertalaboral', [EmpresaController::class, 'showWithOffers']);
+
+Route::resource('/proyectos', ProyectosController::class);
+
+
 
 
 Route::get('/users', [UserAppController::class, 'index']);
@@ -67,6 +75,7 @@ Route::resource('/usersperfil', User_perfilController::class);
 Route::patch('/usersperfil', [User_perfilController::class, 'update']);
 
 
+
 Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class);
 Route::delete('/postulacionofertalaboral/{id}', [PostulacionOfertaLaboralController::class, 'destroy']);
 Route::patch('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'update']);
@@ -74,10 +83,18 @@ Route::patch('/postulacionofertalaboral', [PostulacionOfertaLaboralController::c
 Route::resource('/statusofertalaboral', StatusOfertaLaboralController::class);
 Route::patch('/statusofertalaboral', [StatusOfertaLaboralController::class, 'update']);
 Route::delete('/statusofertalaboral/{id}', [StatusOfertaLaboralController::class, 'destroy']);
-
+Route::get('/');
 
 Route::resource('/ofertalaboral', OfertaLaboralController::class);
 Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
+Route::get('/ofertalaboral/{id}/empresa',[OfertaLaboralController::class, 'showOfertaLaboralWithEmpresa']);
+
+
+
+
+
+
+
 
 
 Route::patch('/userofertalaboral', [UserOfertaLaboralController::class, 'update']);

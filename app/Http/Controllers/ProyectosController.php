@@ -2,7 +2,19 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Proyectos;
+use App\Services\ResponseService;
+use App\Http\Resources\ProyectoResource;
+
+use Exception;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+
+
+
+
 use Illuminate\Http\Request;
 
 class ProyectosController extends Controller
@@ -12,9 +24,38 @@ class ProyectosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+    
+     
+        try {
+
+              $perPage = $request->input('per_page', 10);
+              $page = $request->input('page', 1);
+
+              $proyectos = Proyectos::paginate($perPage,['*'],'page', $page );
+
+              return ResponseService::success(
+                  $proyectos,
+                  'listado de Proyectos obtenidos',
+                  200,
+                  [
+                        'current_page' => $proyectos->currentPage(),
+                        'total'        => $proyectos->total(),
+                        'last_page'    => $proyectos->lastPage()
+                  ]
+
+
+
+              );
+            
+        } catch (Exception $e) {
+           return ResponseService::error('Error en el servidor',
+                 500,
+                  $e->getMessage());
+        }
+
+
     }
 
     /**
@@ -34,9 +75,33 @@ class ProyectosController extends Controller
      * @param  \App\Models\Proyectos  $proyectos
      * @return \Illuminate\Http\Response
      */
-    public function show(Proyectos $proyectos)
+    public function show($id)
     {
-        //
+    
+        try {
+        
+         $proyecto = Proyectos::with('empresa')->findOrFail($id);
+
+         return ResponseService::success(
+                new ProyectoResource($proyecto),
+                'Proyecto y su empresa obtenidos correctamente',
+                200
+            );
+          
+        
+
+
+        } catch (Exception $e) {
+
+          return ResponseService::error(
+             'Proyecto no encontrado',
+              404
+              );
+            
+        }
+
+
+
     }
 
     /**

@@ -12,6 +12,9 @@ class Oferta_laboral extends Model
     protected $fillable = [
         'title',
         'name',
+        'description',
+        'salary',
+        'date_Expire',
         'status_oferta_laboral_id',
         'empresa_id'
     ];
@@ -33,7 +36,7 @@ class Oferta_laboral extends Model
 
     }
 
-    public function statusOfertaLaboral()
+    public function statusofertalaboral()
     {
 
         return $this->belongsTo('App\Models\Status_oferta_laboral','status_oferta_laboral_id', 'id');
