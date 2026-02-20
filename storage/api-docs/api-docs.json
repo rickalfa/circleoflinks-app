@@ -446,14 +446,14 @@
                 }
             }
         },
-        "/api/v1/postulacionuserofertalaboral": {
+        "/api/v1/postulacionofertalaboral": {
             "get": {
                 "tags": [
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show postulacion oferta laboral",
-                "operationId": "c3f5c5abade9578e1a4eba9dd8c7c11f",
+                "operationId": "b2fd510bfdfb35ebd692539847a24441",
                 "responses": {
                     "200": {
                         "description": "Oferta laboral encontrada",
@@ -515,14 +515,14 @@
                 }
             }
         },
-        "/api/v1/postulacionuserofertalaboral/{id}": {
+        "/api/v1/postulacionofertalaboral/{id}": {
             "get": {
                 "tags": [
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "31fb5060251413dddf3a0236b0bb525f",
+                "operationId": "a1e08909847117e09f6dce65b836ee4c",
                 "parameters": [
                     {
                         "name": "id",

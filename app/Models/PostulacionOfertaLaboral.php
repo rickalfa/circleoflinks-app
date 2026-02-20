@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Postulacion_oferta_laboral extends Model
+class PostulacionOfertaLaboral extends Model
 {
     use HasFactory;
+
+    protected $table = 'postulacion_oferta_laborales';
 
     protected $fillable = [
 
@@ -20,7 +22,7 @@ class Postulacion_oferta_laboral extends Model
 
     public function ofertalaboral(){
 
-        return $this->belongsTo('App\Models\Oferta_laboral', 'oferta_laboral_id', 'id');
+        return $this->belongsTo('App\Models\OfertaLaboral', 'oferta_laboral_id', 'id');
 
 
     }

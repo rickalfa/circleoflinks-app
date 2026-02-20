@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\Status_oferta_laboral;
+use App\Models\StatusOfertaLaboral;
 
 class StatusOfertaLaboralSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class StatusOfertaLaboralSeeder extends Seeder
     {
         
 
-        Status_oferta_laboral::factory()
+        StatusOfertaLaboral::factory()
         ->count(3)
         ->create();
 

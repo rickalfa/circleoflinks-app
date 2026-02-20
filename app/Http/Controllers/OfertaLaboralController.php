@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Oferta_laboral;
+use App\Models\OfertaLaboral;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,7 +57,7 @@ class OfertaLaboralController extends Controller
             $perPage = $request->input('per_page', 10);
             $page    = $request->input('page', 1);
 
-            $ofertasLaborales = Oferta_laboral::paginate($perPage, ['*'], 'page', $page);
+            $ofertasLaborales = OfertaLaboral::paginate($perPage, ['*'], 'page', $page);
 
             return ResponseService::success(
                 $ofertasLaborales,
@@ -113,7 +113,7 @@ class OfertaLaboralController extends Controller
         ]);
 
 
-        $OfertaLaboral = Oferta_laboral::create($datesInputs);
+        $OfertaLaboral = OfertaLaboral::create($datesInputs);
 
         return response()->json($OfertaLaboral, 200); 
 
@@ -176,7 +176,7 @@ class OfertaLaboralController extends Controller
         try{
 
             
-           $ofertaLaboral = Oferta_laboral::with(['empresa', 'statusofertalaboral'])->findOrFail($id);
+           $ofertaLaboral = OfertaLaboral::with(['empresa', 'statusofertalaboral'])->findOrFail($id);
 
    
            return ResponseService::success(
@@ -200,12 +200,12 @@ class OfertaLaboralController extends Controller
 
 
     }
-    public function update(Request $request, Oferta_laboral $oferta_laboral)
+    public function update(Request $request, OfertaLaboral $oferta_laboral)
     {
         /**vaidamos si existe el registro segun el id de la request */
         try{
 
-             $existsregister = Oferta_laboral::findOrFail($request->id);
+             $existsregister = OfertaLaboral::findOrFail($request->id);
 
             try{
 
@@ -225,7 +225,7 @@ class OfertaLaboralController extends Controller
                 ]);
 
                         /**Metodo hace la actualizacion al registro se gun campo id */
-                     $OfertaLaboralUpdate = Oferta_laboral::updateOrCreate(
+                     $OfertaLaboralUpdate = OfertaLaboral::updateOrCreate(
                         ['id' => $request->id],
                         $datesvalidate
                      );
@@ -254,7 +254,7 @@ class OfertaLaboralController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Oferta_laboral  $oferta_laboral
+     * @param  \App\Models\OfertaLabor  $oferta_laboral
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -263,7 +263,7 @@ class OfertaLaboralController extends Controller
         /**si existe el ID si no lanzara una exception */
         try{
         
-            $oferta_laboral = Oferta_laboral::findOrFail($id);
+            $oferta_laboral = OfertaLaboral::findOrFail($id);
 
                /** Comprovamos si podemos eliminar el registro 
              * si no tiene alguna relacion con otra tabla (foreig-key)
@@ -306,7 +306,7 @@ class OfertaLaboralController extends Controller
 
          try {
          
-           $oferta = Oferta_laboral::with(['empresa', 'status_oferta_laborals'])->findOrFail($id);
+           $oferta = OfertaLaboral::with(['empresa', 'status_oferta_laborals'])->findOrFail($id);
 
              return ResponseService::success(
                  new OfertaLaboralResource($oferta),

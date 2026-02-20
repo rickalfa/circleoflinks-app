@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Postulacion_oferta_laboral;
+use App\Models\PostulacionOfertaLaboral;
 
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+
+use App\Services\ResponseService;
 
 use App\Http\Requests\StorePostulacion_oferta_laboralRequest;
 use App\Http\Requests\UpdatePostulacion_oferta_laboralRequest;
@@ -24,7 +26,7 @@ class PostulacionOfertaLaboralController extends Controller
            /**
 * show postulacion oferta laboral
 * @OA\Get(
-*     path="/api/v1/postulacionuserofertalaboral",
+*     path="/api/v1/postulacionofertalaboral",
 *     summary="Se muestran los registros de user oferta laborales del user ",
 *     tags={"Postulacion oferta laboral"},
 
@@ -54,13 +56,43 @@ class PostulacionOfertaLaboralController extends Controller
 * )
 *
 */
-    public function index()
+    public function index(Request $request)
     {
-        
-        $PostulacionOfertasL = Postulacion_oferta_laboral::all();
 
-        return $PostulacionOfertasL->toJson();
+    try{
 
+            $perPage = $request->input('per_page', 10);
+            $page = $request->input('page', 1);        
+
+            $PostulacionOfertasL = PostulacionOfertaLaboral::paginate($perPage, ['*'], 'page', $page);
+
+        return ResponseService::success(
+               $PostulacionOfertasL,
+               'Listado obtenido',
+               200,
+               [
+
+                        'current_page' => $PostulacionOfertasL->currentPage(),
+                        'total'        => $PostulacionOfertasL->total(),
+                        'last_page'    => $PostulacionOfertasL->lastPage()
+
+               ]
+
+         );
+
+
+        }catch(Exception $e){
+
+        return ResponseService::error(
+                'error en el servidor',
+                500,
+                $e->getMessage()
+
+            );
+
+        }
+            
+    
     }
 
     /**
@@ -94,7 +126,7 @@ class PostulacionOfertaLaboralController extends Controller
          ]);
 
 
-         $PostulacionOfertaLaboral = Postulacion_oferta_laboral::create($datesInputs);
+         $PostulacionOfertaLaboral = PostulacionOfertaLaborall::create($datesInputs);
 
          return $PostulacionOfertaLaboral;
 
@@ -115,7 +147,7 @@ class PostulacionOfertaLaboralController extends Controller
             /**
 * show muestra registro especifico de postulacion oferta laboral
 * @OA\Get(
-*     path="/api/v1/postulacionuserofertalaboral/{id}",
+*     path="/api/v1/postulacionofertalaboral/{id}",
 *     summary="Se muestran los registros de user oferta laborales del user ",
 *     tags={"Postulacion oferta laboral"},
 *      @OA\parameter(
@@ -150,35 +182,33 @@ class PostulacionOfertaLaboralController extends Controller
 * )
 *
 */
-    public function show($id = 0)
+    public function show($id)
     {
-        if ($id == 0) {
-            
-            $Statususer = Status_user::all();
-
-            return $Statususer->toJson();
-
-        }else{
-
-             try {
      
-                 $PostulacionOfertaL = Postulacion_oferta_laboral::findOrFail($id);
+
+      try {
      
-                 return $PostulacionOfertaL->toJson();
+             $PostulacionOfertaL = PostulacionOfertaLaboral::findOrFail($id);
+     
+
+              return ResponseService::success(
+                $PostulacionOfertaL,
+                "Postulacion encontrada",
+                200
+              );
                  
                  
-             } catch (Exception $th) {
+          } catch (Exception $th) {
              
-                 return response()->json([
+                 return ResponseService::error(
+                    "error al buscar la postualacion a oferta laboral",
+                    400,
+                    $th->getMessage()
+
+                 );
      
-                     'success' => false,
-                     'message' => $th->getMessage()
-     
-     
-                 ], 400);
-     
-             }
-        }
+         }
+        
        
     }
 
@@ -188,7 +218,7 @@ class PostulacionOfertaLaboralController extends Controller
      * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function edit(Postulacion_oferta_laboral $postulacion_oferta_laboral)
+    public function edit(PostulacionOfertaLaboral $postulacion_oferta_laboral)
     {
         //
     }
@@ -200,14 +230,14 @@ class PostulacionOfertaLaboralController extends Controller
      * @param  \App\Models\Postulacion_oferta_laboral  $postulacion_oferta_laboral
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Postulacion_oferta_laboral $postulacion_oferta_laboral)
+    public function update(Request $request, PostulacionOfertaLaboral $postulacion_oferta_laboral)
     {
         
         
         try{
 
 
-            $esxitsregister = Postulacion_oferta_laboral::findOrFail($request->id);
+            $esxitsregister = PostulacionOfertaLaboral::findOrFail($request->id);
 
             try {
                 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Status_oferta_laboral;
+use App\Models\StatusOfertaLaboral;
 use App\Http\Requests\StoreStatus_oferta_laboralRequest;
 use App\Http\Requests\UpdateStatus_oferta_laboralRequest;
 use Exception;

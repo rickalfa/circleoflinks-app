@@ -13,12 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('status_oferta_laborals', function (Blueprint $table) {
+        Schema::create('postulacion_oferta_laborales', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 255);
+            $table->string('name');
 
             $table->text('description');
+            $table->date('date_expire');
+
+
+
+
+            
+            $table->unsignedBigInteger('oferta_laboral_id');
+
+
+            $table->foreign('oferta_laboral_id')->references('id')->on('ofertas_laborales');
+
 
 
             $table->timestamps();
@@ -32,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_oferta_laborals');
+        Schema::dropIfExists('postulacion_oferta_laborals');
     }
 };

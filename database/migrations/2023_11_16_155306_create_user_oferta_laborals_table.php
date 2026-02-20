@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('user_app');
 
-            $table->foreign('oferta_laboral_id')->references('id')->on('oferta_laborals');
+            $table->foreign('oferta_laboral_id')->references('id')->on('ofertas_laborales');
          
             $table->timestamps();
         });

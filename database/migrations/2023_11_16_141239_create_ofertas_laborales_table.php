@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('oferta_laborals', function (Blueprint $table) {
+        Schema::create('ofertas_laborales', function (Blueprint $table) {
             $table->id();
 
             $table->string('title')->nullable();
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger("empresa_id");
 
       
-            $table->foreign("status_oferta_laboral_id")->references("id")->on("status_oferta_laborals");
+            $table->foreign("status_oferta_laboral_id")->references("id")->on("status_oferta_laborales");
 
             $table->foreign("empresa_id")->references("id")->on("empresa");
 

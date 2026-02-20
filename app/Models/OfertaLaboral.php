@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Oferta_laboral extends Model
+class OfertaLaboral extends Model
 {
     use HasFactory;
+
+    protected $table = 'ofertas_laborales';
 
     protected $fillable = [
         'title',
