@@ -4,6 +4,7 @@
 
 @import "./boxjson.scss";
 
+@import "./seccions.scss";
 
 body {
   background-color: #f8f9fa;
@@ -11,6 +12,11 @@ body {
 
 footer {
   font-size: 1.4rem;
+}
+
+
+#navebar{
+transition: background-color 0.3s ease;
 }
 
 

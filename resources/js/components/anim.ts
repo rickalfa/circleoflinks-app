@@ -4,61 +4,35 @@ let statebtn = true;
 
 
 
-const componente = document.getElementById('navebar');
-const buttonnav = document.getElementById('buttonnav');
+const componente = document.getElementById("navebar");
+const buttonnav = document.getElementById("buttonnav");
 
-
-if (componente != null) {
-
-      console.log(" componente navebar encontrado");
-  
-    
-}else{
-
-       console.log(" componente navebar NO encontrado");
-  
+if (componente) {
+    console.log("componente navebar encontrado");
+} else {
+    console.log("componente navebar NO encontrado");
 }
 
-
-if (buttonnav != null) {
-
+if (buttonnav) {
     buttonnav.onclick = changestylenav;
-
-
-    
 }
 
-window.onscroll = function() {scrollnav()};
-
-
-
+window.addEventListener("scroll", scrollnav);
 
 function scrollnav() {
+
     const scrollTop = document.documentElement.scrollTop;
-    const opacity = scrollTop / 500; // Ajustar según la altura del componente
-    
-    const componente = document.getElementById('navebar');
 
-    if (opacity < 1 && componente != null) {
+    let opacity = scrollTop / 500;
 
+    // limitar entre 0 y 1
+    if (opacity > 1) opacity = 1;
 
-
-        
-        componente.style.backgroundColor = `rgba(3, 119, 228, ${opacity})`;
-          
-
-    }else{
-
-    
+    if (componente) {
+        componente.style.backgroundColor = `rgba(3,119,228,${opacity})`;
     }
 
-   
-    console.log(" scrooll date : "+ opacity);
-  
-  }
-
-
-
+}
 
   /**
    * cambio de fondo al pulsar boton de navbar en tamaño pequeño

@@ -41,7 +41,7 @@ class OfertaLaboral extends Model
     public function statusofertalaboral()
     {
 
-        return $this->belongsTo('App\Models\Status_oferta_laboral','status_oferta_laboral_id', 'id');
+        return $this->belongsTo('App\Models\StatusOfertaLaboral','status_oferta_laboral_id', 'id');
 
     }
 

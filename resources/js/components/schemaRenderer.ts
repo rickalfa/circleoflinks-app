@@ -1,5 +1,5 @@
 // components/SchemaRenderer.ts
-import { circleOfLinksSchema, Table } from "../types/Schema";
+import { circleOfLinksSchema, Table } from "../types/schema";
 
 export class SchemaRenderer {
   render(containerId: string): void {

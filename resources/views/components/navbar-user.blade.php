@@ -9,10 +9,10 @@
       <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item ">
-            <a class="nav-link " aria-current="page" href="#scrollspyHeading1">Home</a>
+            <a class="nav-link " aria-current="page" href="#about">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="#scrollspyHeading2">Project</a>
+            <a class="nav-link " href="#api-features">Project-features</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="{{ route('l5-swagger.default.api')}}" >API V1 Doc</a>
