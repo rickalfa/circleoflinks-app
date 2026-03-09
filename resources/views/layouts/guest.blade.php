@@ -22,6 +22,12 @@
   </head>
 
   <body class="bg-light">
+
+    
+    <x-alerts.success key="verifiedm"/>
+
+
+    
     <div class="min-vh-100 d-flex flex-column">
       <main class="flex-grow-1">
         {{ $slot }}

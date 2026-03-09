@@ -306,9 +306,310 @@
                 "tags": [
                     "Oferta laboral"
                 ],
-                "summary": "Obtener todos los registros de una oferta laboral",
-                "description": "Devuelve información detallada sobre una oferta laboral específica.",
+                "summary": "Obtiene el listado paginado de ofertas laborales",
+                "description": "Devuelve la colección paginada de ofertas y metadatos útiles para navegación.",
                 "operationId": "1dd89fa7920273eb7416d69f9c59c501",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de ofertas laborales paginado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado de ofertas obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Registra una oferta laboral",
+                "description": "Valida los datos obligatorios y guarda la oferta laboral en la base de datos.",
+                "operationId": "e21e677c52b9f2699e69cd3fcf7e702d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "name",
+                                    "description",
+                                    "date_expire",
+                                    "salary",
+                                    "status_oferta_laboral_id",
+                                    "empresa_id",
+                                    "user_oferta_laboral_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Asistente de marketing"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Marketing digital"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Responsable de campañas digitales"
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-11-11"
+                                    },
+                                    "salary": {
+                                        "type": "number",
+                                        "example": 1500000
+                                    },
+                                    "status_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "user_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta laboral creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Oferta laboral creada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Actualiza los datos de una oferta laboral",
+                "description": "Valida los campos enviados y aplica los cambios sobre el registro identificado por su id.",
+                "operationId": "a5921e30cf17b3f71fa386c05cf90bef",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Dev Semi Senior Back"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Back-end"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Actualiza APIs"
+                                    },
+                                    "salary": {
+                                        "type": "number",
+                                        "example": 2500000
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-31"
+                                    },
+                                    "status_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "user_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 4
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta laboral actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Oferta laboral actualizada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación o registro inexistente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ofertalaboral/{id}": {
+            "get": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Obtiene una oferta por su id",
+                "description": "Incluye el estado, compañía y campos principales de la oferta.",
+                "operationId": "5a96fc807bcf13b4a64127229d3baf70",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta laboral",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Oferta laboral encontrada",
@@ -316,30 +617,47 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
                                             "type": "integer",
-                                            "example": 3
+                                            "example": 200
                                         },
-                                        "title": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "se necesita Dev Junior Front"
+                                            "example": "Oferta laboral encontrada"
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "trabajo desarrollo"
-                                        },
-                                        "description": {
-                                            "type": "string",
-                                            "example": " se necesita con urgencia"
-                                        },
-                                        "salary": {
-                                            "type": "number",
-                                            "example": 2
-                                        },
-                                        "date_expire": {
-                                            "type": "string",
-                                            "format": "date",
-                                            "example": "2024-11-11"
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Dev Junior Front"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Trabajo desarrollo"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Se necesita con urgencia"
+                                                },
+                                                "salary": {
+                                                    "type": "number",
+                                                    "example": 2000000
+                                                },
+                                                "date_expire": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-11-11"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -357,6 +675,10 @@
                                             "type": "boolean",
                                             "example": false
                                         },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
                                         "message": {
                                             "type": "string",
                                             "example": "Oferta laboral no encontrada con ID: {id}"
@@ -368,58 +690,40 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/ofertalaboral/{id}": {
-            "get": {
+            },
+            "delete": {
                 "tags": [
                     "Oferta laboral"
                 ],
-                "summary": "Obtener detalles de una oferta laboral",
-                "description": "Devuelve información detallada sobre una oferta laboral específica.",
-                "operationId": "5a96fc807bcf13b4a64127229d3baf70",
+                "summary": "Elimina una oferta por ID",
+                "description": "Borra la oferta indicada mientras no existan restricciones de llave foránea.",
+                "operationId": "4cba4897488a0f71af41a4a9714d535f",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la oferta laboral",
+                        "description": "ID de la oferta a eliminar",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 3
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Oferta laboral encontrada",
+                        "description": "Oferta eliminada",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 3
+                                        "success-destroy": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "title": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "se necesita Dev Junior Front"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "trabajo desarrollo"
-                                        },
-                                        "description": {
-                                            "type": "string",
-                                            "example": " se necesita con urgencia"
-                                        },
-                                        "salary": {
-                                            "type": "number",
-                                            "example": 2
-                                        },
-                                        "date_expire": {
-                                            "type": "string",
-                                            "format": "date",
-                                            "example": "2024-11-11"
+                                            "example": "empresa destroy"
                                         }
                                     },
                                     "type": "object"
@@ -428,14 +732,93 @@
                         }
                     },
                     "404": {
-                        "description": "Oferta laboral no encontrada",
+                        "description": "No se encontró la oferta",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
                                         "message": {
                                             "type": "string",
-                                            "example": "Oferta laboral no encontrada con ID: {id}"
+                                            "example": "No existe la oferta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ofertalaboral/{id}/empresa": {
+            "get": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Obtiene una oferta con sus relaciones",
+                "description": "Incluye la empresa y el estado definido en la relación de la oferta.",
+                "operationId": "aa6f1644689f8f4f6eca6e83bdc9ca82",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta laboral",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta y empresa encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "oferta y empresa encontrados"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la oferta o la empresa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al buscar la empresa a la que pertenece la oferta laboral"
                                         }
                                     },
                                     "type": "object"

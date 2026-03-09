@@ -20,7 +20,7 @@ import {jsonView } from './components/view/jsonview.ts'
 
 import AuthService from "./services/AuthService";
 
-
+import { LoginController } from "./components/login.ts";
 
 // Mensaje de verificación
 //console.log(' TypeScript + Bootstrap + Sass funcionando correctamente');
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initRegisterHandler();
 
+  new LoginController("login-form");
  /// const authService = new AuthService();
  /// const form = document.getElementById("formRegister") as HTMLFormElement | null;
 

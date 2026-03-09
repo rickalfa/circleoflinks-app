@@ -53,3 +53,6 @@ export default class AuthService extends ApiService {
     return this.post<null>("/logout");
   }
 }
+
+
+export const authService = new AuthService();

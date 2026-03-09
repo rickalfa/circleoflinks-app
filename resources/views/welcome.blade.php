@@ -115,23 +115,39 @@
 
                          {{-- ======== Box de vizualizacion de Json======== --}}          
              
-                         <div class="card" style="width: 18rem;">
+                           <div class="col-md-6" >
+                         <div class="card" >
 
-                           <div class="card-body">
-                            <blockquote class="blockquote fs-2">
-                                      <span>Estructura general de Respuesta Json exitosa ( status: <span class="text-success">  200 </span>)  de la API. 
-                                <p>ejemplo de respuesta :</p>
-                              </blockquote>
+                                <div class="card-body">
+                                  <blockquote class="blockquote fs-2">
+                                            <span>Estructura general de Respuesta Json exitosa ( status: <span class="text-success">  200 </span>)  de la API. 
+                                      <p>ejemplo de respuesta :</p>
+                                    </blockquote>
+
+                                    </div>
 
                               </div>
+                          </div>
+                       
+                         <div class="col-md-6" >
+                                <div class="bg-dark ">
+                                          <p class="bg-secondary m-3 p-2"> Content-type :
+                                          <span class="badge text-bg-info">
+                                                   application/json</span></p>
+
+                                         <p class="bg-secondary m-3 p-2"> Response:
+                                          </p>
+
+                                       <div id="box-json" class="boxjson m-4">
+                                                            
+                                                  
+                                         </div>
+
+                                </div>
 
                          </div>
-                            <div id="box-json" class="boxjson m-4">
-
-                     
-                             </div>
-
-               
+                      
+                         
                
                             </div>
                 

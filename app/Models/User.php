@@ -43,7 +43,13 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-   
+   protected function casts(): array
+{
+    return [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed', // <--- Laravel lo encriptará solo al guardar
+    ];
+}
 
 
     public function UserStatus()

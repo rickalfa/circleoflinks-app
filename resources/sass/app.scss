@@ -19,6 +19,17 @@ footer {
 transition: background-color 0.3s ease;
 }
 
+#alert-box{
+
+      position: relative;
+      
+      top:150px;
+      height: 100px;
+      margin: 30px;
+      z-index:2;
+    
+}
+
 
 .env-display {
         font-family: 'Fira Code', 'Cascadia Code', monospace;

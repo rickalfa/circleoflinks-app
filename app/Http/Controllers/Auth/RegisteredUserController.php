@@ -38,20 +38,24 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
 
-            try {
-                $request->validate([
+       try {
+                $validatedData = $request->validate([
                     'name' => ['required', 'string', 'max:255'],
                     'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
                     'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
                 ]);
 
-               
-                $register = User::create($request->all());
+                // Encriptamos el password antes de guardar
+                $validatedData['password'] = Hash::make($request->password);
 
+                // Usamos los datos validados y encriptados, NO $request->all()
+                $register = User::create($validatedData);
+
+                
                 /**
                  * Evento de envio de EMAIL
                  */
-              //  event(new Registered($register));
+             event(new Registered($register));
 
                return response()->json([
                      "success" => true, 
