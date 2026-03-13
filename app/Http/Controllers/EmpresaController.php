@@ -126,7 +126,53 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea una nueva empresa usando API token (Sanctum).
+     *
+     * @OA\Post(
+     *     path="/api/v1/empresa",
+     *     summary="Crea una empresa",
+     *     tags={"Empresa"},
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer {token}",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","email","rubro"},
+     *             @OA\Property(property="name", type="string", example="Mi Empresa SPA"),
+     *             @OA\Property(property="email", type="string", example="contacto@empresa.cl"),
+     *             @OA\Property(property="avatar", type="string", example="logo.png"),
+     *             @OA\Property(property="address", type="string", example="Calle 123"),
+     *             @OA\Property(property="rubro", type="string", example="Tecnologia")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Empresa creada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="succes", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validacion",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

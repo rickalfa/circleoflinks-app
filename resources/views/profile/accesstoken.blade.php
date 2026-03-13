@@ -80,13 +80,8 @@
 
                     <!-- BOTON CREAR TOKEN -->
 
-                    <button 
-                      class="btn btn-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#createTokenModal">
-
-                      Crear API Token
-
+                   <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#createtoken">
+                      Crear Token
                     </button>
 
                   </div>
@@ -100,60 +95,70 @@
 
             <!-- LISTA DE TOKENS -->
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" id="access-token-manager">
 
               <div class="card-body">
 
+                <div id="tokens-message" class="alert alert-info d-none" role="status" aria-live="polite"></div>
+
                 <h5 class="mb-3">Tus API Keys</h5>
 
-                <table class="table table-striped">
+                <div class="table-responsive">
 
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Token</th>
-                      <th>Creado</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
+                  <table class="table table-hover mb-0">
 
-                  <tbody>
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Creado</th>
+                        <th>Último uso</th>
+                        <th>Habilidades</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
 
-                    @foreach ($tokens ?? [] as $token)
+                    <tbody id="tokens-table-body">
+     @if(isset($tokens))
+            @forelse($tokens as $token)
 
-                    <tr>
+            <tr data-token-id="{{ $token->id }}">
+              <td>{{ $token->name }}</td>
+              <td>{{ $token->created_at }}</td>
+               <td>{{ optional($token->last_used_at)->format('Y-m-d H:i') ?? 'Nunca' }}</td>
+              <td>{{ implode(",", $token->abilities) }}</td>
+             
 
-                      <td>{{ $token->name }}</td>
+              <td>
+                <form method="POST" action="{{ route('api.tokens.delete',$token->id) }}" class="d-inline-block">
+                  @csrf
+                  @method('DELETE')
 
-                      <td>
-                        <code>{{ $token->token }}</code>
-                      </td>
+                  <button type="submit" class="btn btn-sm btn-outline-danger revoke-token" data-revoke-id="{{ $token->id }}">
+                    Revocar
+                  </button>
 
-                      <td>
-                        {{ $token->created_at }}
-                      </td>
+                </form>
+              </td>
 
-                      <td>
+            </tr>
 
-                        <form method="POST" action="{{ route('api.tokens.delete',$token->id) }}">
-                          @csrf
-                          @method('DELETE')
+            @empty
 
-                          <button class="btn btn-sm btn-danger">
-                            Revocar
-                          </button>
+            <tr>
+              <td colspan="4" class="text-center text-muted">
+                No tienes API Tokens creados
+              </td>
+            </tr>
 
-                        </form>
+            @endforelse
 
-                      </td>
+            @endif
 
-                    </tr>
+                    </tbody>
 
-                    @endforeach
+                  </table>
 
-                  </tbody>
-
-                </table>
+                </div>
 
               </div>
 
@@ -193,6 +198,52 @@
 
   </div>
 
+</div>
+
+
+<div class="modal fade" id="createtoken"
+     data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalRegisterLabel">
+          <i class="bi bi-key m-2"></i> Crear API-Token
+        </h5>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+            <form id="create-token-form" method="POST" action="{{ route('api.tokens.create') }}">
+
+            @csrf
+
+            <div class="mb-3">
+
+            <label class="form-label">Nombre del Token</label>
+
+            <input 
+            type="text"
+            name="name"
+            class="form-control"
+            placeholder="ej: servidor-production"
+            required>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+            Crear API Token
+            </button>
+
+            <div id="plain-text-token" class="alert alert-success mt-3 d-none" role="alert"></div>
+
+            </form>
+
+
+      </div>
+    </div>
+  </div>
 </div>
 
 

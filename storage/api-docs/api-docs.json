@@ -132,6 +132,114 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Empresa"
+                ],
+                "summary": "Crea una empresa",
+                "description": "Crea una nueva empresa usando API token (Sanctum).",
+                "operationId": "0e55a403c712113dd84fcc7f46f86592",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "rubro"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Mi Empresa SPA"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "contacto@empresa.cl"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "logo.png"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Calle 123"
+                                    },
+                                    "rubro": {
+                                        "type": "string",
+                                        "example": "Tecnologia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "succes": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/empresa/{id}": {

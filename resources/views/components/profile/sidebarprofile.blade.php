@@ -6,7 +6,7 @@
           <a class="nav-link" href="{{ url('/profile')}}">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/profile/accesstoken')}}">Access-API</a>
+          <a class="nav-link" href="{{ url('/profile/api-tokens')}}">Access-API</a>
         </li>
     
         <li class="nav-item">

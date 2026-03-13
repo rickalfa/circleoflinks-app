@@ -3,6 +3,7 @@ import '../../node_modules/bootstrap/js/index.esm.js';
 import './anim.js';
 
 import './clientrequest.js'
+import './components/view/accessTokens';
 
 import Alpine from 'alpinejs';
 
