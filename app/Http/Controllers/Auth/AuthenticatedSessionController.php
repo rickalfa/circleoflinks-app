@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -32,6 +33,16 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         try{
+
+           $captchaError = $this->verifyRecaptcha($request);
+           if ($captchaError) {
+               return response()->json([
+                   "success" => false,
+                   "errors" => [
+                       "recaptcha" => [$captchaError],
+                   ],
+               ], 422);
+           }
 
            $request->authenticate();
 
@@ -52,6 +63,31 @@ class AuthenticatedSessionController extends Controller
 
         }
 
+    }
+
+    private function verifyRecaptcha(Request $request): ?string
+    {
+        $token = $request->input('g-recaptcha-response');
+        if (! $token) {
+            return 'Completa el reCAPTCHA.';
+        }
+
+        $secret = config('services.recaptcha.secret_key');
+        if (! $secret) {
+            return 'Configuracion reCAPTCHA incompleta.';
+        }
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secret,
+            'response' => $token,
+            'remoteip' => $request->ip(),
+        ]);
+
+        if (! $response->ok() || ! data_get($response->json(), 'success')) {
+            return 'reCAPTCHA invalido. Intenta nuevamente.';
+        }
+
+        return null;
     }
 
     /**

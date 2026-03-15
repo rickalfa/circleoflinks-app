@@ -59,6 +59,11 @@
             <div class="invalid-feedback">Debes aceptar los términos.</div>
           </div>
 
+          <div class="mb-3">
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+            <small class="text-muted d-block mt-1">Confirma que eres humano para continuar.</small>
+          </div>
+
           <div class="d-grid">
             <button type="submit" class="btn btn-primary">
               <i class="bi bi-send me-1"></i> Registrarme
@@ -104,6 +109,11 @@
             <input type="password" class="form-control" id="loginPassword"
                    placeholder="••••••••" name="password" required>
             <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+          </div>
+
+              <div class="mb-3">
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+            <small class="text-muted d-block mt-1">Confirma que eres humano para continuar.</small>
           </div>
 
           <div class="d-grid">

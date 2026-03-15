@@ -6,6 +6,7 @@ export interface PersonalAccessTokenRecord {
   tokenable_id: number;
   name: string;
   token: string;
+  has_plain_text_token: boolean;
   abilities: string[];
   last_used_at: string | null;
   created_at: string;
@@ -20,6 +21,10 @@ interface TokenCreationPayload {
 class AccessTokenService extends ApiService {
   constructor() {
     super("/profile/api-tokens");
+
+    console.log("Creacion de objeto AccessTokenService");
+
+
   }
 
   async listTokens(): Promise<PersonalAccessTokenRecord[]> {
@@ -38,6 +43,15 @@ class AccessTokenService extends ApiService {
 
   async revokeToken(id: number): Promise<void> {
     await this.delete(`/${id}`);
+  }
+
+  async getPlainToken(id: number): Promise<string> {
+    const response = await this.get<{ plain_text_token: string }>(`/${id}/plain`);
+    const token = response.data?.data?.plain_text_token;
+    if (!token) {
+      throw new Error("Token no disponible");
+    }
+    return token;
   }
 }
 
@@ -62,12 +76,20 @@ const formatDate = (value?: string | null) => {
  * @returns 
  */
 const buildRow = (token: PersonalAccessTokenRecord) => {
+  const viewButton = token.has_plain_text_token
+    ? `<button type="button" class="btn btn-sm btn-outline-primary view-token" data-view-id="${token.id}">Ver token</button>`
+    : `<span class="text-muted small">No disponible</span>`;
+
+  const abilities = Array.isArray(token.abilities) ? token.abilities.join(", ") : "";
+
   return `
     <tr data-token-id="${token.id}">
       <td>${token.name}</td>
       <td>${formatDate(token.created_at)}</td>
       <td>${token.last_used_at ? formatDate(token.last_used_at) : "Nunca"}</td>
+      <td>${abilities}</td>
       <td>
+        ${viewButton}
         <button type="button" class="btn btn-sm btn-outline-danger revoke-token" data-revoke-id="${token.id}">
           Revocar
         </button>
@@ -80,7 +102,7 @@ const renderTokens = (tokens: PersonalAccessTokenRecord[], container: HTMLTableS
   if (!tokens.length) {
     container.innerHTML = `
       <tr>
-        <td colspan="4" class="text-muted text-center py-3">
+        <td colspan="5" class="text-muted text-center py-3">
           Aún no tienes tokens de acceso creados.
         </td>
       </tr>
@@ -109,29 +131,31 @@ const clearMessage = (container: HTMLDivElement | null) => {
   container.hidden = true;
 };
 
-const displayPlainToken = (container: HTMLDivElement | null, token: string) => {
-  if (!container) {
-    return;
-  }
+const showTokenRowPreview = (tableBody: HTMLTableSectionElement, anchorRow: HTMLTableRowElement, token: string) => {
+  tableBody.querySelectorAll(".token-preview-row").forEach((row) => row.remove());
 
-  container.innerHTML = `<strong>Token generado:</strong> <span class="text-break">${token}</span>`;
-  container.classList.remove("d-none");
-};
+  const previewRow = document.createElement("tr");
+  previewRow.className = "token-preview-row";
+  previewRow.innerHTML = `
+    <td colspan="5">
+      <div class="bg-white border rounded shadow-sm p-2 text-center">
+        <div class="fw-semibold mb-1">Token generado</div>
+        <div class="text-break small">${token}</div>
+      </div>
+    </td>
+  `;
 
-const clearPlainTextDisplay = (container: HTMLDivElement | null) => {
-  if (!container) {
-    return;
-  }
+  tableBody.insertBefore(previewRow, anchorRow);
 
-  container.classList.add("d-none");
-  container.textContent = "";
+  window.setTimeout(() => {
+    previewRow.remove();
+  }, 6000);
 };
 
 const accessTokenApp = () => {
   const tableBody = document.querySelector<HTMLTableSectionElement>("#tokens-table-body");
   const form = document.querySelector<HTMLFormElement>("#create-token-form");
   const messageContainer = document.querySelector<HTMLDivElement>("#tokens-message");
-  const plainTextContainer = document.querySelector<HTMLDivElement>("#plain-text-token");
 
   if (!tableBody || !form) {
     return;
@@ -143,7 +167,6 @@ const accessTokenApp = () => {
     try {
       const tokens = await service.listTokens();
       renderTokens(tokens, tableBody);
-      clearPlainTextDisplay(plainTextContainer);
     } catch (error) {
       showMessage(messageContainer, "No fue posible cargar los tokens. Intenta nuevamente.", "danger");
     }
@@ -152,7 +175,6 @@ const accessTokenApp = () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessage(messageContainer);
-    clearPlainTextDisplay(plainTextContainer);
 
     const formData = new FormData(form);
     const name = (formData.get("name") as string | null)?.trim();
@@ -165,7 +187,6 @@ const accessTokenApp = () => {
     try {
       const response = await service.createToken(name);
       showMessage(messageContainer, "Token creado correctamente.", "success");
-      displayPlainToken(plainTextContainer, response.plain_text_token);
       form.reset();
       await refreshTokens();
     } catch (error) {
@@ -178,6 +199,29 @@ const accessTokenApp = () => {
   });
 
   tableBody.addEventListener("click", async (event) => {
+    const viewButton = (event.target as HTMLElement).closest<HTMLButtonElement>(".view-token");
+    if (viewButton) {
+      event.preventDefault();
+
+      const tokenId = Number(viewButton.dataset.viewId);
+      if (!tokenId) {
+        return;
+      }
+
+      const row = viewButton.closest("tr");
+      if (!row) {
+        return;
+      }
+
+      try {
+        const token = await service.getPlainToken(tokenId);
+        showTokenRowPreview(tableBody, row, token);
+      } catch (error) {
+        showMessage(messageContainer, "No fue posible mostrar el token.", "danger");
+      }
+      return;
+    }
+
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".revoke-token");
 
     if (!button) {

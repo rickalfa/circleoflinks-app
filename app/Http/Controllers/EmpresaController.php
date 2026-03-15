@@ -196,7 +196,13 @@ class EmpresaController extends Controller
          $empresa = Empresa::create($validateDates);
 
 
-         return response()->json(["succes" => true]);
+         return ResponseService::success(
+                $empresa,
+                "Empresa Creada",
+                200
+                
+             );
+
 
        }catch(ValidationException $ex){
 
@@ -210,7 +216,7 @@ class EmpresaController extends Controller
     }
 
 
-    /**
+/**
 * Mostramos la empresa especificada por el id
 * @OA\Get(
 *     path="/api/v1/empresa/{id}",

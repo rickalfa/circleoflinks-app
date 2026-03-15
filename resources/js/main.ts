@@ -17,6 +17,7 @@ import './components/login';
 import { initRegisterHandler } from "./components/registerHandler";
 
 import {jsonView } from './components/view/jsonview.ts'
+import './components/view/accessTokens';
 
 import AuthService from "./services/AuthService";
 

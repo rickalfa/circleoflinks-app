@@ -56,6 +56,9 @@ Route::post('/profile/api-tokens/create',[AuthApiController::class,'store'])
 Route::delete('/profile/api-tokens/{id}',[AuthApiController::class,'destroy'])
 ->name('api.tokens.delete');
 
+Route::get('/profile/api-tokens/{id}/plain',[AuthApiController::class,'showPlainToken'])
+->name('api.tokens.plain');
+
 });
 
 

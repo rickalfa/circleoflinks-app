@@ -19,6 +19,7 @@
 
     <!-- CSS + JS compilados por Vite -->
    @vite(['resources/js/main.ts', 'resources/css/styleboots.css'])
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <body class="bg-light">

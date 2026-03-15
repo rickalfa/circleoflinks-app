@@ -106,7 +106,14 @@ class OfertaLaboralController extends Controller
      *     path="/api/v1/ofertalaboral",
      *     tags={"Oferta laboral"},
      *     summary="Registra una oferta laboral",
-     *     description="Valida los datos obligatorios y guarda la oferta laboral en la base de datos.",
+     *     description="Valida los datos obligatorios y guarda la oferta laboral en la base de datos. Requiere API token.",
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer {token}",
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -140,6 +147,13 @@ class OfertaLaboralController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Error de validación",
      *         @OA\JsonContent(
@@ -163,9 +177,9 @@ class OfertaLaboralController extends Controller
             'title'=>'required|string|min:5|max:150',
             'name'=>'required|string|min:5|max:150',
             'description'=>'required|string|min:5|max:355',
-            'date_expire'=>'required|date',
+            'date_expire'=>['required', 'date', 'date_format:Y-m-d', 'after:today'],
             'salary' => 'required|numeric',
-            'status_oferta_laboral_id' => 'required|exists:App\Models\Status_oferta_laboral,id',
+            'status_oferta_laboral_id' => 'required|exists:App\Models\StatusOfertaLaboral,id',
             'empresa_id'=>'required|exists:App\Models\Empresa,id',
             'user_oferta_laboral_id'=>'required|exists:App\Models\UserOfertaLaboral,id' 
 

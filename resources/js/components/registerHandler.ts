@@ -19,6 +19,18 @@ export function initRegisterHandler(): void {
               console.log(formData.entries());
               console.log(data);
 
+              const recaptcha = formData.get("g-recaptcha-response") as string | null;
+              if (!recaptcha) {
+                if (messageBox) {
+                  messageBox.innerHTML = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <i class="bi bi-exclamation-circle me-2"></i> Completa el reCAPTCHA para continuar.
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+                }
+                return;
+              }
+
 
               try {
                 const response = await authService.register(data as any);
@@ -72,6 +84,11 @@ export function initRegisterHandler(): void {
             <i class="bi bi-exclamation-circle me-2"></i> ${errorMsg}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`;
+      }
+
+      const grecaptchaRef = (window as any).grecaptcha;
+      if (grecaptchaRef?.reset) {
+        grecaptchaRef.reset();
       }
                 
                 

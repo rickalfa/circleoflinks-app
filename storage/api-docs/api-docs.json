@@ -497,8 +497,19 @@
                     "Oferta laboral"
                 ],
                 "summary": "Registra una oferta laboral",
-                "description": "Valida los datos obligatorios y guarda la oferta laboral en la base de datos.",
+                "description": "Valida los datos obligatorios y guarda la oferta laboral en la base de datos. Requiere API token.",
                 "operationId": "e21e677c52b9f2699e69cd3fcf7e702d",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -570,6 +581,22 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Oferta laboral creada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"

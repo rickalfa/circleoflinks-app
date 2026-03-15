@@ -30,11 +30,17 @@ export class LoginController {
         const formData = new FormData(this.form);
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
+        const recaptcha = formData.get("g-recaptcha-response") as string | null;
+
+        if (!recaptcha) {
+            this.showMessage("Completa el reCAPTCHA para continuar.", "danger");
+            return;
+        }
 
         this.setLoading(true);
 
         try {
-            const response = await authService.login({ email, password });
+            const response = await authService.login({ email, password, recaptcha });
 
             if (response.success) {
                 this.showMessage("¡Éxito! Redirigiendo...", "success");
@@ -56,6 +62,11 @@ export class LoginController {
             }
             
             this.showMessage(errorMsg, "danger");
+
+            const grecaptchaRef = (window as any).grecaptcha;
+            if (grecaptchaRef?.reset) {
+                grecaptchaRef.reset();
+            }
         } finally {
             this.setLoading(false);
         }

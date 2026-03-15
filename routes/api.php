@@ -49,6 +49,7 @@ use App\Models\User_perfil;
     Route::resource('/statususer', StatusUserController::class);
     Route::post('/userofertalaboral', [UserOfertaLaboralController::class, 'store']);
     Route::post('/empresa', [EmpresaController::class, 'store']);
+    Route::post('/ofertalaboral', [OfertaLaboralController::class, 'store']);
 
  
 
@@ -86,7 +87,7 @@ Route::patch('/statusofertalaboral', [StatusOfertaLaboralController::class, 'upd
 Route::delete('/statusofertalaboral/{id}', [StatusOfertaLaboralController::class, 'destroy']);
 Route::get('/');
 
-Route::resource('/ofertalaboral', OfertaLaboralController::class);
+Route::resource('/ofertalaboral', OfertaLaboralController::class)->except(['store']);
 Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
 Route::get('/ofertalaboral/{id}/empresa',[OfertaLaboralController::class, 'showOfertaLaboralWithEmpresa']);
 

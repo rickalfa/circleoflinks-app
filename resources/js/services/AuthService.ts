@@ -28,6 +28,7 @@ export default class AuthService extends ApiService {
     email: string;
     password: string;
     password_confirmation: string;
+    "g-recaptcha-response"?: string;
   }): Promise<ApiResponse<User>>{
 
     const response = await this.post<responselaravel>("/register", data);
@@ -45,8 +46,12 @@ export default class AuthService extends ApiService {
 
   }
 
-  async login(data: { email: string; password: string }): Promise<ApiResponse<User>> {
-    return this.post<User>("/login", data);
+  async login(data: { email: string; password: string; recaptcha: string }): Promise<ApiResponse<User>> {
+    return this.post<User>("/login", {
+      email: data.email,
+      password: data.password,
+      "g-recaptcha-response": data.recaptcha,
+    });
   }
 
   async logout(): Promise<ApiResponse<null>> {

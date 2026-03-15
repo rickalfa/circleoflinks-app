@@ -41,38 +41,14 @@ Este documento describe el funcionamiento general del proyecto, la arquitectura 
 
 Base URL: `http://{host}/api/v1`
 
-### Empresa
+Ejemplos:
 
-- `GET /empresa` (publico)
-- `GET /empresa/{id}` (publico)
-- `POST /empresa` (protegido con `auth:sanctum`)
-- `PATCH /empresa` (publico en este momento)
-- `DELETE /empresa/{id}` (publico en este momento)
-- `GET /empresa/{id}/ofertalaboral` (publico)
-
-Ejemplo (crear empresa con API key):
-
-```bash
-curl -X POST "http://localhost/api/v1/empresa" \
-  -H "Authorization: Bearer {token}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Mi Empresa SPA",
-    "email": "contacto@empresa.cl",
-    "avatar": "logo.png",
-    "address": "Calle 123",
-    "rubro": "Tecnologia"
-  }'
-```
-
-### Oferta laboral
-
+- `GET /empresa`
+- `POST /empresa` (requiere `Authorization: Bearer {token}`)
 - `GET /ofertalaboral`
-- `GET /ofertalaboral/{id}`
-- `POST /ofertalaboral`
-- `PATCH /ofertalaboral`
-- `DELETE /ofertalaboral/{id}`
-- `GET /ofertalaboral/{id}/empresa`
+- `GET /empresa/{id}/ofertalaboral`
+
+Para el listado completo y ejemplos detallados ver `DOCUMENTACION_API.md`.
 
 ## Swagger / OpenAPI
 

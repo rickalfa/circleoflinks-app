@@ -129,6 +129,14 @@
              
 
               <td>
+                @if(!empty($token->plain_text_token))
+                  <button type="button" class="btn btn-sm btn-outline-primary view-token" data-view-id="{{ $token->id }}">
+                    Ver token
+                  </button>
+                @else
+                  <span class="text-muted small">No disponible</span>
+                @endif
+
                 <form method="POST" action="{{ route('api.tokens.delete',$token->id) }}" class="d-inline-block">
                   @csrf
                   @method('DELETE')
@@ -235,8 +243,6 @@
             <button type="submit" class="btn btn-primary">
             Crear API Token
             </button>
-
-            <div id="plain-text-token" class="alert alert-success mt-3 d-none" role="alert"></div>
 
             </form>
 

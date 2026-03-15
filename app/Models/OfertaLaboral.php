@@ -16,7 +16,7 @@ class OfertaLaboral extends Model
         'name',
         'description',
         'salary',
-        'date_Expire',
+        'date_expire',
         'status_oferta_laboral_id',
         'empresa_id'
     ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -19,6 +20,7 @@ class AuthApiController extends Controller
             'tokenable_id' => $token->tokenable_id,
             'name' => $token->name,
             'token' => $token->token,
+            'has_plain_text_token' => !empty($token->plain_text_token),
             'abilities' => $token->abilities,
             'last_used_at' => optional($token->last_used_at)?->toDateTimeString(),
             'created_at' => $token->created_at->toDateTimeString(),
@@ -56,6 +58,10 @@ class AuthApiController extends Controller
         /** @var NewAccessToken $token */
         $token = $request->user()->createToken($request->name);
 
+        $token->accessToken->forceFill([
+            'plain_text_token' => Crypt::encryptString($token->plainTextToken),
+        ])->save();
+
         $payload = $this->serializeToken($token->accessToken);
 
         if ($request->wantsJson() || $request->ajax()) {
@@ -89,6 +95,34 @@ class AuthApiController extends Controller
 
         return back()->with('deleted','Token eliminado');
 
+    }
+
+    public function showPlainToken(Request $request, $id)
+    {
+        $token = $request->user()->tokens()->where('id', $id)->first();
+
+        if (!$token || empty($token->plain_text_token)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token no disponible',
+            ], 404);
+        }
+
+        try {
+            $plainTextToken = Crypt::decryptString($token->plain_text_token);
+        } catch (\Throwable $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token no disponible',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'plain_text_token' => $plainTextToken,
+            ],
+        ]);
     }
 
 }
