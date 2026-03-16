@@ -79,81 +79,129 @@
           <div class="d-flex justify-content-center">
             <div class="row">
 
-                  <div class="d-flex justify-content-center">
-                    <div class="bg-dark text-white p-2 fs-4 rounded" >
-                    <p> 
-                 </br> En la la key "Data" es donde 
-                    van los datos de la respuesta a la peticion </p> 
-
-                                      
-                    <nav class="navbar bg-body-tertiary">
-                          <div class="form-text px-3" id="basic-addon4">ejemplo de url request.</div>
-                                  <form class="container-fluid">
-                      
-                                      <div class="mb-3">
-                                          <label for="basic-url" class="form-label text-dark">peticion <span class="text-success">GET </span></label>
-                                          <div class="input-group">
-                                            <i class="bi bi-link-45deg me-2 text-primary"></i>
-                                            <span class="input-group-text" id="basic-addon3">{{ env('L5_SWAGGER_CONST_HOST') }}/api/v1/empresa/</span>
-                                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" placeholder="2" readonly>
-                                          </div>
-                                          
-                                        </div>
-                                  </form>
-                                  
-                            </div>
-                    </nav>
-
-                  </div>
+               
 
 
                   <div class="col-lg-12"> 
-
+                  
               
-                    <div class="d-flex justify-content-center">
+                   
+                  <div class="container my-5">
 
+                    
 
-                         {{-- ======== Box de vizualizacion de Json======== --}}          
-             
-                           <div class="col-md-6" >
-                         <div class="card" >
-
-                                <div class="card-body">
-                                  <blockquote class="blockquote fs-2">
-                                            <span>Estructura general de Respuesta Json exitosa ( status: <span class="text-success">  200 </span>)  de la API. 
-                                      <p>ejemplo de respuesta :</p>
-                                    </blockquote>
-
-                                    </div>
+                        <div class="row">
+                            <div class="col" >
+                              <div class="p-2 m-1 borders border-rounded border-2">
+                                <h3> Ejemplo de peticion Get</h3>
 
                               </div>
-                          </div>
-                       
-                         <div class="col-md-6" >
-                                <div class="bg-dark ">
-                                          <p class="bg-secondary m-3 p-2"> Content-type :
-                                          <span class="badge text-bg-info">
-                                                   application/json</span></p>
+                              
 
-                                         <p class="bg-secondary m-3 p-2"> Response:
-                                          </p>
+                            </div>                                                  
+                        </div>
 
-                                       <div id="box-json" class="boxjson m-4">
-                                                            
-                                                  
-                                         </div>
+                        <div class="row"><!-- Peticion ejemplo get -->
+                              <div class="col ">
+                                      <label for="basic-url" class="form-label">Peticion <span class="badge bg-success fs-6">Get</span></label>
+                                      <hr></br>
+                                      <label for="basic-url" class="form-label">URL : </label>
+                                      <div class="input-group mb-3">
+                                        <i class="bi bi-link px-1" style="font-size: 2rem;"></i>
+                                        <span class="input-group-text" id="basic-addon3">{{env('VITE_API_BASE_URL')}}/api/v1/empresa/</span>
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value="2" disabled>
+                                      </div>
+
+                              </div>
+
+                              <div class="row justify-content-center g-1 " >
+
+                              <!-- Info de la respuesta -->
+                              <div class="col-lg-5" >
+
+                                <div class="row align-items-center bg-warning" style="height: 60vh;">
+
+                                  <div class="col">
+
+                                      <div class="card shadow-sm border-0">
+                                      <div class="card-body">
+
+                                        <h4 class="fw-bold mb-3">
+                                          Estructura de Respuesta JSON
+                                        </h4>
+
+                                        <p class="text-muted">
+                                          Respuesta exitosa de la API cuando la solicitud se procesa correctamente.
+                                        </p>
+
+                                        <p class="mb-2">
+                                          Status HTTP:
+                                          <span class="badge bg-success fs-6">200 OK</span>
+                                        </p>
+
+                                        <p class="mb-4 text-muted">
+                                          Ejemplo de respuesta generada por la API.
+                                        </p>
+
+                                      </div>
+
+                          
+                                    </div>
+
+                                  </div>
+                                  
+                                  
+
+
+                                </div>
+                              
+                              </div>
+
+                              <!-- Visualizador JSON -->
+                              <div class="col-lg-7">
+
+                                <div class="card shadow-sm border-0">
+
+                                  <div class="card-header bg-light d-flex justify-content-between">
+
+                                    <span class="fw-semibold">
+                                      Response
+                                    </span>
+
+                                    <span class="badge bg-info">
+                                      application/json
+                                    </span>
+
+                                  </div>
+
+                                  <div class="card-body p-1">
+
+                                    <h5 class="card-title">  <i class="bi bi-filetype-json" style="font-size: 1.4rem;"> </i> Formato respuesta
+                                      </h5>
+                                    
+                                    
+                                      <div id="box-json" class="boxjson m-4"></div>
+
+
+
+                                
+
+                                  </div>
 
                                 </div>
 
-                         </div>
-                      
-                         
-               
-                            </div>
-                
-
-                  </div>
+                              </div>
+                      </div>
                   
+
+                    </div>
+
+                 
+                  </div>
+
+</div>
+
+
              </div> {{--  END ROW --}}
            
               

@@ -42,7 +42,7 @@ use App\Models\User_perfil;
  * Acceso TOKEN Sanctum
  */
 
- Route::middleware(['auth:sanctum'])->group(function (){
+ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (){
 
 
 

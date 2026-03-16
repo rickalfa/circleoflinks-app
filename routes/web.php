@@ -29,7 +29,7 @@ Route::get('/login', function (){
 
     return view('auth.login');
 
-});
+})->middleware('throttle:login');
 
 
 
