@@ -248,7 +248,7 @@
                     "Empresa"
                 ],
                 "summary": "Obtienes los datos del registro empresa ",
-                "description": "Mostramos la empresa especificada por el id",
+                "description": "* Mostramos la empresa especificada por el id\n* @OA\\Get(\n*     path=\"/api/v1/empresa/{id}\",\n*     summary=\"Obtienes los datos del registro empresa \",\n*     tags={\"Empresa\"},\n*\n*     @OA\\Response(\n*         response=200,\n*         description=\"Empresa encontrada\",\n*         @OA\\JsonContent(\n*                \n*                    @OA\\Property(property=\"success\", type=\"boolean\"),\n*                @OA\\Property(property=\"status\", type=\"integer\"),\n*                @OA\\Property(property=\"message\", type=\"string\"),\n*                @OA\\Property(property=\"data\", \n*                                      \n*                                      @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*                                      @OA\\Property(property=\"name\", type=\"string\", example=\" cencocud\"),\n*                                      @OA\\Property(property=\"email\", type=\"string\", example=\" oferta laboral cerrada\"),\n*                                      @OA\\Property(property=\"avatar\", type=\"string\", example=\"comercio exterior\"),\n*                                      @OA\\Property(property=\"address\", type=\"string\", example=\"street brlmoor #3453\"),\n*                                      @OA\\Property(property=\"rubro\", type=\"string\", example=\"transporte comercio local\"),\n*                                      @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*                                      @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n*                          ),\n*                @OA\\Property(property=\"errors\", type=\"object\", nullable=true),\n*                @OA\\Property(property=\"meta\",type=\"object\", nullable=true )\n*                       \n*                       \n*            \n*         )\n*      )\n*\n*     \n* )\n*",
                 "operationId": "cb1885f1bb5e7501e5988feb440d5bcc",
                 "responses": {
                     "200": {
@@ -970,7 +970,7 @@
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show postulacion oferta laboral",
+                "description": "* show postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/postulacionofertalaboral\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"Postulacion oferta laboral\"},",
                 "operationId": "b2fd510bfdfb35ebd692539847a24441",
                 "responses": {
                     "200": {
@@ -1039,7 +1039,7 @@
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show muestra registro especifico de postulacion oferta laboral",
+                "description": "* show muestra registro especifico de postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/postulacionofertalaboral/{id}\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"Postulacion oferta laboral\"},\n*      @OA\\parameter(\n*          name=\"id\",\n*          in=\"path\",\n*          required=false   \n*        ),\n*\n*     @OA\\Response(\n*         response=200,\n*         description=\"Oferta laboral encontrada\",\n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*             @OA\\Property(property=\"name\", type=\"string\", example=\"closed\"),\n*             @OA\\Property(property=\"description\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"date_expire\", type=\"string\", format=\"date\", example=\"2024-11-11\"),\n*             @OA\\Property(property=\"oferta_laboral_id\", type=\"integer\", example=10)\n* \n*         )\n*      ),\n*     @OA\\Response(\n*         response=404,\n*         description=\"Oferta laboral no encontrada\",\n* \n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"message\", type=\"string\", example=\"status Oferta laboral no encontrada con ID: {id}\")\n*         )\n*     )\n*     )\n* )\n*",
                 "operationId": "a1e08909847117e09f6dce65b836ee4c",
                 "parameters": [
                     {
@@ -1234,7 +1234,7 @@
                     "Status users"
                 ],
                 "summary": "Se muestra el registro status user ",
-                "description": "show statususer",
+                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/statususer\",\n*     summary=\"Se muestra el registro status user \",\n*     tags={\"Status users\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"stringr\",\n*                         example=\"status name\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"description\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "81c1933259182fcee9596a983dd6c375",
                 "responses": {
                     "200": {
@@ -1348,7 +1348,7 @@
                     "Status users"
                 ],
                 "summary": "Se muestra el registro status user ",
-                "description": "show statususer",
+                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/statususer/{id}\",\n*     summary=\"Se muestra el registro status user \",\n*     tags={\"Status users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"path\",\n*       required=false   \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"stringr\",\n*                         example=\"status name\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"description\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "b09ebd1df1a3448860818c920ec860bb",
                 "parameters": [
                     {
@@ -1403,7 +1403,7 @@
                     "Status users"
                 ],
                 "summary": "Se muestra un solo registro user ",
-                "description": "Delete StatusUser",
+                "description": "* Delete StatusUser\n* @OA\\Delete(\n*     path=\"/public/api/v1/statususer/\",\n*     summary=\"Se muestra un solo registro user \",\n*     tags={\"Status users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"message\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "ab4f5aab15b42c9f262f522159d9ac6c",
                 "parameters": [
                     {
@@ -1448,7 +1448,7 @@
                     "Status users"
                 ],
                 "summary": "Se muestra un solo registro user ",
-                "description": "update user",
+                "description": "* update user\n* @OA\\Patch(\n*     path=\"/public/api/v1/statususer/\",\n*     summary=\"Se muestra un solo registro user \",\n*     tags={\"Status users\"},\n*    @OA\\RequestBody(\n*         description=\"User object to be created\",\n*         required=true,\n*         @OA\\JsonContent(\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*          )\n*     ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"success-update\",\n*                         type=\"boolean\",\n*                         example=true\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     ),\n*      @OA\\Response(\n*         response=400,\n*         description=\"Bad request\",\n*         @OA\\JsonContent(\n*                     @OA\\Property(\n*                         property=\"success-update\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     )\n*                )\n*     )\n* )\n*",
                 "operationId": "7e8dc79ef7a50c3447aacd98c0888d1d",
                 "requestBody": {
                     "description": "User object to be created",
@@ -1520,7 +1520,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "all users Json",
+                "summary": "* all users Json\n* @OA\\Get(\n*     path=\"/api/v1/users\",\n*     tags={\"Users\"},\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "0e4dcb150e6428cad11237b5f307e338",
                 "responses": {
                     "200": {
@@ -1632,7 +1632,7 @@
                     "Users"
                 ],
                 "summary": "Se muestra un solo registro user ",
-                "description": "show user",
+                "description": "* show user\n* @OA\\Get(\n*     path=\"/api/v1/users/{id}\",\n*     summary=\"Se muestra un solo registro user \",\n*     tags={\"Users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"path\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"address\",\n*                         type=\"string\",\n*                         example=\"calle ventura\"\n*                     ),\n\n*                 \n*             \n*         )\n*     )\n* )\n*",
                 "operationId": "493da9372895ff38977fa81dea25025b",
                 "parameters": [
                     {
@@ -1679,7 +1679,7 @@
                     "Users"
                 ],
                 "summary": "Se muestra un solo registro user ",
-                "description": "update user",
+                "description": "* update user\n* @OA\\Patch(\n*     path=\"/api/v1/users/\",\n*     summary=\"Se muestra un solo registro user \",\n*     tags={\"Users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "0ade872e6ecf4bc9eed3c17401781d06",
                 "parameters": [
                     {
@@ -1738,7 +1738,7 @@
                     "User oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show statususer",
+                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/userofertalaboral\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User oferta laboral\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"integer\",\n*                         example=2\n*                     ),\n*                     @OA\\Property(\n*                         property=\"user_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"oferta_laboral_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "30ab2f021ddc4b375829060d07e1d4fc",
                 "responses": {
                     "200": {
@@ -1788,7 +1788,7 @@
                     "User oferta laboral"
                 ],
                 "summary": "Se actualiza el registro que es especificado en el campo id ",
-                "description": "update user Oferta Laboral",
+                "description": "* update user Oferta Laboral\n* @OA\\Patch(\n*     path=\"/api/v1/userofertalaboral\",\n*     summary=\"Se actualiza el registro que es especificado en el campo id \",\n*     tags={\"User oferta laboral\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"user_id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"oferta_laboral_id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"idescription\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*    ),\n*\n*     @OA\\Response(\n*         response=400,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 \n*             \n*         )\n*\n*     )\n*\n*    \n* )\n*",
                 "operationId": "62ff96a1493f76a387c12dd2c6cd2368",
                 "parameters": [
                     {
@@ -1894,7 +1894,7 @@
                     "User oferta laboral"
                 ],
                 "summary": "Se muestra el registro de las ofertas laborales del user ",
-                "description": "show statususer",
+                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/userofertalaboral/{id}\",\n*     summary=\"Se muestra el registro de las ofertas laborales del user \",\n*     tags={\"User oferta laboral\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"path\",\n*       required=false   \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"integer\",\n*                         example=2\n*                     ),\n*                     @OA\\Property(\n*                         property=\"user_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"oferta_laboral_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
                 "operationId": "2b991733cc08505865f2572483472dc9",
                 "parameters": [
                     {
@@ -1953,7 +1953,7 @@
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show muestra registro especifico de postulacion oferta laboral",
+                "description": "* show muestra registro especifico de postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/usersperfil\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User profile\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"Oferta laboral encontrada\",\n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*             @OA\\Property(property=\"info\", type=\"string\", example=\"closed\"),\n*             @OA\\Property(property=\"education\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"exp_laboral\", type=\"string\", example=\"2024-11-11\"),\n*             @OA\\Property(property=\"habilidades\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"profetion_name\", type=\"string\", example=\"comercio exterior\"),\n*             @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*             @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n* \n*         )\n*      ),\n*     @OA\\Response(\n*         response=404,\n*         description=\"Oferta laboral no encontrada\",\n* \n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"message\", type=\"string\", example=\"status Oferta laboral no encontrada con ID: {id}\")\n*         )\n*      )\n*     )\n* )\n*",
                 "operationId": "f551cd82014993b36210146be39afbc9",
                 "responses": {
                     "200": {
@@ -2033,7 +2033,7 @@
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show muestra registro especifico de postulacion oferta laboral",
+                "description": "* show muestra registro especifico de postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/usersperfil/{id}\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User profile\"},\n*      @OA\\parameter(\n*          name=\"id\",\n*          in=\"path\",\n*          required=false   \n*        ),\n*\n*     @OA\\Response(\n*         response=200,\n*         description=\"Oferta laboral encontrada\",\n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*             @OA\\Property(property=\"info\", type=\"string\", example=\"closed\"),\n*             @OA\\Property(property=\"education\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"exp_laboral\", type=\"string\", example=\"2024-11-11\"),\n*             @OA\\Property(property=\"habilidades\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"profetion_name\", type=\"string\", example=\"comercio exterior\"),\n*             @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*             @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n* \n*         )\n*      ),\n*     @OA\\Response(\n*         response=404,\n*         description=\"Oferta laboral no encontrada\",\n* \n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"message\", type=\"string\", example=\"status Oferta laboral no encontrada con ID: {id}\")\n*         )\n*     )\n*     \n* )\n*",
                 "operationId": "e4a28ae3932df0ab0bfc1ef954b26d88",
                 "parameters": [
                     {
@@ -2114,5 +2114,39 @@
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Empresa",
+            "description": "Empresa"
+        },
+        {
+            "name": "Oferta laboral",
+            "description": "Oferta laboral"
+        },
+        {
+            "name": "Postulacion oferta laboral",
+            "description": "Postulacion oferta laboral"
+        },
+        {
+            "name": "Status Oferta laboral",
+            "description": "Status Oferta laboral"
+        },
+        {
+            "name": "Status users",
+            "description": "Status users"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "User oferta laboral",
+            "description": "User oferta laboral"
+        },
+        {
+            "name": "User profile",
+            "description": "User profile"
+        }
+    ]
 }
