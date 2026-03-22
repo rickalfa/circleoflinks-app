@@ -11,6 +11,7 @@ export interface PersonalAccessTokenRecord {
   last_used_at: string | null;
   created_at: string;
   updated_at: string;
+  expires_at: string | null;
 }
 
 interface TokenCreationPayload {
@@ -72,7 +73,7 @@ const formatDate = (value?: string | null) => {
 /**
  * 
  * @param token este parametro es del tipo interface que creamos al principio PersonalAccessTokenRecord
- *             esla estructura de datos del Token que susa la API 
+ *             es la estructura de datos del Token que usa la API 
  * @returns 
  */
 const buildRow = (token: PersonalAccessTokenRecord) => {
@@ -152,6 +153,12 @@ const showTokenRowPreview = (tableBody: HTMLTableSectionElement, anchorRow: HTML
   }, 6000);
 };
 
+
+/**
+ *  Funcion que inicializa las funciones logicas de crear y mostrar los toknes creados en la tabla
+ * 
+ * @returns 
+ */
 const accessTokenApp = () => {
   const tableBody = document.querySelector<HTMLTableSectionElement>("#tokens-table-body");
   const form = document.querySelector<HTMLFormElement>("#create-token-form");
@@ -163,6 +170,9 @@ const accessTokenApp = () => {
 
   const service = new AccessTokenService();
 
+  /**
+   * carga los tokens , Si existen, en el tablebody con el metodo renderTokens() 
+   */
   const refreshTokens = async () => {
     try {
       const tokens = await service.listTokens();
@@ -172,6 +182,9 @@ const accessTokenApp = () => {
     }
   };
 
+  /**
+   * Formulario para crear Token el formulario esta en un modal con un solo input el nombre
+   */
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessage(messageContainer);
@@ -197,6 +210,11 @@ const accessTokenApp = () => {
       );
     }
   });
+
+
+ /**
+  * metodo para mostrar el text_plain del Token por unos instantes
+  */
 
   tableBody.addEventListener("click", async (event) => {
     const viewButton = (event.target as HTMLElement).closest<HTMLButtonElement>(".view-token");
