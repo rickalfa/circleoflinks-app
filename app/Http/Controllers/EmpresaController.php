@@ -292,7 +292,55 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza una empresa existente (protegido por API token).
+     *
+     * @OA\Patch(
+     *     path="/api/v1/empresa",
+     *     summary="Actualiza una empresa",
+     *     tags={"Empresa"},
+     *     description="Actualiza los campos enviados para una empresa. Requiere API token.",
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer {token}",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"id"},
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Empresa Actualizada"),
+     *             @OA\Property(property="email", type="string", example="nuevo@empresa.cl"),
+     *             @OA\Property(property="avatar", type="string", example="logo.png"),
+     *             @OA\Property(property="address", type="string", example="Calle 123"),
+     *             @OA\Property(property="rubro", type="string", example="Tecnologia")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Empresa actualizada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success-update", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validacion",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Empresa  $empresa

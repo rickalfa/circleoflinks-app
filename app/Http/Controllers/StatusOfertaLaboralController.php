@@ -58,7 +58,51 @@ class StatusOfertaLaboralController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea un nuevo status de oferta laboral (protegido por API token).
+     *
+     * @OA\Post(
+     *     path="/api/v1/statusofertalaboral",
+     *     tags={"Status Oferta laboral"},
+     *     summary="Crea un status de oferta laboral",
+     *     description="Valida los datos obligatorios y registra el status. Requiere API token.",
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer {token}",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","description"},
+     *             @OA\Property(property="name", type="string", example="closed"),
+     *             @OA\Property(property="description", type="string", example="oferta laboral cerrada")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Status creado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="succes", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validacion",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
      *
      * @param  \App\Http\Requests\StoreStatus_oferta_laboralRequest  $request
      * @return \Illuminate\Http\Response
@@ -212,12 +256,6 @@ class StatusOfertaLaboralController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Status_oferta_laboral  $status_ofeta_laboral
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try{

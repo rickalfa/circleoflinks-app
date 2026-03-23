@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Crypt;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
+use Carbon\Carbon;
+
 
 
 class AuthApiController extends Controller
@@ -25,6 +27,7 @@ class AuthApiController extends Controller
             'last_used_at' => optional($token->last_used_at)?->toDateTimeString(),
             'created_at' => $token->created_at->toDateTimeString(),
             'updated_at' => $token->updated_at->toDateTimeString(),
+            'expires_at' => $token->expires_at
         ];
     }
 
@@ -52,22 +55,32 @@ class AuthApiController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'days' => 'required|numeric|min:1|max:365'
         ]);
+
+        $days =(int) $request->input('days');
+        $expires_at = Carbon::now()->addDays($days);
+
 
         /** @var NewAccessToken $token */
         $token = $request->user()->createToken($request->name);
 
+        
+
         $token->accessToken->forceFill([
+            'expires_at' => $expires_at,
             'plain_text_token' => Crypt::encryptString($token->plainTextToken),
         ])->save();
+
+
 
         $payload = $this->serializeToken($token->accessToken);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Token creado exitosamente',
+                'message' => 'Token creado exitosamente dias : '. $days,
                 'data' => [
                     'token' => $payload,
                     'plain_text_token' => $token->plainTextToken,

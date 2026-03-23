@@ -371,42 +371,6 @@ class OfertaLaboralController extends Controller
 
     }
 
-    /**
-     * Elimina permanentemente una oferta laboral.
-     *
-     * @OA\Delete(
-     *     path="/api/v1/ofertalaboral/{id}",
-     *     tags={"Oferta laboral"},
-     *     summary="Elimina una oferta por ID",
-     *     description="Borra la oferta indicada mientras no existan restricciones de llave foránea.",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID de la oferta a eliminar",
-     *         @OA\Schema(type="integer", example=3)
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Oferta eliminada",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success-destroy", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="empresa destroy")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="No se encontró la oferta",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="No existe la oferta")
-     *         )
-     *     )
-     * )
-     *
-     * @param  \App\Models\OfertaLaboral  $oferta_laboral
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
 

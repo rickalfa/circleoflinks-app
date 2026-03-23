@@ -42,29 +42,40 @@ use App\Models\User_perfil;
  * Acceso TOKEN Sanctum
  */
 
- Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (){
-
-
-
-    Route::resource('/statususer', StatusUserController::class);
-    Route::post('/userofertalaboral', [UserOfertaLaboralController::class, 'store']);
+ Route::middleware(['auth:sanctum', 'token.expiration', 'throttle:api'])->group(function (){
+    Route::post('/users', [UserAppController::class, 'store']);
     Route::post('/empresa', [EmpresaController::class, 'store']);
+    Route::patch('/empresa', [EmpresaController::class, 'update']);
+
     Route::post('/ofertalaboral', [OfertaLaboralController::class, 'store']);
+    Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
 
- 
+    Route::post('/statusofertalaboral', [StatusOfertaLaboralController::class, 'store']);
+    Route::patch('/statusofertalaboral', [StatusOfertaLaboralController::class, 'update']);
 
+    Route::post('/statususer', [StatusUserController::class, 'store']);
+    Route::patch('/statususer', [StatusUserController::class, 'update']);
+
+    Route::post('/userofertalaboral', [UserOfertaLaboralController::class, 'store']);
+    Route::patch('/userofertalaboral', [UserOfertaLaboralController::class, 'update']);
+
+    Route::post('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'store']);
+    Route::patch('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'update']);
+
+    Route::post('/usersperfil', [User_perfilController::class, 'store']);
+    Route::patch('/usersperfil', [User_perfilController::class, 'update']);
+
+    Route::post('/proyectos', [ProyectosController::class, 'store']);
+    Route::patch('/proyectos', [ProyectosController::class, 'update']);
+
+    Route::post('/usercontact', [UserContactController::class, 'store']);
  });
 
 
- Route::post('/users', [UserAppController::class, 'store']);
-
-
-Route::resource('/empresa', EmpresaController::class)->except(['store']);
-Route::patch('/empresa', [EmpresaController::class, 'update']);
-Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy']);
+Route::resource('/empresa', EmpresaController::class)->only(['index', 'show']);
 Route::get('empresa/{id}/ofertalaboral', [EmpresaController::class, 'showWithOffers']);
 
-Route::resource('/proyectos', ProyectosController::class);
+Route::resource('/proyectos', ProyectosController::class)->only(['index', 'show']);
 
 
 
@@ -73,22 +84,13 @@ Route::get('/users', [UserAppController::class, 'index']);
 
 Route::resource('/statususer', StatusUserController::class)->only(['show', 'index']);
 
-Route::resource('/usersperfil', User_perfilController::class);
-Route::patch('/usersperfil', [User_perfilController::class, 'update']);
+Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class)->only(['index', 'show']);
 
+Route::resource('/statusofertalaboral', StatusOfertaLaboralController::class)->only(['index', 'show']);
 
-
-Route::resource('/postulacionofertalaboral', PostulacionOfertaLaboralController::class);
-Route::delete('/postulacionofertalaboral/{id}', [PostulacionOfertaLaboralController::class, 'destroy']);
-Route::patch('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'update']);
-
-Route::resource('/statusofertalaboral', StatusOfertaLaboralController::class);
-Route::patch('/statusofertalaboral', [StatusOfertaLaboralController::class, 'update']);
-Route::delete('/statusofertalaboral/{id}', [StatusOfertaLaboralController::class, 'destroy']);
 Route::get('/');
 
-Route::resource('/ofertalaboral', OfertaLaboralController::class)->except(['store']);
-Route::patch('/ofertalaboral', [OfertaLaboralController::class, 'update']);
+Route::resource('/ofertalaboral', OfertaLaboralController::class)->only(['index', 'show']);
 Route::get('/ofertalaboral/{id}/empresa',[OfertaLaboralController::class, 'showOfertaLaboralWithEmpresa']);
 
 
@@ -99,12 +101,10 @@ Route::get('/ofertalaboral/{id}/empresa',[OfertaLaboralController::class, 'showO
 
 
 
-Route::patch('/userofertalaboral', [UserOfertaLaboralController::class, 'update']);
-
 Route::get('/userofertalaboral/{id}', [UserOfertaLaboralController::class, 'show'])->name('/userofertalaboral/{id}');
 Route::get('/userofertalaboral', [UserOfertaLaboralController::class, 'index']);
 
 
 
-Route::resource('/usercontact', UserContactController::class);
+Route::resource('/usercontact', UserContactController::class)->only(['index', 'show']);
 Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');

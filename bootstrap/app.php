@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Aquí puedes configurar tus middlewares de Bootstrap 5 o Sanctum
+        $middleware->alias([
+            'token.expiration' => \App\Http\Middleware\CheckTokenExpiration::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

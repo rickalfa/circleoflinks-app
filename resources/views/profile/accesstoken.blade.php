@@ -109,8 +109,9 @@
 
                     <thead>
                       <tr>
-                        <th>Nombre</th>
+                        <th>Nombres</th>
                         <th>Creado</th>
+                        <th>Fecha expiracion</th>
                         <th>Último uso</th>
                         <th>Habilidades</th>
                         <th>Acciones</th>
@@ -123,7 +124,10 @@
 
             <tr data-token-id="{{ $token->id }}">
               <td>{{ $token->name }}</td>
+             
               <td>{{ $token->created_at }}</td>
+
+               <td>{{ optional($token->expires_at)->format('Y-m-d H:i') ?? 'Nunca expira'  }}</td>
                <td>{{ optional($token->last_used_at)->format('Y-m-d H:i') ?? 'Nunca' }}</td>
               <td>{{ implode(",", $token->abilities) }}</td>
              
@@ -237,6 +241,11 @@
             class="form-control"
             placeholder="ej: servidor-production"
             required>
+
+            <hr>
+            <label>Días hasta expiración:</label>
+            <input type="number" name="days" min="1" max="365" required>
+
 
             </div>
 

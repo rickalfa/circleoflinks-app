@@ -11,7 +11,7 @@ export interface PersonalAccessTokenRecord {
   last_used_at: string | null;
   created_at: string;
   updated_at: string;
-  expires_at: string | null;
+  expires_at: string;
 }
 
 interface TokenCreationPayload {
@@ -33,8 +33,15 @@ class AccessTokenService extends ApiService {
     return response.data?.data?.tokens ?? [];
   }
 
-  async createToken(name: string): Promise<TokenCreationPayload> {
-    const response = await this.post<TokenCreationPayload>("/create", { name });
+  /**
+   * metodo para crear personal_Access_token para acceder a la API y enviar datos
+   * 
+   * @param name 
+   * @param days 
+   * @returns 
+   */
+  async createToken(name: string, days: number): Promise<TokenCreationPayload> {
+    const response = await this.post<TokenCreationPayload>("/create", { name, days });
     const payload = response.data?.data;
     if (!payload) {
       throw new Error("Respuesta inesperada al crear el token");
@@ -86,7 +93,11 @@ const buildRow = (token: PersonalAccessTokenRecord) => {
   return `
     <tr data-token-id="${token.id}">
       <td>${token.name}</td>
-      <td>${formatDate(token.created_at)}</td>
+      <td>${token.created_at}</td>
+      <td>${token.expires_at ? formatDate(token.expires_at) : "nunca expira"}</td>
+
+      
+      
       <td>${token.last_used_at ? formatDate(token.last_used_at) : "Nunca"}</td>
       <td>${abilities}</td>
       <td>
@@ -191,21 +202,28 @@ const accessTokenApp = () => {
 
     const formData = new FormData(form);
     const name = (formData.get("name") as string | null)?.trim();
+    const days = (formData.get("days") as number | null) ;
 
     if (!name) {
       showMessage(messageContainer, "Agrega un nombre válido antes de crear el token.", "danger");
       return;
     }
 
+    if (!days) {
+
+      showMessage(messageContainer, "Agrega un numero valido.", "danger");
+      return;
+    }
+
     try {
-      const response = await service.createToken(name);
+      const response = await service.createToken(name, days);
       showMessage(messageContainer, "Token creado correctamente.", "success");
       form.reset();
       await refreshTokens();
     } catch (error) {
       showMessage(
         messageContainer,
-        "No fue posible crear el token. Verifica el nombre e inténtalo de nuevo.",
+        "No fue posible crear el token. ",
         "danger"
       );
     }

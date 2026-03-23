@@ -1,5 +1,17 @@
 $kind: http-request
 name: /empresa add
-url: ""
-method: GET
+url: "{{patch-col-local-api}}/empresa?name=dark
+  enterprise&email=empresa_darknoco@darknoco.com&avatar=dark.jpg&address=Calle
+  4254&rubro=video"
+method: POST
+queryParams:
+  name: dark enterprise
+  email: empresa_darknoco@darknoco.com
+  avatar: dark.jpg
+  address: Calle 4254
+  rubro: video
+auth:
+  type: bearer
+  credentials:
+    token: 17|m48DDGaBxmYFCCSyfAdZxSBI80OcVsPgD56FgMC47303384
 order: 1219973867586101

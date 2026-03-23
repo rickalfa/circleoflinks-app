@@ -18,52 +18,52 @@ use App\Http\Requests\UpdateUserAppRequest;
 class UserAppController extends Controller
 {
  
- /**
-* all users Json
-* @OA\Get(
-*     path="/api/v1/users",
-*     tags={"Users"},
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     ),
-*                     @OA\Property(
-*                         property="email",
-*                         type="string",
-*                         example="angelshamael@gmail.com"
-*                     ),
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
+      /**
+      * all users Json
+      * @OA\Get(
+      *     path="/api/v1/users",
+      *     tags={"Users"},
+      *     @OA\Response(
+      *         response=200,
+      *         description="descripción o el nombre del código de la petición",
+      *         @OA\JsonContent(
+      *             @OA\Property(
+      *                 type="array",
+      *                 property="rows",
+      *                 @OA\Items(
+      *                     type="object",
+      *                     @OA\Property(
+      *                         property="id",
+      *                         type="number",
+      *                         example="1"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="name",
+      *                         type="string",
+      *                         example="Aderson Felix"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="email",
+      *                         type="string",
+      *                         example="angelshamael@gmail.com"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="created_at",
+      *                         type="string",
+      *                         example="2023-02-23T00:09:16.000000Z"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="updated_at",
+      *                         type="string",
+      *                         example="2023-02-23T12:33:45.000000Z"
+      *                     )
+      *                 )
+      *             )
+      *         )
+      *     )
+      * )
+      *
+      */
     public function index()
     {
       
@@ -81,60 +81,60 @@ class UserAppController extends Controller
     }
 
      /** 
-    * agregar usuario
-    * @OA\Post(
-    *     path="/api/v1/users",
-    *     tags={"Users"},
-    *     @OA\Parameter(
-    *        in="path",
-    *       name="name",
-    *       required=true
-    *       ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="descripción o el nombre del código de la petición",
-    *         @OA\JsonContent(
-    *             @OA\Property(
-    *                 type="array",
-    *                 property="rows",
-    *                 @OA\Items(
-    *                     type="object",
-    *                     @OA\Property(
-    *                         property="id",
-    *                         type="number",
-    *                         example="1"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="name",
-    *                         type="string",
-    *                         example="Aderson Felix"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="email",
-    *                         type="string",
-    *                         example="angelshamael@gmail.com"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="password",
-    *                         type="string",
-    *                         example="mypass_1234$"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="address",
-    *                         type="string",
-    *                         example="calle olivos 2345"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="updated_at",
-    *                         type="string",
-    *                         example="2023-02-23T12:33:45.000000Z"
-    *                     )
-    *                 )
-    *             )
-    *         )
-    *     )
-    * )
-    */  
+     * agregar usuario
+     * @OA\Post(
+     *     path="/api/v1/users",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *        in="path",
+     *       name="name",
+     *       required=true
+     *       ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="descripción o el nombre del código de la petición",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Aderson Felix"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="angelshamael@gmail.com"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="password",
+     *                         type="string",
+     *                         example="mypass_1234$"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="address",
+     *                         type="string",
+     *                         example="calle olivos 2345"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2023-02-23T12:33:45.000000Z"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */  
     public function store(Request $request)
     {
 
@@ -166,53 +166,50 @@ class UserAppController extends Controller
         
     }
 
-    /**
-* show user
-* @OA\Get(
-*     path="/api/v1/users/{id}",
-*     summary="Se muestra un solo registro user ",
-*     tags={"Users"},
-*     @OA\parameter(
-*       name="id",
-*       in="path",
-*       required=true    
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     ),
-*                     @OA\Property(
-*                         property="email",
-*                         type="string",
-*                         example="angelshamael@gmail.com"
-*                     ),
-*                     @OA\Property(
-*                         property="address",
-*                         type="string",
-*                         example="calle ventura"
-*                     ),
-
-*                 
-*             
-*         )
-*     )
-* )
-*
-*/
-
-
+     /**
+     * show user
+     * @OA\Get(
+     *     path="/api/v1/users/{id}",
+     *     summary="Se muestra un solo registro user ",
+     *     tags={"Users"},
+     *     @OA\parameter(
+     *       name="id",
+     *       in="path",
+     *       required=true    
+     *        ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="descripción o el nombre del código de la petición",
+     *         @OA\JsonContent(
+     *
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Aderson Felix"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="angelshamael@gmail.com"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="address",
+     *                         type="string",
+     *                         example="calle ventura"
+     *                     ),
+     *                 
+     *             
+     *         )
+     *     )
+     * )
+     *
+     */
     public function show($id)
     {
         try {

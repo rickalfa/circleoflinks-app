@@ -333,46 +333,7 @@ class StatusUserController extends Controller
 
         
     }
-
-  
-    /**
-* Delete StatusUser
-* @OA\Delete(
-*     path="/public/api/v1/statususer/",
-*     summary="Se muestra un solo registro user ",
-*     tags={"Status users"},
-*     @OA\parameter(
-*       name="id",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="message",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
-    public function destroy($id)
+public function destroy($id)
     {
     
         try {
@@ -402,3 +363,4 @@ class StatusUserController extends Controller
         }
     }
 }
+
