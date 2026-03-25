@@ -10,6 +10,8 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Models\UserOfertaLaboral;
+use App\Services\ResponseService;
+use App\Http\Resources\UserOfertaLaboralResource;
 use App\Http\Requests\StoreUserOfertaLaboralRequest;
 use App\Http\Requests\UpdateUserOfertaLaboralRequest;
 
@@ -17,60 +19,73 @@ class UserOfertaLaboralController extends Controller
 {
 
 
-           /**
-* show statususer
-* @OA\Get(
-*     path="/api/v1/userofertalaboral",
-*     summary="Se muestran los registros de user oferta laborales del user ",
-*     tags={"User oferta laboral"},
-
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="integer",
-*                         example=2
-*                     ),
-*                     @OA\Property(
-*                         property="user_id",
-*                         type="string",
-*                         example="description"
-*                     ),
-*                     @OA\Property(
-*                         property="oferta_laboral_id",
-*                         type="string",
-*                         example="description"
-*                     ),
-*
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
-    public function index()
+    /**
+     * index UserOfertaLaboral
+     * @OA\Get(
+     *     path="/api/v1/userofertalaboral",
+     *     summary="Obtiene un listado paginado de user ofertas laborales",
+     *     tags={"User oferta laboral"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=false,
+     *         description="Numero de pagina",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         required=false,
+     *         description="Cantidad de registros por pagina",
+     *         @OA\Schema(type="integer", example=10)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado paginado de user ofertas laborales",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Listado obtenido"),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en el servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Error en el servidor")
+     *         )
+     *     )
+     * )
+     *
+     */
+    public function index(Request $request)
     {
-        $UserOfertaLaborls =UserOfertaLaboral::all();
+        try {
+            $perPage = $request->input('per_page', 10);
+            $page = $request->input('page', 1);
 
-        return $UserOfertaLaborls->toJson();
+            $userOfertaLaborals = UserOfertaLaboral::paginate($perPage, ['*'], 'page', $page);
+
+            return ResponseService::success(
+                UserOfertaLaboralResource::collection($userOfertaLaborals),
+                'Listado obtenido',
+                200,
+                [
+                    'current_page' => $userOfertaLaborals->currentPage(),
+                    'total'        => $userOfertaLaborals->total(),
+                    'last_page'    => $userOfertaLaborals->lastPage()
+                ]
+            );
+        } catch (Exception $e) {
+            return ResponseService::error(
+                'Error en el servidor',
+                500,
+                $e->getMessage()
+            );
+        }
     }
 
  
@@ -108,59 +123,59 @@ class UserOfertaLaboralController extends Controller
     }
 
   
-            /**
-* show statususer
-* @OA\Get(
-*     path="/api/v1/userofertalaboral/{id}",
-*     summary="Se muestra el registro de las ofertas laborales del user ",
-*     tags={"User oferta laboral"},
-*     @OA\parameter(
-*       name="id",
-*       in="path",
-*       required=false   
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="integer",
-*                         example=2
-*                     ),
-*                     @OA\Property(
-*                         property="user_id",
-*                         type="string",
-*                         example="description"
-*                     ),
-*                     @OA\Property(
-*                         property="oferta_laboral_id",
-*                         type="string",
-*                         example="description"
-*                     ),
-*
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
+      /**
+      * show statususer
+      * @OA\Get(
+      *     path="/api/v1/userofertalaboral/{id}",
+      *     summary="Se muestra el registro de las ofertas laborales del user ",
+      *     tags={"User oferta laboral"},
+      *     @OA\parameter(
+      *       name="id",
+      *       in="path",
+      *       required=false   
+      *        ),
+      *     @OA\Response(
+      *         response=200,
+      *         description="descripción o el nombre del código de la petición",
+      *         @OA\JsonContent(
+      *             @OA\Property(
+      *                 type="array",
+      *                 property="rows",
+      *                 @OA\Items(
+      *                     type="object",
+      *                     @OA\Property(
+      *                         property="id",
+      *                         type="integer",
+      *                         example=2
+      *                     ),
+      *                     @OA\Property(
+      *                         property="user_id",
+      *                         type="string",
+      *                         example="description"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="oferta_laboral_id",
+      *                         type="string",
+      *                         example="description"
+      *                     ),
+      *
+      *                     @OA\Property(
+      *                         property="created_at",
+      *                         type="string",
+      *                         example="2023-02-23T00:09:16.000000Z"
+      *                     ),
+      *                     @OA\Property(
+      *                         property="updated_at",
+      *                         type="string",
+      *                         example="2023-02-23T12:33:45.000000Z"
+      *                     )
+      *                 )
+      *             )
+      *         )
+      *     )
+      * )
+      *
+      */
     public function show($id)
     {
      
@@ -200,112 +215,112 @@ class UserOfertaLaboralController extends Controller
     }
 
 
-   /**
-* update user Oferta Laboral
-* @OA\Patch(
-*     path="/api/v1/userofertalaboral",
-*     summary="Se actualiza el registro que es especificado en el campo id ",
-*     tags={"User oferta laboral"},
-*     @OA\parameter(
-*       name="id",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\parameter(
-*       name="user_id",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\parameter(
-*       name="oferta_laboral_id",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\parameter(
-*       name="idescription",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     ),
-*                     @OA\Property(
-*                         property="email",
-*                         type="string",
-*                         example="angelshamael@gmail.com"
-*                     ),
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*    ),
-*
-*     @OA\Response(
-*         response=400,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
+     /**
+     * update user Oferta Laboral
+     * @OA\Patch(
+     *     path="/api/v1/userofertalaboral",
+     *     summary="Se actualiza el registro que es especificado en el campo id ",
+     *     tags={"User oferta laboral"},
+     *     @OA\parameter(
+     *       name="id",
+     *       in="query",
+     *       required=true    
+     *        ),
+     *     @OA\parameter(
+     *       name="user_id",
+     *       in="query",
+     *       required=true    
+     *        ),
+     *     @OA\parameter(
+     *       name="oferta_laboral_id",
+     *       in="query",
+     *       required=true    
+     *        ),
+     *     @OA\parameter(
+     *       name="idescription",
+     *       in="query",
+     *       required=true    
+     *        ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="descripción o el nombre del código de la petición",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Aderson Felix"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="angelshamael@gmail.com"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2023-02-23T12:33:45.000000Z"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *    ),
+     *
+     *     @OA\Response(
+     *         response=400,
+     *         description="descripción o el nombre del código de la petición",
+     *         @OA\JsonContent(
 
-*                     type="object",
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     ),
-*                     @OA\Property(
-*                         property="email",
-*                         type="string",
-*                         example="angelshamael@gmail.com"
-*                     ),
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 
-*             
-*         )
-*
-*     )
-*
-*    
-* )
-*
-*/
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Aderson Felix"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="angelshamael@gmail.com"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2023-02-23T00:09:16.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2023-02-23T12:33:45.000000Z"
+     *                     )
+     *                 
+     *             
+     *         )
+     *
+     *     )
+     *
+     *    
+     * )
+     *
+     */
     public function update(Request $request)
     {
 
@@ -366,3 +381,4 @@ class UserOfertaLaboralController extends Controller
         //
     }
 }
+

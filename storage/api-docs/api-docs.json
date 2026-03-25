@@ -358,7 +358,7 @@
                     "Empresa"
                 ],
                 "summary": "Obtienes los datos del registro empresa ",
-                "description": "* Mostramos la empresa especificada por el id\n* @OA\\Get(\n*     path=\"/api/v1/empresa/{id}\",\n*     summary=\"Obtienes los datos del registro empresa \",\n*     tags={\"Empresa\"},\n*\n*     @OA\\Response(\n*         response=200,\n*         description=\"Empresa encontrada\",\n*         @OA\\JsonContent(\n*                \n*                    @OA\\Property(property=\"success\", type=\"boolean\"),\n*                @OA\\Property(property=\"status\", type=\"integer\"),\n*                @OA\\Property(property=\"message\", type=\"string\"),\n*                @OA\\Property(property=\"data\", \n*                                      \n*                                      @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*                                      @OA\\Property(property=\"name\", type=\"string\", example=\" cencocud\"),\n*                                      @OA\\Property(property=\"email\", type=\"string\", example=\" oferta laboral cerrada\"),\n*                                      @OA\\Property(property=\"avatar\", type=\"string\", example=\"comercio exterior\"),\n*                                      @OA\\Property(property=\"address\", type=\"string\", example=\"street brlmoor #3453\"),\n*                                      @OA\\Property(property=\"rubro\", type=\"string\", example=\"transporte comercio local\"),\n*                                      @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*                                      @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n*                          ),\n*                @OA\\Property(property=\"errors\", type=\"object\", nullable=true),\n*                @OA\\Property(property=\"meta\",type=\"object\", nullable=true )\n*                       \n*                       \n*            \n*         )\n*      )\n*\n*     \n* )\n*",
+                "description": "Mostramos la empresa especificada por el id",
                 "operationId": "cb1885f1bb5e7501e5988feb440d5bcc",
                 "responses": {
                     "200": {
@@ -1963,39 +1963,75 @@
                 "tags": [
                     "Status users"
                 ],
-                "summary": "Se muestra el registro status user ",
-                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/statususer\",\n*     summary=\"Se muestra el registro status user \",\n*     tags={\"Status users\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"stringr\",\n*                         example=\"status name\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"description\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
+                "summary": "Obtiene un listado paginado de status de usuario",
+                "description": "show statususer",
                 "operationId": "81c1933259182fcee9596a983dd6c375",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Listado paginado de status",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "stringr",
-                                                        "example": "status name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
                                         }
                                     },
                                     "type": "object"
@@ -2078,7 +2114,7 @@
                     "Status users"
                 ],
                 "summary": "Se muestra el registro status user ",
-                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/statususer/{id}\",\n*     summary=\"Se muestra el registro status user \",\n*     tags={\"Status users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"path\",\n*       required=false   \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"stringr\",\n*                         example=\"status name\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"description\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
+                "description": "show statususer",
                 "operationId": "b09ebd1df1a3448860818c920ec860bb",
                 "parameters": [
                     {
@@ -2205,42 +2241,75 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "all users Json",
+                "summary": "Obtiene un listado paginado de usuarios",
+                "description": "all users Json",
                 "operationId": "0e4dcb150e6428cad11237b5f307e338",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Listado paginado de usuarios",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
                                         }
                                     },
                                     "type": "object"
@@ -2254,53 +2323,216 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "agregar usuario",
+                "summary": "Crea un usuario",
+                "description": "Registra un usuario. Requiere API token.",
                 "operationId": "efb6b7b0ee4cbeb06b62835fa7294475",
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "path",
-                        "required": true
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aderson Felix"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "angelshamael@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "mypass_1234$"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "calle olivos 2345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Usuario creado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "password": {
-                                                        "type": "string",
-                                                        "example": "mypass_1234$"
-                                                    },
-                                                    "address": {
-                                                        "type": "string",
-                                                        "example": "calle olivos 2345"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario creado correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Actualiza un usuario",
+                "description": "Actualiza los campos enviados del usuario. Requiere API token.",
+                "operationId": "79a12fa8c8d1312c1e520d1e3dbc9037",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aderson Felix"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "angelshamael@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "mypass_1234$"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "calle ventura"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2316,7 +2548,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Se muestra un solo registro user ",
+                "summary": "Obtiene un usuario por ID",
                 "description": "show user",
                 "operationId": "493da9372895ff38977fa81dea25025b",
                 "parameters": [
@@ -2328,85 +2560,45 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Usuario encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": "1"
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Aderson Felix"
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
                                         },
-                                        "email": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "angelshamael@gmail.com"
+                                            "example": "Usuario encontrado"
                                         },
-                                        "address": {
-                                            "type": "string",
-                                            "example": "calle ventura"
+                                        "data": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/api/v1/users/": {
-            "patch": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Se muestra un solo registro user ",
-                "description": "* update user\n* @OA\\Patch(\n*     path=\"/api/v1/users/\",\n*     summary=\"Se muestra un solo registro user \",\n*     tags={\"Users\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
-                "operationId": "0ade872e6ecf4bc9eed3c17401781d06",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
                                         }
                                     },
                                     "type": "object"
@@ -2422,43 +2614,75 @@
                 "tags": [
                     "User oferta laboral"
                 ],
-                "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/userofertalaboral\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User oferta laboral\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"integer\",\n*                         example=2\n*                     ),\n*                     @OA\\Property(\n*                         property=\"user_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"oferta_laboral_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
+                "summary": "Obtiene un listado paginado de user ofertas laborales",
+                "description": "index UserOfertaLaboral",
                 "operationId": "30ab2f021ddc4b375829060d07e1d4fc",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Listado paginado de user ofertas laborales",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 2
-                                                    },
-                                                    "user_id": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "oferta_laboral_id": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
                                         }
                                     },
                                     "type": "object"
@@ -2473,7 +2697,7 @@
                     "User oferta laboral"
                 ],
                 "summary": "Se actualiza el registro que es especificado en el campo id ",
-                "description": "* update user Oferta Laboral\n* @OA\\Patch(\n*     path=\"/api/v1/userofertalaboral\",\n*     summary=\"Se actualiza el registro que es especificado en el campo id \",\n*     tags={\"User oferta laboral\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"user_id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"oferta_laboral_id\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\parameter(\n*       name=\"idescription\",\n*       in=\"query\",\n*       required=true    \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*    ),\n*\n*     @OA\\Response(\n*         response=400,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"number\",\n*                         example=\"1\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"name\",\n*                         type=\"string\",\n*                         example=\"Aderson Felix\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"email\",\n*                         type=\"string\",\n*                         example=\"angelshamael@gmail.com\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 \n*             \n*         )\n*\n*     )\n*\n*    \n* )\n*",
+                "description": "update user Oferta Laboral",
                 "operationId": "62ff96a1493f76a387c12dd2c6cd2368",
                 "parameters": [
                     {
@@ -2579,7 +2803,7 @@
                     "User oferta laboral"
                 ],
                 "summary": "Se muestra el registro de las ofertas laborales del user ",
-                "description": "* show statususer\n* @OA\\Get(\n*     path=\"/api/v1/userofertalaboral/{id}\",\n*     summary=\"Se muestra el registro de las ofertas laborales del user \",\n*     tags={\"User oferta laboral\"},\n*     @OA\\parameter(\n*       name=\"id\",\n*       in=\"path\",\n*       required=false   \n*        ),\n*     @OA\\Response(\n*         response=200,\n*         description=\"descripción o el nombre del código de la petición\",\n*         @OA\\JsonContent(\n*             @OA\\Property(\n*                 type=\"array\",\n*                 property=\"rows\",\n*                 @OA\\Items(\n*                     type=\"object\",\n*                     @OA\\Property(\n*                         property=\"id\",\n*                         type=\"integer\",\n*                         example=2\n*                     ),\n*                     @OA\\Property(\n*                         property=\"user_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"oferta_laboral_id\",\n*                         type=\"string\",\n*                         example=\"description\"\n*                     ),\n*\n*                     @OA\\Property(\n*                         property=\"created_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T00:09:16.000000Z\"\n*                     ),\n*                     @OA\\Property(\n*                         property=\"updated_at\",\n*                         type=\"string\",\n*                         example=\"2023-02-23T12:33:45.000000Z\"\n*                     )\n*                 )\n*             )\n*         )\n*     )\n* )\n*",
+                "description": "show statususer",
                 "operationId": "2b991733cc08505865f2572483472dc9",
                 "parameters": [
                     {

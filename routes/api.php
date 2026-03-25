@@ -49,7 +49,8 @@ Route::prefix('v1')->group(function () {
  */
 
       Route::middleware(['auth:sanctum', 'token.expiration', 'throttle:api'])->group(function (){
-         Route::post('/users', [UserAppController::class, 'store']);
+    Route::post('/users', [UserAppController::class, 'store']);
+    Route::patch('/users', [UserAppController::class, 'update']);
          Route::post('/empresa', [EmpresaController::class, 'store']);
          Route::patch('/empresa', [EmpresaController::class, 'update']);
 

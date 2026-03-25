@@ -216,44 +216,44 @@ class EmpresaController extends Controller
     }
 
 
-/**
-* Mostramos la empresa especificada por el id
-* @OA\Get(
-*     path="/api/v1/empresa/{id}",
-*     summary="Obtienes los datos del registro empresa ",
-*     tags={"Empresa"},
-*
-*     @OA\Response(
-*         response=200,
-*         description="Empresa encontrada",
-*         @OA\JsonContent(
-*                
-*                    @OA\Property(property="success", type="boolean"),
-*                @OA\Property(property="status", type="integer"),
-*                @OA\Property(property="message", type="string"),
-*                @OA\Property(property="data", 
-*                                      
-*                                      @OA\Property(property="id", type="integer", example=3),
-*                                      @OA\Property(property="name", type="string", example=" cencocud"),
-*                                      @OA\Property(property="email", type="string", example=" oferta laboral cerrada"),
-*                                      @OA\Property(property="avatar", type="string", example="comercio exterior"),
-*                                      @OA\Property(property="address", type="string", example="street brlmoor #3453"),
-*                                      @OA\Property(property="rubro", type="string", example="transporte comercio local"),
-*                                      @OA\Property( property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
-*                                      @OA\Property( property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
-*                          ),
-*                @OA\Property(property="errors", type="object", nullable=true),
-*                @OA\Property(property="meta",type="object", nullable=true )
-*                       
-*                       
-*            
-*         )
-*      )
-*
-*     
-* )
-*
-*/
+     /**
+     * Mostramos la empresa especificada por el id
+     * @OA\Get(
+     *     path="/api/v1/empresa/{id}",
+     *     summary="Obtienes los datos del registro empresa ",
+     *     tags={"Empresa"},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Empresa encontrada",
+     *         @OA\JsonContent(
+     *                
+     *                    @OA\Property(property="success", type="boolean"),
+     *                @OA\Property(property="status", type="integer"),
+     *                @OA\Property(property="message", type="string"),
+     *                @OA\Property(property="data", 
+     *                                      
+     *                                      @OA\Property(property="id", type="integer", example=3),
+     *                                      @OA\Property(property="name", type="string", example=" cencocud"),
+     *                                      @OA\Property(property="email", type="string", example=" oferta laboral cerrada"),
+     *                                      @OA\Property(property="avatar", type="string", example="comercio exterior"),
+     *                                      @OA\Property(property="address", type="string", example="street brlmoor #3453"),
+     *                                      @OA\Property(property="rubro", type="string", example="transporte comercio local"),
+     *                                      @OA\Property( property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+     *                                      @OA\Property( property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *                          ),
+     *                @OA\Property(property="errors", type="object", nullable=true),
+     *                @OA\Property(property="meta",type="object", nullable=true )
+     *                       
+     *                       
+     *            
+     *         )
+     *      )
+     *
+     *     
+     * )
+     *
+     */
     public function show($id)
     {
 
