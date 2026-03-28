@@ -34,15 +34,15 @@ class AuthenticatedSessionController extends Controller
     {
         try{
 
-           $captchaError = $this->verifyRecaptcha($request);
-           if ($captchaError) {
-               return response()->json([
-                   "success" => false,
-                   "errors" => [
-                       "recaptcha" => [$captchaError],
-                   ],
-               ], 422);
-           }
+        //  $captchaError = $this->verifyRecaptcha($request);
+        //  if ($captchaError) {
+        //      return response()->json([
+        //          "success" => false,
+        //          "errors" => [
+        //              "recaptcha" => [$captchaError],
+        //          ],
+        //      ], 422);
+        //  }
 
            $request->authenticate();
 

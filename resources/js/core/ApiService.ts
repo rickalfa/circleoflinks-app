@@ -97,4 +97,12 @@ export default class ApiService {
     const response: AxiosResponse<T> = await this.api.delete(url, config);
     return { success: true, data: response.data };
   }
+
+  protected async ensureCsrf(){
+
+    await this.api.get('/sanctum/csrf-cookie');
+
+
+  }
+
 }

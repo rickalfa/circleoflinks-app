@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'token.expiration' => \App\Http\Middleware\CheckTokenExpiration::class,
         ]);
+
+            $middleware->use([
+        \Illuminate\Http\Middleware\HandleCors::class,
+    ]);
+
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

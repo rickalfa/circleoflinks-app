@@ -14,48 +14,6 @@ use Exception;
 class StatusUserController extends Controller
 {
  
-     /**
-     * show statususer
-     * @OA\Get(
-     *     path="/api/v1/statususer",
-     *     summary="Obtiene un listado paginado de status de usuario",
-     *     tags={"Status users"},
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         required=false,
-     *         description="Numero de pagina",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-     *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         required=false,
-     *         description="Cantidad de registros por pagina",
-     *         @OA\Schema(type="integer", example=10)
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Listado paginado de status",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="status", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="Listado obtenido"),
-     *             @OA\Property(property="data", type="object"),
-     *             @OA\Property(property="meta", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error en el servidor",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="Error en el servidor")
-     *         )
-     *     )
-     * )
-     *
-     */
     public function index(Request $request)
     {
         try {
@@ -91,62 +49,6 @@ class StatusUserController extends Controller
         //
     }
 
-   /** 
-    * agregar Status user
-    * @OA\Post(
-    *     path="/api/v1/statususer",
-    *     tags={"Status users"},
-    *    @OA\RequestBody(
-    *         description="User object to be created",
-    *         required=true,
-    *         @OA\JsonContent(
-    *                     @OA\Property(
-    *                         property="name",
-    *                         type="string",
-    *                         example="baneado"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="description",
-    *                         type="string",
-    *                         example="el usuario no puede comentar o crear posts"
-    *                     ),
-    *          )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="descripción o el nombre del código de la petición",
-    *         @OA\JsonContent(
-    *             @OA\Property(
-    *                 type="array",
-    *                 property="rows",
-    *                 @OA\Items(
-    *                     type="object",
-    *                     @OA\Property(
-    *                         property="id",
-    *                         type="number",
-    *                         example="1"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="name",
-    *                         type="string",
-    *                         example="Aderson Felix"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="email",
-    *                         type="string",
-    *                         example="angelshamael@gmail.com"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="updated_at",
-    *                         type="string",
-    *                         example="2023-02-23T12:33:45.000000Z"
-    *                     )
-    *                 )
-    *             )
-    *         )
-    *     )
-    * )
-    */  
     public function store(Request $request)
     {
         
@@ -175,54 +77,7 @@ class StatusUserController extends Controller
     }
 
   
-    /**
-    * show statususer
-    * @OA\Get(
-    *     path="/api/v1/statususer/{id}",
-    *     summary="Se muestra el registro status user ",
-    *     tags={"Status users"},
-    *     @OA\parameter(
-    *       name="id",
-    *       in="path",
-    *       required=false   
-    *        ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="descripción o el nombre del código de la petición",
-    *         @OA\JsonContent(
-    *             @OA\Property(
-    *                 type="array",
-    *                 property="rows",
-    *                 @OA\Items(
-    *                     type="object",
-    *                     @OA\Property(
-    *                         property="name",
-    *                         type="stringr",
-    *                         example="status name"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="description",
-    *                         type="string",
-    *                         example="description"
-    *                     ),
-
-    *                     @OA\Property(
-    *                         property="created_at",
-    *                         type="string",
-    *                         example="2023-02-23T00:09:16.000000Z"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="updated_at",
-    *                         type="string",
-    *                         example="2023-02-23T12:33:45.000000Z"
-    *                     )
-    *                 )
-    *             )
-    *         )
-    *     )
-    * )
-    *
-    */
+    
     public function show($id)
     {
         
@@ -256,60 +111,7 @@ class StatusUserController extends Controller
         
     }
 
-   /**
-* update user
-* @OA\Patch(
-*     path="/public/api/v1/statususer/",
-*     summary="Se muestra un solo registro user ",
-*     tags={"Status users"},
-*    @OA\RequestBody(
-*         description="User object to be created",
-*         required=true,
-*         @OA\JsonContent(
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*          )
-*     ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="success-update",
-*                         type="boolean",
-*                         example=true
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     ),
-*      @OA\Response(
-*         response=400,
-*         description="Bad request",
-*         @OA\JsonContent(
-*                     @OA\Property(
-*                         property="success-update",
-*                         type="number",
-*                         example="1"
-*                     )
-*                )
-*     )
-* )
-*
-*/
+
     public function update(Request $request)
     {
 

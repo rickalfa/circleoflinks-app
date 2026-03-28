@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User_perfil extends Model
+class UserPerfil extends Model
 {
 
     use HasFactory;
@@ -26,7 +26,7 @@ class User_perfil extends Model
     
 
 
-    public function user(){
+    public function userapp(){
 
 
         return $this->belongsTo('App\models\UserApp', 'user_id');

@@ -7,9 +7,9 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
-use App\Models\User_perfil;
+use App\Models\UserPerfil;
 
-class User_perfilController extends Controller
+class UserPerfilController extends Controller
 {
 
                    /**

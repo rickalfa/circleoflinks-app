@@ -8,12 +8,14 @@ use App\Http\Controllers\EmpresaController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusUserController;
-use App\Http\Controllers\User_perfilController;
+use App\Http\Controllers\UserPerfilController;
 use App\Http\Controllers\UserOfertaLaboralController;
 use App\Http\Controllers\UserAppController;
+use App\Http\Controllers\UserAppStatusController;
 use App\Http\Controllers\ProyectosController;
 
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 use App\Http\Controllers\PostulacionOfertaLaboralController;
 
@@ -21,7 +23,7 @@ use App\Http\Controllers\StatusOfertaLaboralController;
 
 use App\Http\Controllers\OfertaLaboralController;
 use App\Http\Controllers\UserContactController;
-use App\Models\User_perfil;
+use App\Models\UserPerfil;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,13 +71,16 @@ Route::prefix('v1')->group(function () {
          Route::post('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'store']);
          Route::patch('/postulacionofertalaboral', [PostulacionOfertaLaboralController::class, 'update']);
 
-         Route::post('/usersperfil', [User_perfilController::class, 'store']);
-         Route::patch('/usersperfil', [User_perfilController::class, 'update']);
+         Route::post('/usersprofile', [UserPerfilController::class, 'store']);
+         Route::patch('/usersprofile', [UserPerfilController::class, 'update']);
 
          Route::post('/proyectos', [ProyectosController::class, 'store']);
          Route::patch('/proyectos', [ProyectosController::class, 'update']);
 
          Route::post('/usercontact', [UserContactController::class, 'store']);
+
+         Route::post('/userappstatus', [UserAppStatusController::class, 'store']);
+         Route::patch('/userappstatus', [UserAppStatusController::class, 'update']);
       });
 
 
@@ -100,7 +105,20 @@ Route::prefix('v1')->group(function () {
       Route::get('/userofertalaboral/{id}', [UserOfertaLaboralController::class, 'show'])->name('/userofertalaboral/{id}');
       Route::get('/userofertalaboral', [UserOfertaLaboralController::class, 'index']);
 
+      Route::resource('/userappstatus', UserAppStatusController::class)->only(['index', 'show']);
+
       Route::resource('/usercontact', UserContactController::class)->only(['index', 'show']);
       Route::get('/users/login/{email}/{pass}', [UserController::class, 'loginUser'])->name('/users/login/');
+
+
+
+     
+       
+      /**
+       * Register AUth
+       */
+
+       Route::post('register', [RegisteredUserController::class, 'store'])
+       ->name('register');
 
 });

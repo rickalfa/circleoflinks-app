@@ -31,7 +31,11 @@ export default class AuthService extends ApiService {
     "g-recaptcha-response"?: string;
   }): Promise<ApiResponse<User>>{
 
-    const response = await this.post<responselaravel>("/register", data);
+    /// Obtenemos el CSRF token-api de seguridad para comunicarnos desde en front al back
+    await this.ensureCsrf();
+
+
+    const response = await this.post<responselaravel>("/api/v1/register", data);
   
   return {
     success: response.success,
@@ -47,6 +51,11 @@ export default class AuthService extends ApiService {
   }
 
   async login(data: { email: string; password: string; recaptcha: string }): Promise<ApiResponse<User>> {
+
+    /// Obtenemos el CSRF token-api de seguridad para comunicarnos desde en front al back
+    await this.ensureCsrf();
+
+
     return this.post<User>("/login", {
       email: data.email,
       password: data.password,
