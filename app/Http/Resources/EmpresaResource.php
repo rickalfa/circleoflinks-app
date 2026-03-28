@@ -24,7 +24,7 @@ class EmpresaResource extends JsonResource
             'address'    => $this->address,
             'rubro'      => $this->rubro,
             // Solo incluimos las ofertas si se cargaron con with()
-            'ofertas'    => OfertaLaboralResource::collection($this->whenLoaded('oferta_laborals')),
+            'ofertas'    => OfertaLaboralResource::collection($this->whenLoaded('ofertalaboral')),
             'created_at' => $this->created_at->format('d-m-Y'),
             'updated_at' => $this->updated_at->format('d-m-Y'),
         ];

@@ -32,4 +32,9 @@ class Empresa extends Model
     }
 
 
+    public function proyectos()
+    {
+        return $this->hasMany('App\Models\Proyectos', 'empresa_id', 'id');
+
+    }
 }

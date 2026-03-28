@@ -475,7 +475,7 @@ public function showWithOffers($id)
         $empresa = Empresa::findOrFail($id);
         
         // Paginamos directamente la relación
-        $ofertas = $empresa->oferta_laborals()->paginate(10); 
+        $ofertas = $empresa->ofertalaboral()->paginate(10); 
 
         return ResponseService::success(
                 OfertaLaboralResource::collection($ofertas),

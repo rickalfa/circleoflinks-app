@@ -1,0 +1,16 @@
+$kind: http-request
+name: /proyectos add
+url: "{{patch-col-local-api}}/proyectos?name=Proyecto app
+  movil&description=Desarrollo de portal
+  corporativo&date_finish=2027-12-31&empresa_id=20"
+method: POST
+queryParams:
+  name: Proyecto app movil
+  description: Desarrollo de portal corporativo
+  date_finish: 2027-12-31
+  empresa_id: "20"
+auth:
+  type: bearer
+  credentials:
+    token: ""
+order: 1173162730796051

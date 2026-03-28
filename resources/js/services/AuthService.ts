@@ -15,9 +15,6 @@ interface responselaravel{
 
 
 
-
-
-
 export default class AuthService extends ApiService {
   constructor() {
     super(); // baseURL relativa (Laravel)
@@ -50,7 +47,7 @@ export default class AuthService extends ApiService {
 
   }
 
-  async login(data: { email: string; password: string; recaptcha: string }): Promise<ApiResponse<User>> {
+  async login(data: { email: string; password: string; token: string }): Promise<ApiResponse<User>> {
 
     /// Obtenemos el CSRF token-api de seguridad para comunicarnos desde en front al back
     await this.ensureCsrf();
@@ -59,7 +56,7 @@ export default class AuthService extends ApiService {
     return this.post<User>("/login", {
       email: data.email,
       password: data.password,
-      "g-recaptcha-response": data.recaptcha,
+      "_token": data.token,
     });
   }
 
