@@ -1,64 +1,241 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Documentación Técnica del Proyecto: Circle of Links - Chatbot WhatsApp & Portal Laboral
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Resumen Ejecutivo del Proyecto
 
-## About Laravel
+El proyecto **Circle of Links - Chatbot WSP** es una aplicación web desarrollada sobre el framework **Laravel 9**, diseñada con una doble arquitectura de servicios:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **CRM y Chatbot Automatizado de WhatsApp**: Un sistema integral de recepción, clasificación y respuesta de mensajes a través de la **WhatsApp Cloud API (Meta Graph API v19.0)**. Incorpora un motor de bots/agentes virtuales configurables con disparadores lógicos (*key triggers*), gestión y captura automática de prospectos (*Leads*), persistencia del historial de conversaciones y una interfaz de **Chat en Vivo (*Live Chat*)** para atención humana directa en tiempo real.
+2. **Portal Laboral y Red Profesional (Circle of Links)**: Un subsistema de gestión de talento, ofertas de empleo, empresas contratantes, perfiles curriculares, postulaciones y redes de contacto, expuesto a través de una **API RESTful** documentada bajo el estándar **OpenAPI / Swagger (L5-Swagger)** y protegido por tokens mediante **Laravel Sanctum**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 2. Stack Tecnológico
 
-## Learning Laravel
+| Capa | Tecnologías |
+| :--- | :--- |
+| **Backend Framework** | Laravel 9.x (PHP ^8.0) |
+| **Autenticación & Seguridad** | Laravel Breeze (Sesiones web), Laravel Sanctum (Tokens API) |
+| **Documentación de API** | L5-Swagger 8.6 (OpenAPI / Swagger UI v3) |
+| **Base de Datos & ORM** | MySQL / MariaDB con Eloquent ORM |
+| **Frontend & UI** | Blade Templates, Bootstrap 5.3, TailwindCSS 3.1, Vite 5.1, Alpine.js |
+| **Comunicación Asíncrona** | AJAX (Vanilla JS `XMLHttpRequest`, Axios) |
+| **Integraciones Externas** | Meta / WhatsApp Cloud API (Graph API v19.0) |
+| **Testing** | Pest PHP 1.22 / PHPUnit |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 3. Arquitectura del Sistema
 
-## Laravel Sponsors
+El sistema sigue el patrón de diseño **MVC (Modelo - Vista - Controlador)** con capas de servicio y controladores organizados por dominios:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```mermaid
+graph TD
+    subgraph WhatsApp / Meta Cloud
+        WSP[Cliente WhatsApp] <--> |Webhook POST/GET| WSP_CTRL[WspbController]
+        WSP_SEND[WspSendMessageController] --> |Graph API v19.0| WSP
+    end
 
-### Premium Partners
+    subgraph Backend Laravel
+        WSP_CTRL --> CONV_WSP[ConversationWsp Service]
+        CONV_WSP --> USER_WSP[UserWsp Parser]
+        CONV_WSP --> BOT_WSP[BotWsp Engine]
+        BOT_WSP --> AGENTS[(Agentes & LogicResponses)]
+        BOT_WSP --> WSP_SEND
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+        ADMIN_UI[Panel Admin /admindashboard] --> LEAD_CTRL[LeadController / ChatLeadController]
+        LEAD_CTRL --> WSP_SEND
+        ADMIN_UI --> AGENT_CTRL[AgentController & LogicResponseController]
 
-## Contributing
+        API_ROUTER[API REST /api/v1/] --> API_CTRLS[Empresa, Ofertas, Perfiles, UserApp Controllers]
+    end
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    subgraph Base de Datos MySQL
+        AGENTS --- DB[(MySQL Database)]
+        API_CTRLS --- DB
+        LEAD_CTRL --- DB
+    end
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 4. Módulos Funcionales
 
-## Security Vulnerabilities
+### 4.1. Módulo Chatbot WhatsApp & CRM de Leads
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **Verificación de Webhook (`GET /wspservice`)**: Valida la suscripción del webhook contra Meta mediante el token de verificación `WHATSAPP_VERIFY_TOKEN` y responde con el `hub_challenge`.
+* **Recepción y Procesamiento de Mensajes (`POST /wspservice`)**:
+  * Decodifica el payload entrante de WhatsApp Cloud API.
+  * Extrae número telefónico y cuerpo del mensaje.
+  * **Auto-registro de Contactos**: Si el número no existe en la base de datos, crea automáticamente un registro `UserApp` con estado "no registrado" y un `UserAppContact`.
+* **Motor de Reglas de Agentes (`BotWsp.php`)**:
+  * Consulta los agentes con estado `active` (`Agent::where('status', 'active')`).
+  * Evalúa las reglas de respuesta (`LogicResponse`) comparando el mensaje del usuario con los disparadores (*key triggers*) mediante expresiones regulares (*regex matching*).
+  * Si hay coincidencia, despacha la respuesta automática hacia WhatsApp.
+* **Panel de Leads y Conversaciones (`/admindashboard/leads`)**:
+  * Lista los contactos capturados con nombre, teléfono, avatar y timestamp del último mensaje.
+  * Visualización de historiales de mensajes clasificados por emisor (`user` / `agent`).
+* **Chat en Vivo (*Live Chat*)**:
+  * Modal interactivo que carga asíncronamente el hilo de mensajes del lead (`/component/chatlead/{id}`).
+  * Permite al operador responder manualmente al cliente en tiempo real (`POST /sendmessagewsp`).
+* **Fábrica y Gestión de Bots (`/admindashboard/bots-r`)**:
+  * Creación y edición de agentes virtuales.
+  * Asignación de reglas de respuesta dinámica (Triggers y Respuestas).
+  * Activación y desactivación de agentes.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4.2. Módulo Portal Laboral & Red Profesional (Circle of Links)
+
+* **Gestión de Empresas (`/api/v1/empresa`)**:
+  * Registro, listado, actualización y eliminación de empresas con datos de razón social, email, avatar, dirección y rubro comercial.
+* **Gestión de Ofertas Laborales (`/api/v1/ofertalaboral`)**:
+  * Publicación de ofertas de trabajo vinculadas a empresas y usuarios reclutadores.
+  * Atributos: título, descripción, salario ofrecido, fecha límite de expiración y estado de la oferta.
+* **Gestión de Postulaciones (`/api/v1/postulacionofertalaboral`)**:
+  * Registro de postulantes a ofertas laborales activas.
+* **Perfiles Profesionales (`/api/v1/userperfil`)**:
+  * Perfil curricular de usuarios: información biográfica, educación, experiencia laboral, habilidades y título profesional.
+* **Contactos y Redes de Usuarios (`/api/v1/usercontact`)**:
+  * Conexiones y redes de contacto entre usuarios del sistema.
+
+---
+
+### 4.3. Módulo de Autenticación y Administración
+
+* **Autenticación Web**: Gestión de sesiones de administradores vía Laravel Breeze (`/login`, `/register`, `/profile`).
+* **Autenticación API**: Tokens de acceso personal mediante **Laravel Sanctum** para clientes móviles o externos.
+* **Documentación Interactiva Swagger**: Interfaz gráfica en `/api/documentation` generada automáticamente por `l5-swagger` para probar y consumir los endpoints.
+
+---
+
+## 5. Modelo de Datos y Relaciones (Base de Datos)
+
+### Tablas y Entidades Principales
+
+```mermaid
+erDiagram
+    user_app ||--o{ user_app_contacts : "tiene contactos"
+    user_app ||--o{ leads : "es lead"
+    user_app ||--o{ user_perfil : "tiene perfil"
+    user_app ||--o{ conversations : "participa"
+    user_app }o--|| user_app_status : "tiene estado"
+
+    agents ||--o{ conversations : "atiende"
+    agents ||--o{ logic_responses : "posee reglas"
+
+    conversations ||--o{ messages : "contiene"
+
+    empresa ||--o{ oferta_laborals : "publica"
+    status_oferta_laborals ||--o{ oferta_laborals : "define estado"
+    oferta_laborals ||--o{ postulacion_oferta_laborals : "recibe"
+    user_app ||--o{ user_oferta_laborals : "interactua"
+    oferta_laborals ||--o{ user_oferta_laborals : "asociada"
+```
+
+### Detalle de Tablas
+
+1. **`agents`**: Agentes virtuales del chatbot (`name`, `description`, `version`, `status`, `json_logic_response`).
+2. **`logic_responses`**: Disparadores de respuesta (`agent_id`, `name`, `key_trigger`, `response`, `description`).
+3. **`conversations`**: Hilos de conversación (`user_id`, `agent_id`, `message`, `type`).
+4. **`messages`**: Mensajes individuales (`conversation_id`, `sender_id`, `sender_type`, `content`, `sent_at`).
+5. **`leads`**: Prospectos generados vía WhatsApp (`user_id`, `name`, `phone_number`, `last_message_time`, `state`).
+6. **`user_app`**: Usuarios de la aplicación y visitantes de WhatsApp (`name`, `email`, `password`, `address`, `avatar`, `user_app_status_id`).
+7. **`user_app_contacts`**: Teléfonos asociados a `user_app` (`user_id`, `phone_number`, `status`).
+8. **`user_perfil`**: Perfil laboral (`user_id`, `info`, `education`, `exp_laboral`, `habilidades`, `profetion_name`).
+9. **`empresa`**: Empresas ofertantes (`name`, `email`, `avatar`, `address`, `rubro`).
+10. **`oferta_laborals`**: Ofertas de trabajo (`empresa_id`, `status_oferta_laboral_id`, `user_oferta_laboral_id`, `title`, `name`, `description`, `salary`, `date_expire`).
+11. **`postulacion_oferta_laborals`**: Postulaciones (`oferta_laboral_id`, `name`, `description`, `date_expire`).
+12. **`user_contacts`**: Red de contactos entre usuarios (`user_id`, `contact_id`, `status`).
+
+---
+
+## 6. Catálogo de Rutas y Endpoints
+
+### 6.1. Rutas Web y Panel de Administración (`routes/web.php`)
+
+| Método | URI | Controlador / Acción | Descripción |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | Vista `welcome` | Landing page principal con widget WhatsApp |
+| `GET` | `/dashboard` | Middleware `auth` | Dashboard general de usuario |
+| `GET` | `/admindashboard/user` | `Web\UserAppController@index` | Listado de usuarios de la aplicación |
+| `GET` | `/admindashboard/user/{id}` | `Web\UserAppController@show` | Detalle de un usuario |
+| `GET` | `/admindashboard/userconversation/{id}` | `Web\UserAppController@conversations` | Conversaciones de un usuario |
+| `GET` | `/admindashboard/userconversation-detail/{id}` | `Web\UserAppController@conversationDetail` | Detalle de conversación y mensajes |
+| `GET` | `/admindashboard/leads` | `LeadController@index` | Listado general de Leads de WhatsApp |
+| `GET` | `/component/chatlead/{id_lead}` | `ChatLeadController@create` | Componente Blade para Chat en Vivo (AJAX) |
+| `POST` | `/sendmessagewsp` | `ChatLeadController@sendmessage` | Enviar mensaje manual a WhatsApp desde panel |
+| `GET` | `/admindashboard/bots-r` | `AgentController@index` | Listado de Agentes / Bots |
+| `GET` | `/admindashboard/bots-r-fabric` | `AgentController@create` | Formulario para crear un nuevo bot |
+| `POST` | `/admindashboard/bots-r-store` | `AgentController@store` | Guardar nuevo bot en BD |
+| `GET` | `/admindashboard/bots-r-actives` | `AgentController@activesBots` | Gestión y activación de bots |
+| `PUT` | `/admindashboard/bots-r/{id}` | `AgentController@update` | Actualizar estado o datos del bot |
+| `GET` | `/admindashboard/bots-r/{idagent}/logicresponse-create` | `LogicResponseController@create` | Formulario para añadir trigger a un bot |
+| `POST` | `/admindashboard/logicresponse` | `LogicResponseController@store` | Guardar trigger y respuesta de bot |
+| `GET` | `/admindashboard/contacts` | `Web\UserAppContactController@index` | Listado de contactos de WhatsApp |
+| `GET` | `/wspservice` | `WhatsappApi\WspbController@webhook` | Verificación Webhook de WhatsApp Cloud API |
+| `POST` | `/wspservice` | `WhatsappApi\WspbController@recibir` | Recepción de mensajes WhatsApp entrantes |
+| `GET` | `/sendmessage` | `WhatsappApi\WspSendMessageController@sendmessage` | Envío directo de mensaje de prueba |
+
+### 6.2. Rutas API REST (`routes/api.php`)
+
+| Método | URI | Controlador | Descripción |
+| :--- | :--- | :--- | :--- |
+| `GET / POST` | `/api/v1/users` | `UserAppController` | Listar y registrar usuarios de la app |
+| `GET / PATCH` | `/api/v1/users/{id}` | `UserAppController` | Detalle y actualización de usuario |
+| `GET / POST / PATCH / DELETE` | `/api/v1/empresa` | `EmpresaController` | CRUD de Empresas |
+| `GET / POST / PATCH / DELETE` | `/api/v1/ofertalaboral` | `OfertaLaboralController` | CRUD de Ofertas Laborales |
+| `GET / POST / PATCH / DELETE` | `/api/v1/postulacionofertalaboral` | `PostulacionOfertaLaboralController` | CRUD de Postulaciones |
+| `GET / POST / PATCH` | `/api/v1/usersperfil` | `User_perfilController` | CRUD de Perfiles Profesionales |
+| `GET / POST / PATCH` | `/api/v1/userofertalaboral` | `UserOfertaLaboralController` | Gestión de Ofertas por Usuario |
+| `GET / POST / DELETE` | `/api/v1/usercontact` | `UserContactController` | Gestión de Contactos |
+| `GET` | `/api/v1/statususer` | `StatusUserController` | Listado de estados de usuario |
+| `GET / POST / PATCH / DELETE` | `/api/v1/statusofertalaboral` | `StatusOfertaLaboralController` | CRUD estados de oferta |
+| `GET` | `/api/v1/users/login/{email}/{pass}` | `UserController@loginUser` | Endpoint legacy de autenticación |
+
+---
+
+## 7. Configuración e Instalación
+
+### Requisitos Previos
+* PHP >= 8.0 con extensiones `pdo`, `mbstring`, `openssl`, `curl`, `json`.
+* Composer 2.x
+* Servidor MySQL / MariaDB (ej. XAMPP).
+* Node.js & NPM (para compilación de Vite).
+
+### Variables de Entorno Clave (`.env`)
+```env
+APP_NAME="Circle of Links - Chatbot WSP"
+APP_ENV=local
+APP_KEY=base64:...
+APP_DEBUG=true
+APP_URL=http://localhost/circleoflinks-app-chatbotwsp/public
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=circleoflinks_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Configuración WhatsApp Cloud API (Meta Developers)
+WHATSSAP_API_TOKEN="EAAG..."
+WHATSAPP_VERIFY_TOKEN="tu_token_de_verificacion_seguro"
+```
+
+### Comandos de Puesta en Marcha
+```bash
+# Instalar dependencias backend
+composer install
+
+# Generar clave de aplicación
+php artisan key:generate
+
+# Ejecutar migraciones y seeders
+php artisan migrate --seed
+
+# Generar documentación Swagger
+php artisan l5-swagger:generate
+
+# Iniciar servidor de desarrollo
+php artisan serve
+```
