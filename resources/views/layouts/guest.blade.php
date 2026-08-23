@@ -28,7 +28,7 @@
         <!-- Scripts -->
         
    
-        @vite(['resources/css/styleboots.css', 'resources/js/app.js'])
+        @vite(['resources/css/styleboots.css', 'resources/js/app.ts'])
       
    
      

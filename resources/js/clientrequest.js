@@ -20,7 +20,7 @@ function isLocalhost() {
 }
 
 
-const localpath = isLocalhost() ? "/circleoflinks-app/public" : "/";
+const localpath = isLocalhost() ? "/circleoflinks-app-chatbotwsp/public" : "/";
 
 
 /// Form register 

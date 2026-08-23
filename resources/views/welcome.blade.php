@@ -31,7 +31,7 @@
 
 
       <!-- Scripts -->
-      @vite(['resources/js/app.js'])
+      @vite(['resources/js/app.ts'])
 
 
 
