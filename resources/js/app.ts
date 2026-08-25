@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Si la vista actual tiene un formulario de registro (con id #form-registro), 
     // lo conectamos a nuestro componente.
-    const registerForm = document.getElementById('form-registro');
+    const registerForm = document.getElementById('formregister');
     if (registerForm) {
-        new RegisterComponent('#form-registro');
+        new RegisterComponent('#formregister');
     }
 
     // Aquí agregarías más lógica de arranque para otros componentes, Vue, o Alpine.js

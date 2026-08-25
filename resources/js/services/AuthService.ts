@@ -1,5 +1,5 @@
 import { ApiClient } from './ApiClient';
-import { RegisterPayload, UserResponse } from '../types/AuthTypes';
+import type { RegisterPayload, UserResponse } from '../types/AuthTypes';
 
 /**
  * Servicio encargado de la autenticación.
@@ -8,9 +8,8 @@ import { RegisterPayload, UserResponse } from '../types/AuthTypes';
 export class AuthService extends ApiClient {
     
     constructor() {
-        // Inicializa ApiClient apuntando a la ruta raíz para endpoints web (ej. /register)
-        // o a '/api' si el registro pasa por la API de Laravel
-        super('/'); 
+        // Inicializa ApiClient apuntando a la ruta base de Vite para que funcione en subcarpetas (XAMPP)
+        super(import.meta.env.VITE_API_BASE_URL || '/'); 
     }
 
     /**
@@ -19,7 +18,7 @@ export class AuthService extends ApiClient {
      */
     public async register(data: RegisterPayload): Promise<UserResponse> {
         // This.http está disponible porque AuthService hereda de ApiClient
-        const response = await this.http.post<UserResponse>('/register', data);
+        const response = await this.http.post<UserResponse>('register', data);
         return response.data;
     }
 }

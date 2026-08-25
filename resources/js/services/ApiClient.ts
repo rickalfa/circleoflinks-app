@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 /**
  * Clase abstracta ApiClient
@@ -10,7 +10,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 export abstract class ApiClient {
     protected readonly http: AxiosInstance;
 
-    constructor(baseURL: string = '/api',import.meta.env.VITE_API_BASE_URL || '/api') {
+    constructor(baseURL: string = import.meta.env.VITE_API_BASE_URL || '/api') {
         // Inicializamos la instancia de axios con configuración base
         this.http = axios.create({
             baseURL,
