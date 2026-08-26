@@ -1,17 +1,21 @@
 import { authService } from '../services/AuthService';
 import type { RegisterPayload } from '../types/AuthTypes';
+import { AlertComponent } from './ui/AlertComponent';
 
 /**
  * Componente que maneja la lógica de la vista de Registro
  */
-class RegisterComponent {
+export class RegisterComponent {
     private formElement: HTMLFormElement | null;
+    private messageContainerId: string = '#messageresponse';
 
     /**
      * @param formSelector El selector CSS o ID del formulario en el HTML
+     * @param messageContainerId Selector opcional del contenedor de alertas
      */
-    constructor(formSelector: string) {
+    constructor(formSelector: string, messageContainerId: string = '#messageresponse') {
         this.formElement = document.querySelector<HTMLFormElement>(formSelector);
+        this.messageContainerId = messageContainerId;
         this.init();
     }
 
@@ -32,7 +36,10 @@ class RegisterComponent {
         
         if (!this.formElement) return;
 
-        // Limpiamos mensajes previos y aplicamos clases de Bootstrap
+        // Limpiamos alertas previas
+        AlertComponent.render({ container: this.messageContainerId, message: '' }).clear();
+
+        // Limpiamos clases de Bootstrap
         this.formElement.classList.remove('was-validated');
 
         // Validaciones manuales básicas
@@ -43,7 +50,6 @@ class RegisterComponent {
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
         const password_confirmation = formData.get('password_confirmation') as string;
-        const terms = formData.get('remember'); // checkbox
 
         // Validar que el formulario cumpla con las validaciones HTML5 requeridas (required, type="email", etc.)
         if (!this.formElement.checkValidity()) {
@@ -53,8 +59,7 @@ class RegisterComponent {
         // Validación específica: las contraseñas deben coincidir
         if (password !== password_confirmation) {
             isValid = false;
-            alert("Las contraseñas no coinciden");
-            // Aquí puedes también manipular el DOM para mostrar el error en el input
+            AlertComponent.warning(this.messageContainerId, 'Las contraseñas no coinciden. Por favor verifícalas.');
         }
 
         if (!isValid) {
@@ -72,29 +77,51 @@ class RegisterComponent {
 
         try {
             console.log('Validación exitosa, enviando datos de registro...', payload);
+
+            // Mostrar estado de carga opcional / secundario
+            AlertComponent.secondary(this.messageContainerId, 'Procesando registro, por favor espere...');
             
             // Enviamos los datos a la ruta de registro (por defecto /register)
-            const response = await authService.register(payload);
+            const response: any = await authService.register(payload);
             
             console.log('Registro exitoso:', response);
-            alert('¡Registro exitoso!');
-            
-            // Como Laravel típicamente autentica y requiere redirección tras el registro:
-            window.location.href = '/dashboard'; // O la ruta a la que quieras redirigir tras registrar
+
+            // Evaluamos la respuesta (éxito explícito o respuesta válida)
+            if (response && (response.success === true || response.success === undefined || response)) {
+                // Renderizar Alerta de Éxito con Bootstrap
+                AlertComponent.success(
+                    this.messageContainerId, 
+                    '<strong>¡Registro exitoso!</strong> Redirigiendo y actualizando la página...'
+                );
+                
+                // Limpiar el formulario
+                this.formElement.reset();
+                this.formElement.classList.remove('was-validated');
+
+                // Recargar la página tras 1.5 segundos
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
             
         } catch (error: any) {
             console.error('Ocurrió un error en el registro:', error);
             
-            // Si Laravel devuelve errores de validación (422), podemos mostrarlos
+            // Si Laravel devuelve errores de validación de backend (422), los mostramos en alerta Danger
             if (error.response && error.response.status === 422) {
                 const errors = error.response.data.errors;
-                let errorMessages = 'Por favor corrige los siguientes errores:\n';
+                let errorMessages = '<strong>Error de validación:</strong><ul class="mb-0 mt-1 ps-3">';
                 for (const key in errors) {
-                    errorMessages += `- ${errors[key].join(', ')}\n`;
+                    errorMessages += `<li>${errors[key].join(', ')}</li>`;
                 }
-                alert(errorMessages);
+                errorMessages += '</ul>';
+                
+                AlertComponent.danger(this.messageContainerId, errorMessages);
             } else {
-                alert('Hubo un error al registrar. Revisa la consola o intenta nuevamente.');
+                AlertComponent.danger(
+                    this.messageContainerId, 
+                    '<strong>Error:</strong> Ocurrió un problema al procesar el registro. Intente nuevamente.'
+                );
             }
         }
     }
