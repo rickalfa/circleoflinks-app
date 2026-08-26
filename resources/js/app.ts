@@ -8,6 +8,7 @@ Alpine.start();
 
 // Importa los componentes TypeScript
 import { RegisterComponent } from './components/RegisterComponent';
+import { LoginComponent } from './components/LoginComponent';
 import { AlertComponent } from './components/ui/AlertComponent';
 
 // Exportar globalmente para componentes o scripts legacy si se requiere
@@ -24,6 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         new RegisterComponent('#formregister', '#messageresponse');
     }
+
+    // Inicializar el formulario de login si está presente en el DOM
+    const loginForm = document.getElementById('formlogin');
+    if (loginForm) {
+        new LoginComponent('#formlogin', '#messageresponselogin');
+    }
 });
 
-export { RegisterComponent, AlertComponent };
+export { RegisterComponent, LoginComponent, AlertComponent };

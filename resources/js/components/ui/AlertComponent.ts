@@ -1,17 +1,19 @@
 /**
  * Componente UI Reutilizable para alertas de Bootstrap 5
  * Desarrollado bajo principios OOP y SOLID.
+ * Soporta modo flotante sobre la vista con animación desvanecida desde la esquina superior derecha.
  */
 
 export type AlertType = 'success' | 'danger' | 'warning' | 'info' | 'primary' | 'secondary' | 'light' | 'dark';
 
 export interface AlertOptions {
-    container: string | HTMLElement; // Selector CSS (ej: '#messageresponse') o elemento HTML objetivo
-    message: string;                // Texto o contenido HTML del mensaje
-    type?: AlertType;              // Tipo de alerta Bootstrap ('success', 'danger', 'secondary', etc.)
-    dismissible?: boolean;         // Si incluye botón de cierre 'x' (default: true)
-    autoCloseMs?: number;          // Tiempo en milisegundos para autocerrar la alerta (opcional)
-    icon?: string;                 // Clase de icono personalizado (ej: 'bi bi-star-fill')
+    container?: string | HTMLElement; // Selector CSS (ej: '#messageresponselogin') o elemento HTML objetivo
+    message: string;                 // Texto o contenido HTML del mensaje
+    type?: AlertType;               // Tipo de alerta Bootstrap ('success', 'danger', 'secondary', etc.)
+    dismissible?: boolean;          // Si incluye botón de cierre 'x' (default: true)
+    autoCloseMs?: number;           // Tiempo en milisegundos para autocerrar la alerta (opcional)
+    icon?: string;                  // Clase de icono personalizado (ej: 'bi bi-star-fill')
+    floating?: boolean;             // Si true, se muestra flotante sobre toda la vista en la esquina superior derecha
 }
 
 export class AlertComponent {
@@ -19,8 +21,49 @@ export class AlertComponent {
     private alertElement: HTMLDivElement | null = null;
 
     constructor(options?: AlertOptions) {
+        this.injectStyles();
         if (options) {
             this.show(options);
+        }
+    }
+
+    /**
+     * Inyecta dinámicamente los estilos CSS de animación para alertas flotantes
+     */
+    private injectStyles(): void {
+        const styleId = 'alert-component-custom-styles';
+        if (!document.getElementById(styleId)) {
+            const style = document.createElement('style');
+            style.id = styleId;
+            style.textContent = `
+                @keyframes alertSlideFromTopRight {
+                    0% {
+                        opacity: 0;
+                        transform: translate(120px, -20px) scale(0.9);
+                    }
+                    70% {
+                        opacity: 1;
+                        transform: translate(-12px, 4px) scale(1.02);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translate(0, 0) scale(1);
+                    }
+                }
+
+                .alert-floating-toast {
+                    position: fixed !important;
+                    top: 25px !important;
+                    right: 25px !important;
+                    z-index: 1099 !important;
+                    min-width: 320px;
+                    max-width: 460px;
+                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+                    animation: alertSlideFromTopRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+                    border-radius: 10px;
+                }
+            `;
+            document.head.appendChild(style);
         }
     }
 
@@ -36,16 +79,21 @@ export class AlertComponent {
     }
 
     /**
-     * Renderiza y muestra la alerta Bootstrap dentro del contenedor.
+     * Renderiza y muestra la alerta Bootstrap dentro del contenedor o como flotante.
      */
     public show(options: AlertOptions): HTMLDivElement | null {
-        if (options.container) {
-            this.setContainer(options.container);
-        }
+        this.injectStyles();
 
-        if (!this.containerElement) {
-            console.warn(`[AlertComponent] Contenedor no encontrado en el DOM:`, options.container);
-            return null;
+        const isFloating = options.floating === true;
+
+        if (!isFloating) {
+            if (options.container) {
+                this.setContainer(options.container);
+            }
+            if (!this.containerElement) {
+                console.warn(`[AlertComponent] Contenedor no encontrado en el DOM:`, options.container);
+                return null;
+            }
         }
 
         const type: AlertType = options.type || 'info';
@@ -54,9 +102,11 @@ export class AlertComponent {
             ? `<i class="${options.icon} me-2"></i>` 
             : this.getDefaultIcon(type);
 
-        // Crear la estructura de la alerta usando clases nativas de Bootstrap 5
+        // Crear elemento de la alerta
         const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type} ${dismissible ? 'alert-dismissible' : ''} fade show d-flex align-items-center my-2`;
+        const baseClass = `alert alert-${type} ${dismissible ? 'alert-dismissible' : ''} fade show d-flex align-items-center my-2`;
+        
+        alertDiv.className = isFloating ? `${baseClass} alert-floating-toast` : baseClass;
         alertDiv.setAttribute('role', 'alert');
 
         alertDiv.innerHTML = `
@@ -67,9 +117,13 @@ export class AlertComponent {
             ${dismissible ? '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' : ''}
         `;
 
-        // Limpiar alertas anteriores del contenedor e inyectar la nueva
-        this.containerElement.innerHTML = '';
-        this.containerElement.appendChild(alertDiv);
+        if (isFloating) {
+            document.body.appendChild(alertDiv);
+        } else if (this.containerElement) {
+            this.containerElement.innerHTML = '';
+            this.containerElement.appendChild(alertDiv);
+        }
+
         this.alertElement = alertDiv;
 
         // Programar auto-cierre si se configuró autoCloseMs
@@ -144,6 +198,20 @@ export class AlertComponent {
      */
     public static secondary(container: string | HTMLElement, message: string, autoCloseMs?: number): AlertComponent {
         return AlertComponent.render({ container, message, type: 'secondary', autoCloseMs });
+    }
+
+    /**
+     * Alerta Flotante de Éxito sobre toda la vista (Animación Esquina Superior Derecha -> Centro)
+     */
+    public static floatingSuccess(message: string, autoCloseMs: number = 3000): AlertComponent {
+        return AlertComponent.render({ message, type: 'success', floating: true, autoCloseMs });
+    }
+
+    /**
+     * Alerta Flotante de Error sobre toda la vista
+     */
+    public static floatingDanger(message: string, autoCloseMs: number = 4000): AlertComponent {
+        return AlertComponent.render({ message, type: 'danger', floating: true, autoCloseMs });
     }
 
     /**

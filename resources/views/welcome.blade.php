@@ -196,8 +196,7 @@
         <div id="messageresponselogin"></div>
       <div class="modal-body">
 
-        <!-- Formulario LOGIN-->
-        <form id="formlogin" method="POST" action="{{ route('login')}}"  class="was-validated">
+        <form id="formlogin" method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
 
           @csrf
 

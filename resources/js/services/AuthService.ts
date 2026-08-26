@@ -1,5 +1,5 @@
 import { ApiClient } from './ApiClient';
-import type { RegisterPayload, UserResponse } from '../types/AuthTypes';
+import type { RegisterPayload, LoginPayload, UserResponse } from '../types/AuthTypes';
 
 /**
  * Servicio encargado de la autenticación.
@@ -17,8 +17,16 @@ export class AuthService extends ApiClient {
      * @param data Payload con name, email, password
      */
     public async register(data: RegisterPayload): Promise<UserResponse> {
-        // This.http está disponible porque AuthService hereda de ApiClient
         const response = await this.http.post<UserResponse>('register', data);
+        return response.data;
+    }
+
+    /**
+     * Envía los datos de inicio de sesión al backend.
+     * @param data Payload con email, password, remember
+     */
+    public async login(data: LoginPayload): Promise<UserResponse> {
+        const response = await this.http.post<UserResponse>('login', data);
         return response.data;
     }
 }

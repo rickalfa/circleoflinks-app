@@ -5,6 +5,12 @@ export interface RegisterPayload {
     password_confirmation: string;
 }
 
+export interface LoginPayload {
+    email: string;
+    password: string;
+    remember?: boolean;
+}
+
 export interface UserResponse {
     user?: {
         id: number;
@@ -13,4 +19,5 @@ export interface UserResponse {
     };
     token?: string;
     message?: string;
+    success?: boolean;
 }
