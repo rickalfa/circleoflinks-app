@@ -1,0 +1,115 @@
+@import '../abstracts/variables';
+
+/* 
+ * Sidebar Moderno para Perfil de Usuario 
+ */
+
+.profile-sidebar {
+    width: 100%;
+    background: $white;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: $transition-base;
+    padding: 1.25rem 1rem;
+}
+
+/* Brand/Logo Header */
+.profile-sidebar-brand {
+    background: linear-gradient(135deg, $primary-color 0%, darken($primary-color, 10%) 100%);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+    transition: $transition-base;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Botones principales y enlaces */
+.profile-nav-link, .profile-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    font-weight: 600;
+    font-size: 0.93rem;
+    color: $secondary-color;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-sm;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+
+    &:hover {
+        background-color: #f1f5f9;
+        color: $primary-color;
+        transform: translateX(4px);
+    }
+
+    &:active {
+        transform: scale(0.97) translateX(4px);
+    }
+}
+
+/* Estado activo del toggle (submenu abierto) */
+.profile-nav-toggle[aria-expanded="true"] {
+    background-color: rgba(13, 110, 253, 0.08);
+    color: $primary-color;
+}
+
+/* Iconos */
+.profile-nav-icon {
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    transition: $transition-fast;
+}
+
+.profile-nav-link:hover .profile-nav-icon, 
+.profile-nav-toggle:hover .profile-nav-icon {
+    transform: scale(1.15);
+    color: $primary-color;
+}
+
+/* Chevron animado */
+.profile-chevron {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    transition: $transition-base;
+}
+
+.profile-nav-toggle[aria-expanded="true"] .profile-chevron {
+    transform: rotate(90deg);
+    color: $primary-color;
+}
+
+/* Submenús */
+.profile-subnav {
+    padding-left: 0.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    border-left: 2px solid #e2e8f0;
+    margin-left: 1.25rem;
+}
+
+.profile-subnav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $text-muted;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.22s ease;
+
+    &:hover {
+        color: $primary-color;
+        background-color: $background-color;
+        transform: translateX(5px);
+    }
+}

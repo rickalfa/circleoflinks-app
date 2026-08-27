@@ -28,8 +28,9 @@
         <!-- Scripts -->
         
    
-        @vite(['resources/css/styleboots.css', 'resources/js/app.ts'])
+        @vite([ 'resources/js/app.ts'])
       
+        @vite(['resources/css/stylesapp/app.scss'])
    
      
     </head>

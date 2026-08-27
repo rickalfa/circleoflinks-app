@@ -1,0 +1,20 @@
+// ==========================================
+// Main SASS entry point para Circle of Links
+// Ubicacion: resources/css/stylesapp/app.scss
+// ==========================================
+
+// 1. Importar Funciones Nativas de Bootstrap (Necesario para herencias y mapas de color)
+@import "bootstrap/scss/functions";
+
+// 2. Abstracts (Variables personalizadas y overrides de Bootstrap)
+@import 'abstracts/variables';
+
+// 3. Importar Librerías Completas de Bootstrap SASS
+@import "bootstrap/scss/bootstrap";
+
+// 4. Componentes (Estilos modulares por vista/componente)
+@import 'components/profile';
+@import 'components/sidebarprofile';
+@import 'components/dashboardprofile';
+
+// Aquí puedes añadir más módulos para otros componentes como auth, nav, etc.

@@ -1,46 +1,87 @@
-  
-          <nav class="sidebar bg-dark text-white p-3">
+<nav class="profile-sidebar mb-4">
 
-            <div class="bg-info rounded-pill p-2">
-              <a class="text-white" href="{{ url('/')}}">Demo Service</a>
-      
+    <!-- Header Brand -->
+    <div class="profile-sidebar-brand d-flex align-items-center">
+        <i class="bi bi-shield-lock-fill text-white fs-4 me-2"></i>
+        <a class="text-white text-decoration-none fw-bold fs-5" href="{{ url('/')}}">Demo Service</a>
+    </div>
+
+    <!-- Menú de Navegación -->
+    <ul class="nav flex-column mb-0">
+        <!-- Inicio -->
+        <li class="nav-item">
+            <a class="profile-nav-link" href="#">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-house-door-fill profile-nav-icon text-secondary"></i>
+                    <span>Inicio</span>
+                </span>
+            </a>
+        </li>
+        
+        <!-- Separador -->
+        <hr class="text-muted opacity-25 my-2">
+
+        <!-- Servicios -->
+        <li class="nav-item">
+            <a href="#submenu-servicios" class="profile-nav-toggle w-100 collapsed text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="submenu-servicios">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-layers-fill profile-nav-icon text-primary"></i>
+                    <span>Servicios</span>
+                </span>
+                <i class="bi bi-chevron-right profile-chevron"></i>
+            </a>
+            <div class="collapse" id="submenu-servicios">
+                <ul class="profile-subnav list-unstyled">
+                    <li>
+                        <a class="profile-subnav-link" href="{{ url('/admindashboard')}}">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard Admin
+                        </a>
+                    </li>
+                    <li>
+                        <a class="profile-subnav-link" href="#">
+                            <i class="bi bi-box-seam me-2"></i> Servicio 2
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </li>
 
-            <h2 class="text-center">Panel </h2>
-            <button class="w3-bar-item w3-button w3-large"
-            onclick="w3_close()">Close</button>
-            <a href="#" class="w3-bar-item w3-button">Secure</a>
-       
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white w3-button" href="#submenu1" data-bs-toggle="collapse">Servicios</a>
-                    <ul class="collapse nav flex-column ms-3" id="submenu1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white w3-button" href="{{ url('/admindashboard')}}">Dashboard Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Servicio 2</a>
-                        </li>
-                    </ul>
-                </li>
+        <!-- Seguridad -->
+        <li class="nav-item">
+            <a href="#submenu-seguridad" class="profile-nav-toggle w-100 collapsed text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="submenu-seguridad">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-lock-fill profile-nav-icon text-success"></i>
+                    <span>Security</span>
+                </span>
+                <i class="bi bi-chevron-right profile-chevron"></i>
+            </a>
+            <div class="collapse" id="submenu-seguridad">
+                <ul class="profile-subnav list-unstyled">
+                    <li>
+                        <a class="profile-subnav-link" href="{{ url('/profile/accesstoken')}}">
+                            <i class="bi bi-key-fill me-2"></i> API Token
+                        </a>
+                    </li>
+                    <li>
+                        <a class="profile-subnav-link" href="#">
+                            <i class="bi bi-shield-check me-2"></i> Servicios 2
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
 
-                <li class="nav-item">
-                  <a class="nav-link text-white w3-button" href="#submenu2" data-bs-toggle="collapse">Segurity</a>
-                  <ul class="collapse nav flex-column ms-3" id="submenu2">
-                      <li class="nav-item">
-                          <a class="nav-link text-white w3-button" href="{{ url('/profile/accesstoken')}}">API Token</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link text-white" href="#">Servicios 2</a>
-                      </li>
-                  </ul>
-              </li>
+        <!-- Separador -->
+        <hr class="text-muted opacity-25 my-2">
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Contacto</a>
-                </li>
-            </ul>
-        </nav>
+        <!-- Contacto -->
+        <li class="nav-item">
+            <a class="profile-nav-link" href="#">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-envelope-fill profile-nav-icon text-info"></i>
+                    <span>Contacto</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -8,7 +8,8 @@ export default defineConfig({
         laravel([
             'resources/css/app.css',
             'resources/js/app.ts',
-            'resources/css/styleboots.css'
+            'resources/css/styleboots.css',
+            'resources/css/stylesapp/app.scss'
         ]),
         // react(),
         // vue({

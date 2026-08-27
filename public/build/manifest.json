@@ -1,0 +1,26 @@
+{
+  "public/imgs/bg/fondo_wsp.jpg": {
+    "file": "assets/fondo_wsp-DPRI6Csl.jpg",
+    "src": "public/imgs/bg/fondo_wsp.jpg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DsM6Uqdc.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/styleboots.css": {
+    "file": "assets/styleboots-jqQcg6Tz.css",
+    "src": "resources/css/styleboots.css",
+    "isEntry": true
+  },
+  "resources/css/stylesapp/app.scss": {
+    "file": "assets/app-Ca6zouCk.css",
+    "src": "resources/css/stylesapp/app.scss",
+    "isEntry": true
+  },
+  "resources/js/app.ts": {
+    "file": "assets/app-Bzd55oBt.js",
+    "src": "resources/js/app.ts",
+    "isEntry": true
+  }
+}
