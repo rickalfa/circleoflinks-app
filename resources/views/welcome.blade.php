@@ -72,12 +72,12 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li class="dropdown"><a href="#"><span>client-area</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li><a href="#hero" class="active">Inicio</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#features">Características</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <li><a href="#pricing">Precios</a></li>
+          <li class="dropdown"><a href="#"><span>Área de Cliente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
 
         
@@ -122,30 +122,30 @@
 
               <li>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Register
+                  Registrarse
                  </button>
               </li>
 
               <li>
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
-                Login
+                Iniciar Sesión
               </button>
              </li>
 
              @endguest
 
 
-              <li class="dropdown"><a href="#"><span> Service</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <li class="dropdown"><a href="#"><span> Servicios</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                  
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Submenú 3</a></li>
+                  <li><a href="#">Submenú 4</a></li>
                 
                 </ul>
               </li>
 
           
-              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Menú 2</a></li>
               @auth 
               <li>
                 <form method="POST" action="{{ route('logout') }}">
@@ -154,7 +154,7 @@
                   <x-dropdown-link :href="route('logout')"
                           onclick="event.preventDefault();
                                       this.closest('form').submit();">
-                      {{ __('Log Out') }}
+                      {{ __('Cerrar Sesión') }}
                   </x-dropdown-link>
                 </form>
               </li>
@@ -164,7 +164,7 @@
             
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Contacto</a></li>
 
     
         </ul>
@@ -177,7 +177,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="#about">Get Started</a>
+      <a class="btn-getstarted" href="#about">Comenzar</a>
 
     </div>
   </header>
@@ -303,15 +303,14 @@
       </div>
       <div class="container text-center">
         <div class="d-flex flex-column justify-content-center align-items-center">
-          <h1 data-aos="fade-up">Welcome to <span>demoserviciowsp</span></h1>
-          <p data-aos="fade-up" data-aos-delay="100">Automatiza tu atención al cliente y potencia tus ventas con WhatsApp
-
-            En DemoServicioWSP, ofrecemos una solución innovadora para pequeñas y medianas empresas que desean mejorar la interacción con sus clientes a través de la automatización. Nuestra plataforma permite:
-            
+          <h1 data-aos="fade-up">Bienvenido a <span>CircleofLinks Wsp-service</span></h1>
+          <p data-aos="fade-up" data-aos-delay="100">Automatiza tu atención al cliente y potencia tus ventas integrando WhatsApp.
+            Una solución estructurada como un núcleo propietario que se conecta de manera directa a la API oficial de WhatsApp Business.
+            Diseñado para pequeñas y medianas empresas que buscan mejorar su atención al cliente y aumentar sus ventas.
           <br></p>
           <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-            <a href="#about" class="btn-get-started">Get Started</a>
-            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            <a href="#about" class="btn-get-started">Comenzar</a>
+            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Ver Video</span></a>
           </div>
           <img src="assets/img/hero-services-img.webp" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300">
         </div>
@@ -328,10 +327,10 @@
 
           <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+              <div class="icon flex-shrink-0"><i class="bi bi-chat-dots"></i></div>
               <div>
-                <h4 class="title"><a href="#" class="stretched-link">Lorem Ipsum</a></h4>
-                <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                <h4 class="title"><a href="#" class="stretched-link">Atención Masiva y Simultánea</a></h4>
+                <p class="description">Gestión de chat por WhatsApp soportando múltiples cientos de usuarios interactuando a la vez sin demoras.</p>
               </div>
             </div>
           </div>
@@ -339,20 +338,20 @@
 
           <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+              <div class="icon flex-shrink-0"><i class="bi bi-person-lines-fill"></i></div>
               <div>
-                <h4 class="title"><a href="#" class="stretched-link">Dolor Sitema</a></h4>
-                <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exa</p>
+                <h4 class="title"><a href="#" class="stretched-link">Captación y Gestión de Leads</a></h4>
+                <p class="description">Herramientas ágiles para capturar datos de contacto de manera orgánica y calificar prospectos automáticamente.</p>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+              <div class="icon flex-shrink-0"><i class="bi bi-send-check"></i></div>
               <div>
-                <h4 class="title"><a href="#" class="stretched-link">Sed ut perspiciatis</a></h4>
-                <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum</p>
+                <h4 class="title"><a href="#" class="stretched-link">Envío de Campañas Automáticas</a></h4>
+                <p class="description">Envía de forma automática promociones, encuestas y links a cientos de contactos según requiera tu modelo de negocio.</p>
               </div>
             </div>
           </div><!-- End Service Item -->
@@ -371,20 +370,18 @@
         <div class="row gy-4">
 
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p class="who-we-are">Quienes Somos ? </p>
-            <h3> DemoServicioWSP: La Solución Integral para la Atención al Cliente Automatizada
+            <p class="who-we-are">¿Qué es Circleoflinks-Wsp-service?</p>
+            <h3> El núcleo propietario para la Atención al Cliente Automatizada y Omnicanal
               </h3>
             <p class="fst-italic">
-             
-              En DemoServicioWSP, estamos comprometidos en ofrecerte una herramienta que no solo mejora tu relación con los clientes,
-              sino que también optimiza tus procesos internos, ahorrándote tiempo y recursos.
+              Circleoflinks-Wsp-service está diseñado estratégicamente para operar en el ecosistema empresarial, respondiendo a las demandas de transformación digital y omnicanalidad que exigen los consumidores.
              </p>
             <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Conexión directa a la API oficial de WhatsApp Business sin dependencias de terceros.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Diseñado para gerencias de operaciones, equipos de marketing/ventas y áreas de TI.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Automatiza interacciones, envía encuestas, y proporciona análisis de datos en tiempo real.</span></li>
             </ul>
-            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+            <a href="#" class="read-more"><span>Saber más</span><i class="bi bi-arrow-right"></i></a>
           </div>
 
           <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
@@ -412,35 +409,64 @@
     </section><!-- /About Section -->
 
     <!-- Clients Section -->
-    <section id="clients" class="clients section">
+    <section id="clients" class="clients section text-center">
 
       <div class="container" data-aos="fade-up">
 
+        <div class="section-title mb-4">
+          <h2>Empresas y Entidades Ideales para este Servicio</h2>
+          <p>Un enfoque multirrubro y transversal para el mercado chileno</p>
+        </div>
+
         <div class="row gy-4">
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-cash-coin fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Servicios y Cajas de Compensación</h5>
+              <p class="text-muted small mb-0">Automatización de consultas masivas de afiliados y derivación inteligente.</p>
+            </div>
+          </div>
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-heart-pulse fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Salud y Centros Médicos</h5>
+              <p class="text-muted small mb-0">Gestión de agendas, recordatorios de citas e instructivos médicos por QR.</p>
+            </div>
+          </div>
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-car-front fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Automotriz y Soporte Técnico</h5>
+              <p class="text-muted small mb-0">Agendamiento de revisiones y presupuestos automáticos.</p>
+            </div>
+          </div>
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-building fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">PyMEs y Grandes Corporaciones</h5>
+              <p class="text-muted small mb-0">Equipos operativos buscando optimizar tiempos de respuesta.</p>
+            </div>
+          </div>
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-book fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Educación</h5>
+              <p class="text-muted small mb-0">Inscripción de usuarios y flujos informativos automatizados.</p>
+            </div>
+          </div>
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-globe fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Instituciones sin Fines de Lucro</h5>
+              <p class="text-muted small mb-0">Almacenamiento seguro de interacciones para auditorías e información a la comunidad.</p>
+            </div>
+          </div>
 
         </div>
 
@@ -453,8 +479,8 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Features</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <h2>Características Principales</h2>
+        <p>Conoce las funciones que hacen de CircleofLinks Wsp-service la herramienta ideal para tu negocio</p>
       </div><!-- End Section Title -->
 
       <div class="container">
@@ -465,36 +491,33 @@
             <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
               <li class="nav-item">
                 <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                  <i class="bi bi-binoculars"></i>
+                  <i class="bi bi-robot"></i>
                   <div>
-                    <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
+                    <h4 class="d-none d-lg-block">Asistente Virtual Automatizado (IA)</h4>
                     <p>
-                      Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                      velit esse cillum dolore eu fugiat nulla pariatur
+                      Actúa como el primer nivel de contacto, resolviendo menús informativos estáticos y consultas frecuentes de forma inteligente.
                     </p>
                   </div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                  <i class="bi bi-box-seam"></i>
+                  <i class="bi bi-headset"></i>
                   <div>
-                    <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
+                    <h4 class="d-none d-lg-block">Protocolo de Hand-off (Soporte Humano)</h4>
                     <p>
-                      Recusandae atque nihil. Delectus vitae non similique magnam molestiae sapiente similique
-                      tenetur aut voluptates sed voluptas ipsum voluptas
+                      Capacidad de derivar desde el chatbot hacia un ejecutivo en vivo con monitoreo y auditoría en tiempo real para supervisores.
                     </p>
                   </div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                  <i class="bi bi-brightness-high"></i>
+                  <i class="bi bi-bar-chart-line"></i>
                   <div>
-                    <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
+                    <h4 class="d-none d-lg-block">Módulo Analítico Centralizado</h4>
                     <p>
-                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                      Debitis nulla est maxime voluptas dolor aut
+                      La data transaccional y el feedback se vuelcan automáticamente en tableros dinámicos de Power BI y Google Data Studio.
                     </p>
                   </div>
                 </a>
@@ -587,8 +610,8 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <h2>Nuestros Servicios</h2>
+        <p>Alcance del proyecto y funcionalidades clave para transformar tu atención al cliente</p>
       </div><!-- End Section Title -->
 
       <div class="container">
@@ -597,66 +620,66 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item item-cyan position-relative">
-              <i class="bi bi-activity icon"></i>
+              <i class="bi bi-whatsapp icon"></i>
               <div>
-                <h3>Nesciunt Mete</h3>
-                <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Integración de la API de WhatsApp</h3>
+                <p>Conecta WhatsApp de manera oficial con la plataforma web, permitiendo comunicación fluida y sin dependencias externas o restricciones de terceros.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-item item-orange position-relative">
-              <i class="bi bi-broadcast icon"></i>
+              <i class="bi bi-robot icon"></i>
               <div>
-                <h3>Eosle Commodi</h3>
-                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Agente Automatizado y Bots</h3>
+                <p>Implementación de un agente de IA que responde automáticamente a consultas, envía encuestas y recolecta feedback de clientes las 24 horas.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-item item-teal position-relative">
-              <i class="bi bi-easel icon"></i>
+              <i class="bi bi-pie-chart icon"></i>
               <div>
-                <h3>Ledo Markt</h3>
-                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Análisis de Datos Avanzado</h3>
+                <p>Recolección y análisis de datos de interacciones a través de portales dinámicos como Power BI o Google Data Studio para toma de decisiones.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="service-item item-red position-relative">
-              <i class="bi bi-bounding-box-circles icon"></i>
+              <i class="bi bi-qr-code-scan icon"></i>
               <div>
-                <h3>Asperiores Commodi</h3>
-                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Generación de Códigos QR</h3>
+                <p>Crea códigos QR dinámicos que redirigen a tus clientes a instructivos, documentos útiles o flujos de conversación en WhatsApp.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
             <div class="service-item item-indigo position-relative">
-              <i class="bi bi-calendar4-week icon"></i>
+              <i class="bi bi-shield-check icon"></i>
               <div>
-                <h3>Velit Doloremque.</h3>
-                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Seguridad y Escalabilidad</h3>
+                <p>El sistema garantiza la seguridad de la información, cumple con las políticas de privacidad y escala para manejar altos volúmenes de mensajes.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
             <div class="service-item item-pink position-relative">
-              <i class="bi bi-chat-square-text icon"></i>
+              <i class="bi bi-diagram-3 icon"></i>
               <div>
-                <h3>Dolori Architecto</h3>
-                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-                <a href="service-details.html" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                <h3>Gestión Omnicanal</h3>
+                <p>Extensión del monitoreo y respuestas automatizadas más allá de WhatsApp, abarcando también redes sociales oficiales como Facebook e Instagram.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div><!-- End Service Item -->
