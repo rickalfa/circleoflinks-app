@@ -39,6 +39,10 @@ class WspSendMessageController extends Controller
        * @return void
        */
       public function sendMessageWsp($mensaje, $numberTo): string{
+        
+        if (!is_string($mensaje) || empty(trim($mensaje))) {
+            return "";
+        }
 
         $response = "";
         $curl = curl_init();

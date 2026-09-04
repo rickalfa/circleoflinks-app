@@ -8,6 +8,7 @@ use App\Http\Whatsappservice\Daterecolection\BotWsp;
 use App\Models\Conversation;
 use App\Models\UserApp;
 use App\Models\userAppContact;
+use App\Models\Whatsappservice\lead;
 
 class ConversationWsp extends Controller{
 
@@ -45,16 +46,16 @@ class ConversationWsp extends Controller{
            print_r($Userexist);
 
             if(isset($Userexist)){
-
                 echo "el usuario existe  ";
                 
-
-                /**
-                 * 2_nr
-                 * SI no EXISTE el usuario se 
-                 * crea uno nuevo y como contacto y usuario UNKNOW 
-                 * con el status "no registrado"
-                 */
+                lead::updateOrCreate(
+                    ['user_id' => $Userexist->user_id],
+                    [
+                        'phone_number' => $phoneAsString,
+                        'last_message_time' => now(),
+                        'state' => 'active'
+                    ]
+                );
             }else{
 
                 echo "el usuario NO existe";
@@ -84,12 +85,19 @@ class ConversationWsp extends Controller{
                  );
 
                   /**
+                  /**
                   * usuario como LEAD de la App
                   */
-
-                  
-
                  if(isset($usernew)){
+                    lead::updateOrCreate(
+                        ['user_id' => $usernew->id],
+                        [
+                            'name' => 'Lead WhatsApp',
+                            'phone_number' => $phoneAsString,
+                            'last_message_time' => now(),
+                            'state' => 'active'
+                        ]
+                    );
 
                     echo "</br> Usuario-App creado : </br>";
 

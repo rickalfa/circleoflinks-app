@@ -70,10 +70,10 @@ Class BotWsp extends WspbController{
     
     public function sendWspMessage(){
  
-        $respuesta_bot = $this->SendMsgWsp->sendMessageWsp($this->logic_response, $this->num_phone);
-
-
-        echo $respuesta_bot;
+        if (is_string($this->logic_response) && !empty(trim($this->logic_response))) {
+            $respuesta_bot = $this->SendMsgWsp->sendMessageWsp($this->logic_response, $this->num_phone);
+            echo $respuesta_bot;
+        }
 
     }
 
@@ -166,7 +166,7 @@ Class BotWsp extends WspbController{
 
         }
 
-        return $Keys_arr;
+        return null;
        
     }
 
