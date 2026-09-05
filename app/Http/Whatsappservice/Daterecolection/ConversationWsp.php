@@ -51,6 +51,7 @@ class ConversationWsp extends Controller{
                 lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
+                        'name' => 'Lead WhatsApp',
                         'phone_number' => $phoneAsString,
                         'last_message_time' => now(),
                         'state' => 'active'
