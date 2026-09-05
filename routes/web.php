@@ -127,4 +127,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/accesstoken', [ProfileController::class, 'showAccessToken'])->name('/profile/accesstoken');
 });
 
+Route::get('/politica-de-privacidad', function () {
+    return view('privacy');
+})->name('privacy');
+
 require __DIR__.'/auth.php';
