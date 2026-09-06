@@ -5,6 +5,7 @@ namespace App\Http\Whatsappservice\Daterecolection;
 use App\Models\Agent;
 use App\Http\Controllers\WhatsappApi\WspbController;
 use App\Http\Controllers\WhatsappApi\WspSendMessageController;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 
@@ -43,131 +44,84 @@ Class BotWsp extends WspbController{
     }
 
     public function receptionMessage(string $message, string $number_user){
-
-
-       
-        echo "</br> Recepcion de mensaje desde ".__CLASS__;
-
-        echo $message;
+        Log::info("BotWsp receptionMessage: Mensaje recibido: '{$message}' desde el número {$number_user}");
 
         /**
          * buscamos todas las key_Trigger de los bots Activados
          */
         $this->logic_response = $this->selectResponsesFromBotActive($message);
-
-
         $this->num_phone = $number_user;
 
-        $respuesta = $this->logic_response;
-
-        echo " </br> <br> respuesta del Bot : ";
-
-        print_r($respuesta);
-
-
-
+        if ($this->logic_response) {
+            Log::info("BotWsp: Respuesta seleccionada: '{$this->logic_response}'");
+        } else {
+            Log::info("BotWsp: No se encontró respuesta lógica para el mensaje recibido.");
+        }
     }
     
     public function sendWspMessage(){
- 
         if (is_string($this->logic_response) && !empty(trim($this->logic_response))) {
+            Log::info("BotWsp: Enviando mensaje al número {$this->num_phone}...");
             $respuesta_bot = $this->SendMsgWsp->sendMessageWsp($this->logic_response, $this->num_phone);
             echo $respuesta_bot;
+        } else {
+            Log::info("BotWsp sendWspMessage: No se envió mensaje (sin respuesta lógica o vacía).");
         }
-
     }
 
-
     private function logicResponseToMessage($text, $patterns): bool{
+        // Escapar caracteres especiales del patrón para uso en expresión regular
+        $escapedPatterns = array_map(function($pattern) {
+            return preg_quote($pattern, '/');
+        }, $patterns);
+    
+        // Crear una expresión regular que busque cualquiera de los patrones (insensible a mayúsculas /i)
+        $regex = '/(' . implode('|', $escapedPatterns) . ')/i';
 
-                // Escapar caracteres especiales del patrón para uso en expresión regular
-                $escapedPatterns = array_map(function($pattern) {
-                    return preg_quote($pattern, '/');
-                }, $patterns);
-            
-         // Crear una expresión regular que busque cualquiera de los patrones
-            $regex = '/(' . implode('|', $escapedPatterns) . ')/';
-
-            // Usar preg_match para verificar si el patrón existe en el texto
-            if (preg_match($regex, $text)) {
-
-
-                return true;
-            } else {
-
-                return false;
-            }
-
-
-
-
+        if (preg_match($regex, $text)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private function selectResponsesFromBotActive($key_string)
     {
-
-
         $BotsActives = Agent::where('status', 'active')->get();
+        Log::info("BotWsp: Bots con status 'active' encontrados: " . $BotsActives->count());
 
+        if ($BotsActives->isEmpty()) {
+            Log::warning("BotWsp: ¡No hay ningún bot activo en la tabla 'agents'! Ve al panel web y activa un bot.");
+            return null;
+        }
 
         $Keys_arr = array();
-
         $count = 0;
 
         /**
          * recorrimos el arreglo de Bots que estan con status = 'active'
-         * 
          */
         foreach($BotsActives as $Bot){
-
-          
-
             /**
-             * recorrimos el areglo de Logicresponses que contiene el Bot
+             * recorrimos el arreglo de Logicresponses que contiene el Bot
              * y comparamos sus Key_trigger para saber si hace algun match 
              * con el mensaje WSP del usuario
              */
             foreach($Bot->logicResponses as $LoResponse){
-
-               
                 array_push($Keys_arr, $LoResponse->key_trigger);
-
                 $key_str_ar = array($Keys_arr[$count]);
-
                 $match_key = $this->logicResponseToMessage($key_string, $key_str_ar);
 
-
                 if ($match_key) {
-                    
-                    echo "match encontrado de las keys : ";
-                    print($Keys_arr[$count]);
-
+                    Log::info("BotWsp: ¡MATCH con el trigger '{$LoResponse->key_trigger}'! Respuesta: '{$LoResponse->response}'");
                     return $LoResponse->response;
-
-    
-                }else{
-    
-                    echo " NO hiso match de las keys : ";
-                    print_r($Keys_arr);
-    
-    
                 }
-    
+
                 $count++;
-
             }
-           
-
-           echo '<br> Bots dentro de FOREACH :</br>';
-           print_r($Keys_arr);
-
-       
-          
-
         }
 
         return null;
-       
     }
 
 
