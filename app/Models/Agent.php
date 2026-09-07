@@ -17,6 +17,10 @@ class Agent extends Model
         'status'
     ];
 
+    protected $attributes = [
+        'status' => 'active',
+    ];
+
 
     public function conversations()
     {

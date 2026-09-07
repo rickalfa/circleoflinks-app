@@ -94,10 +94,9 @@ class AgentController extends Controller
 
         $dates_request = $request->all();
 
-       // print_r($dates_request);
-
-        //dd($dates_request);
-   
+        if (empty($dates_request['status'])) {
+            $dates_request['status'] = 'active';
+        }
 
         $Agent = Agent::create($dates_request);
 
