@@ -14,9 +14,11 @@ export abstract class ApiClient {
         // Inicializamos la instancia de axios con configuración base
         this.http = axios.create({
             baseURL,
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
             }
         });
 

@@ -4,7 +4,7 @@
     "src": "public/imgs/bg/fondo_wsp.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DsM6Uqdc.css",
+    "file": "assets/app-C6Zk1vLZ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -19,7 +19,7 @@
     "isEntry": true
   },
   "resources/js/app.ts": {
-    "file": "assets/app-Bzd55oBt.js",
+    "file": "assets/app-36D1Zab7.js",
     "src": "resources/js/app.ts",
     "isEntry": true
   }

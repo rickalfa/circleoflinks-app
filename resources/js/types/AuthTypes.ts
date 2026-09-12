@@ -3,12 +3,14 @@ export interface RegisterPayload {
     email: string;
     password: string;
     password_confirmation: string;
+    'cf-turnstile-response'?: string;
 }
 
 export interface LoginPayload {
     email: string;
     password: string;
     remember?: boolean;
+    'cf-turnstile-response'?: string;
 }
 
 export interface UserResponse {
@@ -20,4 +22,5 @@ export interface UserResponse {
     token?: string;
     message?: string;
     success?: boolean;
+    redirect?: string;
 }

@@ -38,7 +38,7 @@ Route::get('/admindashboard',function(){
 
     return view('dashboard');
 
-});
+})->name('admindashboard');
 
 
 Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindashboard/user');

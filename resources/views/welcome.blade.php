@@ -32,6 +32,7 @@
 
       <!-- Scripts -->
       @vite(['resources/js/app.ts'])
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 
 
@@ -188,43 +189,52 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Login</h5>
+        <h5 class="modal-title" id="staticBackdropLabel01">Iniciar Sesión</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-        <!-- Mensaje -->
-        <div id="messageresponselogin"></div>
+      <!-- Mensaje de Respuesta -->
+      <div id="messageresponselogin" class="px-3 pt-2"></div>
+
       <div class="modal-body">
 
-        <form id="formlogin" method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
+        <form id="formlogin" method="POST" action="{{ route('login') }}" novalidate>
 
           @csrf
 
-          <div class="mb-3 mt-3">
-            <label for="uname" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="rmail" placeholder="Enter email" name="email" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
-          </div>
           <div class="mb-3">
-            <label for="pwd" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <label for="login_email" class="form-label">Correo electrónico:</label>
+            <input type="email" class="form-control" id="login_email" placeholder="Ingresa tu email" name="email" required autocomplete="username">
+            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
           </div>
- 
-         <button type="submit" class="btn btn-primary">Submit</button>
+
+          <div class="mb-3">
+            <label for="login_password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="login_password" placeholder="Ingresa tu contraseña" name="password" required autocomplete="current-password">
+            <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="login_remember" name="remember">
+            <label class="form-check-label" for="login_remember">Recordarme</label>
+          </div>
+
+          <!-- Cloudflare Turnstile -->
+          <div class="mb-3 d-flex flex-column align-items-center justify-content-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+            <div class="invalid-feedback text-center mt-1" id="turnstile-login-error" style="display: none;"></div>
+          </div>
+
+          <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Iniciar Sesión</button>
         </form>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Modal LOGIN END-->
   
 <!-- Modal REGISTER START -->
@@ -232,57 +242,60 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Registro de Usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <!-- Mensaje -->
-      <div id="messageresponse"></div>
+      <!-- Mensaje de Respuesta -->
+      <div id="messageresponse" class="px-3 pt-2"></div>
+
       <div class="modal-body">
-        <!--- FORMULARIO  REGISTER-->
-        <form id="formregister" method="POST" action="{{ route('register')}}" class="was-validated">
+        <!--- FORMULARIO REGISTER-->
+        <form id="formregister" method="POST" action="{{ route('register')}}" novalidate>
 
           @csrf
 
-          <div class="mb-3 mt-3">
-            <label for="uname" class="form-label">name:</label>
-            <input type="text" class="form-control" id="uname" placeholder="Enter name" name="name" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+          <div class="mb-3">
+            <label for="reg_name" class="form-label">Nombre completo:</label>
+            <input type="text" class="form-control" id="reg_name" placeholder="Ingresa tu nombre" name="name" required autocomplete="name">
+            <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
           </div>
           
-          <div class="mb-3 mt-3">
-            <label for="uname" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="name" placeholder="Enter email" name="email" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
-          </div>
           <div class="mb-3">
-            <label for="pwd" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <label for="reg_email" class="form-label">Correo electrónico:</label>
+            <input type="email" class="form-control" id="reg_email" placeholder="Ingresa tu email" name="email" required autocomplete="username">
+            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
           </div>
 
           <div class="mb-3">
-            <label for="pwd" class="form-label">Password-confirm:</label>
-            <input type="password" class="form-control" id="pwdconfirm" placeholder="Enter password" name="password_confirmation" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <label for="reg_password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="reg_password" placeholder="Ingresa tu contraseña" name="password" required autocomplete="new-password">
+            <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
           </div>
+
+          <div class="mb-3">
+            <label for="reg_password_confirmation" class="form-label">Confirmar Contraseña:</label>
+            <input type="password" class="form-control" id="reg_password_confirmation" placeholder="Repite tu contraseña" name="password_confirmation" required autocomplete="new-password">
+            <div class="invalid-feedback">Las contraseñas deben coincidir.</div>
+          </div>
+
           <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="myCheck"  name="remember" required>
-            <label class="form-check-label" for="myCheck">I agree terms.</label>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Check this checkbox to continue.</div>
+            <input class="form-check-input" type="checkbox" id="reg_terms" name="remember" required>
+            <label class="form-check-label" for="reg_terms">Acepto los términos y condiciones.</label>
+            <div class="invalid-feedback">Debes aceptar los términos para continuar.</div>
           </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+          <!-- Cloudflare Turnstile -->
+          <div class="mb-3 d-flex flex-column align-items-center justify-content-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+            <div class="invalid-feedback text-center mt-1" id="turnstile-error" style="display: none;"></div>
+          </div>
+
+          <button type="submit" id="btnRegisterSubmit" class="btn btn-primary w-100">Registrarse</button>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
