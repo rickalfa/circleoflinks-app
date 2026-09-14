@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\WhatsappApi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserApp;
 
 class Conversation extends Model
 {
@@ -24,24 +25,16 @@ class Conversation extends Model
     // Relaciones
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(UserApp::class, 'user_id', 'id');
     }
 
     public function agent()
     {
-
         return $this->belongsTo(Agent::class);
-
-
     }
 
     public function messages()
     {
-
-        return $this->hasMany('App\Models\Message', 'conversation_id', 'id');
-
+        return $this->hasMany(Message::class, 'conversation_id', 'id');
     }
-
-
-
 }

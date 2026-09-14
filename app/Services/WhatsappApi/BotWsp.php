@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Whatsappservice\Daterecolection;
+namespace App\Services\WhatsappApi;
 
-use App\Models\Agent;
-use App\Http\Controllers\WhatsappApi\WspbController;
+use App\Models\WhatsappApi\Agent;
 use App\Http\Controllers\WhatsappApi\WspSendMessageController;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
 
 
-Class BotWsp extends WspbController{
+Class BotWsp {
 
 
     
@@ -19,16 +18,6 @@ Class BotWsp extends WspbController{
     private $SendMsgWsp;
 
     private $num_phone = 0;
-
-    public function __constructor(Agent $BotAgentwsp, WspSendMessageController $Sendmsgwsp){
-
-
-        $this->AgentWsp = $BotAgentwsp;
-
-        $this->SendMsgWsp = $Sendmsgwsp;
-        
-
-     }
 
      public function __construct(){
 
@@ -123,8 +112,5 @@ Class BotWsp extends WspbController{
 
         return null;
     }
-
-
-
 
 }

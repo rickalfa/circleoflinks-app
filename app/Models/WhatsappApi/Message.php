@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\WhatsappApi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ class Message extends Model
 
     public function conversation()
     {
-        return $this->belongsTo('conversations', 'conversation_id', 'id');
+        return $this->belongsTo(Conversation::class, 'conversation_id', 'id');
     }
 
     public function sender()

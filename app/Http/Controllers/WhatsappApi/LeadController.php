@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WhatsappApi;
 
-use App\Models\Whatsappservice\lead;
+use App\Models\WhatsappApi\Lead;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreleadRequest;
 use App\Http\Requests\UpdateleadRequest;
 
@@ -51,10 +52,10 @@ class LeadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Whatsappservice\lead  $lead
+     * @param  \App\Models\WhatsappApi\Lead  $lead
      * @return \Illuminate\Http\Response
      */
-    public function show(lead $lead)
+    public function show(Lead $lead)
     {
         //
     }
@@ -62,10 +63,10 @@ class LeadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Whatsappservice\lead  $lead
+     * @param  \App\Models\WhatsappApi\Lead  $lead
      * @return \Illuminate\Http\Response
      */
-    public function edit(lead $lead)
+    public function edit(Lead $lead)
     {
         //
     }
@@ -74,10 +75,10 @@ class LeadController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateleadRequest  $request
-     * @param  \App\Models\Whatsappservice\lead  $lead
+     * @param  \App\Models\WhatsappApi\Lead  $lead
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateleadRequest $request, lead $lead)
+    public function update(UpdateleadRequest $request, Lead $lead)
     {
         //
     }
@@ -85,10 +86,10 @@ class LeadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Whatsappservice\lead  $lead
+     * @param  \App\Models\WhatsappApi\Lead  $lead
      * @return \Illuminate\Http\Response
      */
-    public function destroy(lead $lead)
+    public function destroy(Lead $lead)
     {
         //
     }

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\LogicResponse;
+use App\Models\WhatsappApi\LogicResponse;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

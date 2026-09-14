@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\WhatsappApi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Whatsappservice\Daterecolection\ConversationWsp;
+use App\Services\WhatsappApi\ConversationWsp;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;

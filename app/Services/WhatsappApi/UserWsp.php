@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Whatsappservice\Daterecolection;
+namespace App\Services\WhatsappApi;
 
 use App\Models\UserApp;
-
-use App\Http\Controllers\Controller;
 
 use Exception;
 
 
-
-Class UserWsp extends Controller{
+Class UserWsp {
 
 
     private $numb_phone; 
@@ -18,19 +15,15 @@ Class UserWsp extends Controller{
 
     
 
-
     public function __construct($dates){
 
         $data = $dates;
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
             $phoneBody = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
   
-            // Convertir el valor a string, aunque deberÃ­a serlo ya
+            // Convertir el valor a string, aunque debería serlo ya
             $phoneAsString = (string) $phoneBody;
   
-            // Registrar el valor en el log
-        
-         
           }
 
           if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['text'])) {
@@ -38,18 +31,15 @@ Class UserWsp extends Controller{
             
             $messageBody = $data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
   
-            // Convertir el valor a string, aunque deberÃ­a serlo ya
+            // Convertir el valor a string, aunque debería serlo ya
             $messageAsString = (string) $messageBody;
   
-            // Registrar el valor en el log
-        
-         
           }
 
 
-        $this->message = $messageAsString;
+        $this->message = $messageAsString ?? null;
 
-        $this->numb_phone = $phoneAsString;
+        $this->numb_phone = $phoneAsString ?? null;
 
 
 
@@ -79,10 +69,6 @@ Class UserWsp extends Controller{
 
 
     }
-
-
-
-
 
 
 

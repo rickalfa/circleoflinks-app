@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\WhatsappApi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,17 +17,12 @@ class LogicResponse extends Model
         'response',
         'agent_id'
 
-
     ];
 
 
     public function Agent(){
 
-        return $this->belongsTo('App\Models\Agent', 'agent_id', 'id');
-
+        return $this->belongsTo(Agent::class, 'agent_id', 'id');
 
     }
-
-
-
 }

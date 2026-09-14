@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WhatsappApi;
 
-use App\Models\Agent;
+use App\Models\WhatsappApi\Agent;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
 use Exception;
@@ -108,7 +109,7 @@ class AgentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Agent  $agent
+     * @param  \App\Models\WhatsappApi\Agent  $agent
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -123,7 +124,7 @@ class AgentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Agent  $agent
+     * @param  \App\Models\WhatsappApi\Agent  $agent
      * @return \Illuminate\Http\Response
      */
     public function edit(Agent $agent)
@@ -135,7 +136,7 @@ class AgentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateAgentRequest  $request
-     * @param  \App\Models\Agent  $agent
+     * @param  \App\Models\WhatsappApi\Agent  $agent
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -175,7 +176,7 @@ class AgentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Agent  $agent
+     * @param  \App\Models\WhatsappApi\Agent  $agent
      * @return \Illuminate\Http\Response
      */
     public function destroy(Agent $agent)

@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Whatsappservice\lead;
+use App\Models\WhatsappApi\Lead;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class LeadPolicy
@@ -28,7 +28,7 @@ class LeadPolicy
      * @param  \App\Models\Whatsappservice\lead  $lead
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, lead $lead)
+    public function view(User $user, Lead $lead)
     {
         //
     }
@@ -51,7 +51,7 @@ class LeadPolicy
      * @param  \App\Models\Whatsappservice\lead  $lead
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, lead $lead)
+    public function update(User $user, Lead $lead)
     {
         //
     }
@@ -63,7 +63,7 @@ class LeadPolicy
      * @param  \App\Models\Whatsappservice\lead  $lead
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, lead $lead)
+    public function delete(User $user, Lead $lead)
     {
         //
     }
@@ -75,7 +75,7 @@ class LeadPolicy
      * @param  \App\Models\Whatsappservice\lead  $lead
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, lead $lead)
+    public function restore(User $user, Lead $lead)
     {
         //
     }
@@ -87,7 +87,7 @@ class LeadPolicy
      * @param  \App\Models\Whatsappservice\lead  $lead
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, lead $lead)
+    public function forceDelete(User $user, Lead $lead)
     {
         //
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WhatsappApi;
 
-use App\Models\LogicResponse;
+use App\Models\WhatsappApi\LogicResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLogicResponseRequest;
 use App\Http\Requests\UpdateLogicResponseRequest;
 
-use App\Models\Agent;
+use App\Models\WhatsappApi\Agent;
 
 use Illuminate\Http\Request;
 
@@ -68,7 +69,7 @@ class LogicResponseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\LogicResponse  $logicResponse
+     * @param  \App\Models\WhatsappApi\LogicResponse  $logicResponse
      * @return \Illuminate\Http\Response
      */
     public function show(LogicResponse $logicResponse)
@@ -79,7 +80,7 @@ class LogicResponseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\LogicResponse  $logicResponse
+     * @param  \App\Models\WhatsappApi\LogicResponse  $logicResponse
      * @return \Illuminate\Http\Response
      */
     public function edit(LogicResponse $logicResponse)
@@ -91,7 +92,7 @@ class LogicResponseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateLogicResponseRequest  $request
-     * @param  \App\Models\LogicResponse  $logicResponse
+     * @param  \App\Models\WhatsappApi\LogicResponse  $logicResponse
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateLogicResponseRequest $request, LogicResponse $logicResponse)
@@ -102,7 +103,7 @@ class LogicResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\LogicResponse  $logicResponse
+     * @param  \App\Models\WhatsappApi\LogicResponse  $logicResponse
      * @return \Illuminate\Http\Response
      */
     public function destroy(LogicResponse $logicResponse)

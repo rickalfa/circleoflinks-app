@@ -5,9 +5,9 @@ namespace App\Http\Controllers\WhatsappApi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Conversation;
+use App\Models\WhatsappApi\Conversation;
 use App\Http\Controllers\WhatsappApi\WspSendMessageController;
-use App\Models\Whatsappservice\lead;
+use App\Models\WhatsappApi\Lead;
 use Exception;
 
 class ChatLeadController extends Controller

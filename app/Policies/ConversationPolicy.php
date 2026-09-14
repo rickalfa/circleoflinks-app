@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Conversation;
+use App\Models\WhatsappApi\Conversation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

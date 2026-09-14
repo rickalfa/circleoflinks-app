@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models\Whatsappservice;
+namespace App\Models\WhatsappApi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserApp;
 
-class lead extends Model
+class Lead extends Model
 {
     use HasFactory;
 
@@ -21,10 +22,7 @@ class lead extends Model
 
     public function user(){
 
-        return $this->belongsTo('App\Models\UserApp', 'user_id', 'id');
-
-
-
+        return $this->belongsTo(UserApp::class, 'user_id', 'id');
 
     }
 

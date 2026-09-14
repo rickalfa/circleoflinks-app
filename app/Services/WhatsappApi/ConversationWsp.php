@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Whatsappservice\Daterecolection;
+namespace App\Services\WhatsappApi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Whatsappservice\Daterecolection\UserWsp;
-use App\Http\Whatsappservice\Daterecolection\BotWsp;
-use App\Models\Conversation;
 use App\Models\UserApp;
 use App\Models\userAppContact;
-use App\Models\Whatsappservice\lead;
+use App\Models\WhatsappApi\Conversation;
+use App\Models\WhatsappApi\Lead;
 
 class ConversationWsp extends Controller{
 
@@ -28,11 +26,11 @@ class ConversationWsp extends Controller{
 
        
         $data = $dates;
-   
+    
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
             $phoneUser = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
 
-            // Convertir el valor a string, aunque deberÃ­a serlo ya
+            // Convertir el valor a string, aunque debería serlo ya
             $phoneAsString = (string) $phoneUser ;
   
              /**
@@ -48,7 +46,7 @@ class ConversationWsp extends Controller{
             if(isset($Userexist)){
                 echo "el usuario existe  ";
                 
-                lead::updateOrCreate(
+                Lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
                         'name' => 'Lead WhatsApp',
@@ -68,8 +66,8 @@ class ConversationWsp extends Controller{
                  $usernew = UserApp::create([
                     'name' => "unknow",
                     'password' => "provisorio",
-                    'user_app_status_id' => 2 
-
+                    'user_app_status_id' => 2,
+                    'email' => $phoneAsString . "@whatsapp.local"
                  ]);
 
                  /**
@@ -90,7 +88,7 @@ class ConversationWsp extends Controller{
                   * usuario como LEAD de la App
                   */
                  if(isset($usernew)){
-                    lead::updateOrCreate(
+                    Lead::updateOrCreate(
                         ['user_id' => $usernew->id],
                         [
                             'name' => 'Lead WhatsApp',
@@ -125,9 +123,7 @@ class ConversationWsp extends Controller{
              $this->Botwsp = new BotWsp();
 
 
-
        
-
 
 
     }

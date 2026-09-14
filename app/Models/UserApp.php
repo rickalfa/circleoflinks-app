@@ -40,7 +40,7 @@ class UserApp extends Model
     public function lead()
     {
 
-        return $this->hasOne('App\Models\Whatsappservice\lead','user_id', 'id');
+        return $this->hasOne('App\Models\WhatsappApi\Lead','user_id', 'id');
 
     }
     
@@ -63,7 +63,7 @@ class UserApp extends Model
     public function Conversations()
     {
 
-        return $this->hasMany('App\Models\Conversation', 'user_id', 'id');
+        return $this->hasMany('App\Models\WhatsappApi\Conversation', 'user_id', 'id');
 
 
     }

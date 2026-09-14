@@ -8,9 +8,9 @@ use App\Http\Controllers\WhatsappApi\WspSendMessageController;
 use App\Http\Controllers\Web\UserAppController as UserAppWeb;
 use App\Http\Controllers\Web\UserAppContactController as ContactsApp;
 
-use App\Http\Controllers\AgentController;
-use App\Http\Controllers\LogicResponseController;
-use App\Http\Controllers\LeadController;
+use App\Http\Controllers\WhatsappApi\AgentController;
+use App\Http\Controllers\WhatsappApi\LogicResponseController;
+use App\Http\Controllers\WhatsappApi\LeadController;
 
 use App\Http\Controllers\WhatsappApi\ChatLeadController;
 

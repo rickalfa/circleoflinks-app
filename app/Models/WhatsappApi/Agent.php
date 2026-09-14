@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\WhatsappApi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,22 +24,12 @@ class Agent extends Model
 
     public function conversations()
     {
-
-        return $this->hasMany('App\Models\Conversation', 'agent_id', 'id');
-
-
-
+        return $this->hasMany(Conversation::class, 'agent_id', 'id');
     }
 
 
     public function logicResponses()
     {
-
-
-        return $this->hasMany('App\Models\LogicResponse', 'agent_id', 'id');
-
+        return $this->hasMany(LogicResponse::class, 'agent_id', 'id');
     }
-
-
-
 }
