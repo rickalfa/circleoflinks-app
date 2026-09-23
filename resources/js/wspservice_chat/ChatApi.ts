@@ -47,10 +47,11 @@ export class ChatApi {
         }
     }
 
-    public async takeControl(conversationId: number): Promise<boolean> {
+    public async takeControl(conversationId: number, action: 'human_active' | 'bot_active' = 'human_active'): Promise<boolean> {
         try {
             const response = await axios.post('/chat-api/take-control', {
-                conversation_id: conversationId
+                conversation_id: conversationId,
+                action: action
             });
             return response.data?.success || false;
         } catch (error) {

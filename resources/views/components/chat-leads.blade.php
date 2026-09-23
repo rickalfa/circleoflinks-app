@@ -4,6 +4,9 @@
         <button id="btn-take-control" class="btn btn-warning btn-sm" style="display:none;">
             Tomar Control (Silenciar Bot)
         </button>
+        <button id="btn-release-control" class="btn btn-info btn-sm text-white" style="display:none;">
+            Devolver control al Bot
+        </button>
     </div>
 
     <!-- Contenedor donde ChatUI.ts inyectará las burbujas -->

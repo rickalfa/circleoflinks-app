@@ -44,19 +44,23 @@ class ApiChatController extends Controller
     public function takeControl(Request $request)
     {
         $request->validate([
-            'conversation_id' => 'required|integer|exists:conversations,id'
+            'conversation_id' => 'required|integer|exists:conversations,id',
+            'action' => 'sometimes|in:human_active,bot_active'
         ]);
 
         $conversation = Conversation::find($request->conversation_id);
         
+        $newStatus = $request->action ?? 'human_active';
+        $assignedUser = $newStatus === 'human_active' ? (auth()->id() ?? 1) : null;
+
         $conversation->update([
-            'status' => 'human_active',
-            'assigned_user_id' => auth()->id() ?? 1 // Fallback provisorio si no hay sesión
+            'status' => $newStatus,
+            'assigned_user_id' => $assignedUser
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Chat asignado al operador exitosamente.',
+            'message' => 'Estado del chat actualizado.',
             'status' => $conversation->status
         ]);
     }

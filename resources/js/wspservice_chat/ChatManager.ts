@@ -17,6 +17,7 @@ export class ChatManager {
         
         this.ui.bindSendEvent(this.handleSend.bind(this));
         this.ui.bindTakeControlEvent(this.handleTakeControl.bind(this));
+        this.ui.bindReleaseControlEvent(this.handleReleaseControl.bind(this));
         
         this.init();
     }
@@ -60,10 +61,20 @@ export class ChatManager {
     private async handleTakeControl() {
         if (!this.currentConversation) return;
         
-        const success = await this.api.takeControl(this.currentConversation.id);
+        const success = await this.api.takeControl(this.currentConversation.id, 'human_active');
         if (success) {
             this.currentConversation.status = 'human_active';
             this.ui.updateStatus('human_active');
+        }
+    }
+
+    private async handleReleaseControl() {
+        if (!this.currentConversation) return;
+        
+        const success = await this.api.takeControl(this.currentConversation.id, 'bot_active');
+        if (success) {
+            this.currentConversation.status = 'bot_active';
+            this.ui.updateStatus('bot_active');
         }
     }
 

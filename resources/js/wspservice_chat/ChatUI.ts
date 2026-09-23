@@ -5,6 +5,7 @@ export class ChatUI {
     private inputField: HTMLInputElement;
     private sendButton: HTMLButtonElement;
     private btnTakeControl: HTMLButtonElement;
+    private btnReleaseControl: HTMLButtonElement;
     private statusText: HTMLElement;
 
     constructor() {
@@ -12,6 +13,7 @@ export class ChatUI {
         this.inputField = document.getElementById('chat-input-text') as HTMLInputElement;
         this.sendButton = document.getElementById('chat-btn-send') as HTMLButtonElement;
         this.btnTakeControl = document.getElementById('btn-take-control') as HTMLButtonElement;
+        this.btnReleaseControl = document.getElementById('btn-release-control') as HTMLButtonElement;
         this.statusText = document.getElementById('chat-status-text') as HTMLElement;
     }
 
@@ -70,11 +72,13 @@ export class ChatUI {
     public updateStatus(status: 'bot_active' | 'human_active' | 'closed') {
         if (status === 'bot_active') {
             this.btnTakeControl.style.display = 'block';
+            this.btnReleaseControl.style.display = 'none';
             this.inputField.disabled = true;
             this.sendButton.disabled = true;
             this.statusText.innerText = 'El Bot está respondiendo...';
         } else {
             this.btnTakeControl.style.display = 'none';
+            this.btnReleaseControl.style.display = 'block';
             this.inputField.disabled = false;
             this.sendButton.disabled = false;
             this.statusText.innerText = 'Tú tienes el control (Humano)';
@@ -100,6 +104,12 @@ export class ChatUI {
 
     public bindTakeControlEvent(callback: () => void) {
         this.btnTakeControl.addEventListener('click', () => {
+            callback();
+        });
+    }
+
+    public bindReleaseControlEvent(callback: () => void) {
+        this.btnReleaseControl.addEventListener('click', () => {
             callback();
         });
     }
