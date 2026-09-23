@@ -99,10 +99,20 @@ class ConversationWsp extends Controller{
         if ($conversation->status === 'bot_active') {
             // El bot toma el control
             $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
+            $botResponse = $this->Botwsp->getLogicResponse(); // Obtenemos la respuesta calculada
+            
             $this->Botwsp->sendWspMessage();
             
-            // Nota: Aquí se debería guardar también el mensaje saliente del Bot en la tabla messages,
-            // lo implementaremos luego en BotWsp.
+            // Guardamos el mensaje saliente del Bot en la base de datos
+            if ($botResponse) {
+                \App\Models\WhatsappApi\Message::create([
+                    'conversation_id' => $conversation->id,
+                    'sender_id' => 1, // ID del bot por defecto
+                    'sender_type' => 'agent',
+                    'content' => $botResponse,
+                    'sent_at' => now(),
+                ]);
+            }
         } else {
             // Está en 'human_active'. No hacemos nada automático.
             // El mensaje ya quedó guardado en la BD y el operador lo verá en su panel Vue.

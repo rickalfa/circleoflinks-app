@@ -61,7 +61,7 @@ class ChatLeadController extends Controller
 
             if ($conversations && method_exists($conversations, 'messages') && $conversations->messages != null) {
                 
-                return view('whatsapp_service.leads.chat', compact('conversations'));
+                return view('whatsapp_service.leads.chat', compact('conversations', 'Lead'));
     
             }else{
 

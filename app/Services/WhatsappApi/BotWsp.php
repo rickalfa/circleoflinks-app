@@ -32,6 +32,10 @@ Class BotWsp {
       
     }
 
+    public function getLogicResponse(){
+        return $this->logic_response;
+    }
+
     public function receptionMessage(string $message, string $number_user){
         Log::info("BotWsp receptionMessage: Mensaje recibido: '{$message}' desde el número {$number_user}");
 

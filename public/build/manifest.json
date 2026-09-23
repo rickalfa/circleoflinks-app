@@ -1,10 +1,13 @@
 {
+  "_axios-D1JoJEGi.js": {
+    "file": "assets/axios-D1JoJEGi.js"
+  },
   "public/imgs/bg/fondo_wsp.jpg": {
     "file": "assets/fondo_wsp-DPRI6Csl.jpg",
     "src": "public/imgs/bg/fondo_wsp.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C6Zk1vLZ.css",
+    "file": "assets/app-BL-CxWCQ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -19,8 +22,19 @@
     "isEntry": true
   },
   "resources/js/app.ts": {
-    "file": "assets/app-36D1Zab7.js",
+    "file": "assets/app-D0Tw4txt.js",
     "src": "resources/js/app.ts",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_axios-D1JoJEGi.js"
+    ]
+  },
+  "resources/js/wspservice_chat/index.ts": {
+    "file": "assets/index-m3lEmUfe.js",
+    "src": "resources/js/wspservice_chat/index.ts",
+    "isEntry": true,
+    "imports": [
+      "_axios-D1JoJEGi.js"
+    ]
   }
 }

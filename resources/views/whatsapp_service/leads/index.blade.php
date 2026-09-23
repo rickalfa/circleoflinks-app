@@ -116,34 +116,64 @@
           <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div id="chatwsplead">
-
-          </div>
+        <div class="modal-body p-0">
+          <!-- Aquí inyectamos el componente Blade que ahora contiene la UI TypeScript -->
+          @include('components.chat-leads', ['Lead' => new \App\Models\WhatsappApi\Lead()])
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
-  </div>
-
-    </div>
-
 </div>
 
+    </div>
+</div>
+
+<!-- Lógica para abrir el chat al hacer clic en el botón -->
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('staticBackdrop');
+    let chatManagerInstance = null; // Guardará la instancia del ChatManager
 
-function showinlog(msg){
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (event) {
+            // Botón que activó el modal
+            const button = event.relatedTarget;
+            // Extraer info de atributos data-* (data-value tiene el lead id)
+            const leadId = button.getAttribute('data-value');
+            
+            console.log("Abriendo modal para Lead ID:", leadId);
 
+            // Asignar el lead id al wrapper para que TypeScript lo sepa
+            const wrapper = document.getElementById('wspservice-chat-wrapper');
+            if (wrapper) {
+                wrapper.setAttribute('data-lead-id', leadId);
+                
+                // Limpiar instancia previa si existe (evita múltiples pollings)
+                if (chatManagerInstance) {
+                    chatManagerInstance.destroy();
+                }
 
-console.log("mensaje de la funcion showinlog : " + msg);
-showChatLead(msg);
+                // Disparar un evento personalizado que escuche index.ts
+                // o instanciar ChatManager directamente si lo exponemos al window.
+                // Como lo importamos por Vite, la mejor forma es un CustomEvent
+                const eventToDispatch = new CustomEvent('InitLiveChat', { detail: { leadId: Number(leadId) } });
+                document.dispatchEvent(eventToDispatch);
+            }
+        });
 
-}
-
+        modal.addEventListener('hidden.bs.modal', function () {
+            // Cuando se cierra el modal, enviar evento para destruir el polling
+            const eventToDispatch = new CustomEvent('DestroyLiveChat');
+            document.dispatchEvent(eventToDispatch);
+            
+            // Limpiar contenedor de mensajes
+            const container = document.getElementById('chat-messages-container');
+            if (container) container.innerHTML = '<div class="text-center text-muted mt-3"><small>Cargando mensajes...</small></div>';
+        });
+    }
+});
 </script>
-
 
 </x-admindashboard>

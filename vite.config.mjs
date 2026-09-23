@@ -8,6 +8,7 @@ export default defineConfig({
         laravel([
             'resources/css/app.css',
             'resources/js/app.ts',
+            'resources/js/wspservice_chat/index.ts',
             'resources/css/styleboots.css',
             'resources/css/stylesapp/app.scss'
         ]),
