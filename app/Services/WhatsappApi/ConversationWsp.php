@@ -69,6 +69,13 @@ class ConversationWsp extends Controller{
 
     public function startConversation()
     {
+        // Si no hay un UserApp asociado (por ejemplo, es un webhook de confirmación de lectura de Meta)
+        // abortamos porque no hay conversación que procesar
+        if (!$this->currentUserId) {
+            \Illuminate\Support\Facades\Log::info("ConversationWsp: Webhook ignorado (no es un mensaje entrante o no hay usuario).");
+            return;
+        }
+
         $user_msg_wsp = $this->Userwsp->getMessage();
         $user_phone_wsp = $this->Userwsp->getPhone();
 
@@ -79,7 +86,8 @@ class ConversationWsp extends Controller{
             [
                 'agent_id' => 1, 
                 'status' => 'bot_active',
-                'type' => 'user'
+                'type' => 'user',
+                'message' => 'Chat iniciado' // Evita error SQL porque la columna message no es nullable
             ]
         );
 
