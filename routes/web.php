@@ -125,6 +125,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/accesstoken', [ProfileController::class, 'showAccessToken'])->name('/profile/accesstoken');
+
+    // Rutas para Chat en Vivo con Vue
+    Route::prefix('chat-api')->group(function () {
+        Route::get('/conversation/lead/{leadId}', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'getConversation']);
+        Route::post('/take-control', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'takeControl']);
+        Route::post('/send', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'sendMessage']);
+    });
 });
 
 Route::get('/politica-de-privacidad', function () {

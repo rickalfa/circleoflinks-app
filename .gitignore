@@ -4,6 +4,10 @@
 /public/build
 /resources/scss
 /storage/*.key
+/storage/
+/storage/framework/lsp-*
+lsp-*
+
 /vendor
 .env
 .env.backup

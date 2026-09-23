@@ -18,6 +18,8 @@ class Conversation extends Model
         'agent_id',
         'message',
         'type', // 'user', 'agent'
+        'status',
+        'assigned_user_id', // users que esta atendiendo la conversacion
         'created_at',
         'updated_at',
     ];
@@ -26,6 +28,11 @@ class Conversation extends Model
     public function user()
     {
         return $this->belongsTo(UserApp::class, 'user_id', 'id');
+    }
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'assigned_user_id', 'id');
     }
 
     public function agent()
