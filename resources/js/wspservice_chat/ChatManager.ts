@@ -10,19 +10,24 @@ export class ChatManager {
     private phoneNumber: string = '';
     private pollingInterval: number | null = null;
 
-    constructor(leadId: number) {
-        this.leadId = leadId;
+    constructor() {
+        this.leadId = 0;
         this.api = new ChatApi();
         this.ui = new ChatUI();
         
         this.ui.bindSendEvent(this.handleSend.bind(this));
         this.ui.bindTakeControlEvent(this.handleTakeControl.bind(this));
         this.ui.bindReleaseControlEvent(this.handleReleaseControl.bind(this));
-        
-        this.init();
     }
 
-    private async init() {
+    public async openChat(leadId: number) {
+        this.leadId = leadId;
+        this.currentConversation = null;
+        this.phoneNumber = '';
+        
+        // Limpiar polling previo por si acaso
+        this.closeChat();
+        
         await this.loadChat();
         // Iniciar polling cada 5 segundos para recibir nuevos mensajes
         this.pollingInterval = window.setInterval(() => this.loadChat(false), 5000);
@@ -79,9 +84,10 @@ export class ChatManager {
     }
 
     // Método para limpiar el polling si se cierra el modal (para no gastar recursos)
-    public destroy() {
+    public closeChat() {
         if (this.pollingInterval) {
             window.clearInterval(this.pollingInterval);
+            this.pollingInterval = null;
         }
     }
 }
