@@ -131,7 +131,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/conversation/lead/{leadId}', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'getConversation']);
         Route::post('/take-control', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'takeControl']);
         Route::post('/send', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'sendMessage']);
+        Route::post('/refresh-avatar', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'refreshLeadAvatar']);
     });
+
 });
 
 Route::get('/politica-de-privacidad', function () {

@@ -22,42 +22,54 @@ class ConversationWsp extends Controller{
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
             $phoneUser = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
             $phoneAsString = (string) $phoneUser;
+
+            // Extraer nombre de perfil y avatar del webhook de Meta
+            $profileService = new WhatsAppProfileService();
+            $profileData = $profileService->extractProfileFromWebhook($data, $phoneAsString);
+
+            $leadName      = $profileData['name'] ?? 'Lead WhatsApp';
+            $leadAvatarUrl = $profileData['avatar_url'];
   
             $Userexist = UserAppContact::where('phone_number', '=', $phoneAsString)->first();
 
             if(isset($Userexist)){
                 $this->currentUserId = $Userexist->user_id;
+
+                // Actualizar Lead: si ya tiene avatar guardado, no sobreescribir con null
+                $existingLead = Lead::where('user_id', $Userexist->user_id)->first();
                 Lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
-                        'name' => 'Lead WhatsApp',
-                        'phone_number' => $phoneAsString,
+                        'name'              => $leadName,
+                        'phone_number'      => $phoneAsString,
                         'last_message_time' => now(),
-                        'state' => 'active'
+                        'state'             => 'active',
+                        'avatar_url'        => $leadAvatarUrl ?? ($existingLead->avatar_url ?? null),
                     ]
                 );
             }else{
                  $usernew = UserApp::create([
-                    'name' => "unknow",
-                    'password' => "provisorio",
+                    'name'               => $leadName,
+                    'password'           => "provisorio",
                     'user_app_status_id' => 2,
-                    'email' => $phoneAsString . "@whatsapp.local"
+                    'email'              => $phoneAsString . "@whatsapp.local"
                  ]);
                  $this->currentUserId = $usernew->id;
 
                  UserAppContact::create([
-                    'user_id'=> $usernew->id,
-                    'phone_number'=>  $phoneAsString,
-                    'status'=> "no register"
+                    'user_id'      => $usernew->id,
+                    'phone_number' => $phoneAsString,
+                    'status'       => "no register"
                  ]);
 
                  Lead::updateOrCreate(
                      ['user_id' => $usernew->id],
                      [
-                         'name' => 'Lead WhatsApp',
-                         'phone_number' => $phoneAsString,
+                         'name'              => $leadName,
+                         'phone_number'      => $phoneAsString,
                          'last_message_time' => now(),
-                         'state' => 'active'
+                         'state'             => 'active',
+                         'avatar_url'        => $leadAvatarUrl,
                      ]
                  );
             }
@@ -66,6 +78,7 @@ class ConversationWsp extends Controller{
         $this->Userwsp = new UserWsp($dates);
         $this->Botwsp = new BotWsp();
     }
+
 
     public function startConversation()
     {

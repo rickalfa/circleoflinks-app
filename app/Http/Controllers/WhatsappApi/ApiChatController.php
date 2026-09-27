@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\WhatsappApi\Lead;
 use App\Models\WhatsappApi\Conversation;
 use App\Models\WhatsappApi\Message;
+use App\Services\WhatsappApi\WhatsAppProfileService;
 
 class ApiChatController extends Controller
 {
@@ -98,6 +99,40 @@ class ApiChatController extends Controller
             'success' => true,
             'message' => $messageRecord,
             'meta_response' => $response
+        ]);
+    }
+
+    /**
+     * Refresca el avatar de un Lead consultando el perfil en WhatsApp Cloud API.
+     * Útil para actualizar la foto de perfil de contactos existentes.
+     */
+    public function refreshLeadAvatar(Request $request)
+    {
+        $request->validate([
+            'lead_id' => 'required|integer|exists:leads,id',
+        ]);
+
+        $lead = Lead::findOrFail($request->lead_id);
+
+        if (!$lead->phone_number) {
+            return response()->json(['success' => false, 'message' => 'El lead no tiene número de teléfono.'], 422);
+        }
+
+        $profileService = new WhatsAppProfileService();
+        $freshAvatarUrl = $profileService->refreshProfilePictureUrl($lead->phone_number);
+
+        // Si la API no devuelve imagen, generar un avatar dinámico basado en el nombre
+        if (!$freshAvatarUrl) {
+            $encodedName = urlencode($lead->name ?? 'Lead');
+            $freshAvatarUrl = "https://ui-avatars.com/api/?name={$encodedName}&background=25D366&color=fff&size=128";
+        }
+
+        $lead->update(['avatar_url' => $freshAvatarUrl]);
+
+        return response()->json([
+            'success'    => true,
+            'avatar_url' => $freshAvatarUrl,
+            'lead'       => $lead,
         ]);
     }
 }

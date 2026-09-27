@@ -31,14 +31,15 @@
 
                 
                       @php
-
                        $count++;
                        
-                      $link_img = "https://mdbootstrap.com/img/Photos/Avatars/avatar-".$count.".jpg";
+                       // Prioridad: 1) avatar guardado en BD desde WhatsApp, 2) avatar dinámico basado en el nombre del Lead
+                       $link_img = $Lead->avatar_url 
+                           ?: 'https://ui-avatars.com/api/?name=' . urlencode($Lead->name ?? 'Lead') . '&background=25D366&color=fff&size=128&bold=true';
 
                       @endphp
 
-                      <tr >
+                      <tr>
                         <th>
 
                         </th>
@@ -48,17 +49,22 @@
                                     <div class="card" >
                                         <div class="card-header">
                                             <div class="d-flex flex-column"> 
-                                                <div class="d-flex justify-content-start">
-                                                    <div> 
-                                                        <img src={{$link_img}} class="rounded-circle me-3" height="50px"
-                                                        width="50px" alt="avatar" />  
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <div class="position-relative me-3"> 
+                                                        <img src="{{ $link_img }}" 
+                                                             class="rounded-circle border border-2 shadow-sm" 
+                                                             style="border-color: #25D366 !important;"
+                                                             height="50px"
+                                                             width="50px" 
+                                                             alt="Avatar de {{ $Lead->name }}"
+                                                             onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($Lead->name ?? 'Lead') }}&background=25D366&color=fff&size=128'" />  
 
                                                     </div>
                                                     <div class="px-2">
                                                         <i class="bi bi-whatsapp" style="color: green"> </i>
                                                     </div>
                                                     <div>
-                                                        <p>   {{$Lead->name}}</p>
+                                                        <p class="mb-0 fw-semibold">{{ $Lead->name }}</p>
 
                                                     </div>
                                                  
@@ -82,7 +88,7 @@
                                                      <button data-value="{{$Lead->id}}" 
                                                              data-name="{{$Lead->name}}" 
                                                              data-phone="{{$Lead->phone_number}}" 
-                                                             data-avatar="{{$link_img}}" 
+                                                             data-avatar="{{ $link_img }}" 
                                                              type="button" 
                                                              class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" 
                                                              data-bs-toggle="modal" 
