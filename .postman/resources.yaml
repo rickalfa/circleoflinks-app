@@ -4,4 +4,4 @@ workspace:
 
 localResources:
   specs:
-    - ..\storage\api-docs\api-docs.json
+    - ../storage/api-docs/api-docs.json

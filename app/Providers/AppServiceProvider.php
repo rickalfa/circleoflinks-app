@@ -5,9 +5,10 @@ namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
-
 use Illuminate\Support\ServiceProvider;
+use App\Enums\RoleEnum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Super Admin implícito: otorga todas las habilidades al rol ADMIN
+        Gate::before(function ($user, string $ability) {
+            return method_exists($user, 'hasRole') && $user->hasRole(RoleEnum::ADMIN->value) ? true : null;
+        });
     
     // 1. Límite para la API general (ej: 60 peticiones por minuto)
         RateLimiter::for('api', function (Request $request) {
