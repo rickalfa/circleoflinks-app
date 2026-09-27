@@ -25,5 +25,5 @@ DOC-PROJECT.txt
 ESTRUCTURA_FRONTEND.md
 casos_de_uso.txt
 
+.agents/rules
 .agents/*
-.agents/rules/*

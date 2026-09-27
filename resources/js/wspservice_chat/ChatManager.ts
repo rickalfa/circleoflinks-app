@@ -1,12 +1,13 @@
 import { ChatApi } from './ChatApi';
 import { ChatUI } from './ChatUI';
-import type { Conversation } from './interfaces';
+import type { Conversation, Lead } from './interfaces';
 
 export class ChatManager {
     private api: ChatApi;
     private ui: ChatUI;
     private leadId: number;
     private currentConversation: Conversation | null = null;
+    private currentLead: Lead | null = null;
     private phoneNumber: string = '';
     private pollingInterval: number | null = null;
 
@@ -20,14 +21,18 @@ export class ChatManager {
         this.ui.bindReleaseControlEvent(this.handleReleaseControl.bind(this));
     }
 
-    public async openChat(leadId: number) {
+    public async openChat(leadId: number, initialLeadData?: Partial<Lead>) {
         this.leadId = leadId;
         this.currentConversation = null;
-        this.phoneNumber = '';
+        this.phoneNumber = initialLeadData?.phone_number || '';
         
         // Limpiar polling previo por si acaso
         this.closeChat();
         
+        if (initialLeadData) {
+            this.ui.setLeadInfo(initialLeadData);
+        }
+
         await this.loadChat();
         // Iniciar polling cada 5 segundos para recibir nuevos mensajes
         this.pollingInterval = window.setInterval(() => this.loadChat(false), 5000);
@@ -35,20 +40,26 @@ export class ChatManager {
 
     private async loadChat(initialLoad: boolean = true) {
         const data = await this.api.getConversation(this.leadId);
-        if (data && data.conversation) {
-            
-            const newMessagesCount = data.conversation.messages.length;
-            const oldMessagesCount = this.currentConversation?.messages.length || 0;
-
-            this.currentConversation = data.conversation;
-            this.phoneNumber = data.phone;
-            
-            // Si es la carga inicial, o si hay mensajes nuevos, re-renderizar
-            if (initialLoad || newMessagesCount > oldMessagesCount) {
-                this.ui.renderMessages(this.currentConversation.messages);
+        if (data) {
+            if (data.lead) {
+                this.currentLead = data.lead;
+                this.phoneNumber = data.lead.phone_number;
+                this.ui.setLeadInfo(data.lead);
             }
 
-            this.ui.updateStatus(this.currentConversation.status);
+            if (data.conversation) {
+                const newMessagesCount = data.conversation.messages?.length || 0;
+                const oldMessagesCount = this.currentConversation?.messages?.length || 0;
+
+                this.currentConversation = data.conversation;
+                
+                // Si es la carga inicial, o si hay mensajes nuevos, re-renderizar
+                if (initialLoad || newMessagesCount > oldMessagesCount) {
+                    this.ui.renderMessages(this.currentConversation.messages || []);
+                }
+
+                this.ui.updateStatus(this.currentConversation.status);
+            }
         }
     }
 
@@ -58,6 +69,9 @@ export class ChatManager {
         const newMsg = await this.api.sendMessage(this.currentConversation.id, this.phoneNumber, text);
         if (newMsg) {
             // Añadirlo al DOM inmediatamente y a nuestro arreglo de estado
+            if (!this.currentConversation.messages) {
+                this.currentConversation.messages = [];
+            }
             this.currentConversation.messages.push(newMsg);
             this.ui.appendMessage(newMsg);
         }

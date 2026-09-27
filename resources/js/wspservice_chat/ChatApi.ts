@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Conversation, ChatMessage } from './interfaces';
+import type { Conversation, ChatMessage, Lead, ConversationResponse } from './interfaces';
 
 export class ChatApi {
     private csrfToken: string;
@@ -13,14 +13,13 @@ export class ChatApi {
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     }
 
-    public async getConversation(leadId: number): Promise<{ conversation: Conversation, phone: string } | null> {
+    public async getConversation(leadId: number): Promise<ConversationResponse | null> {
         try {
             const response = await axios.get(`/chat-api/conversation/lead/${leadId}`);
             if (response.data && response.data.conversation) {
-                // El phone está en contact o lead (dependiendo del backend), ajustemos asumiendo lead.phone_number
                 return {
                     conversation: response.data.conversation,
-                    phone: response.data.lead?.phone_number || ''
+                    lead: response.data.lead
                 };
             }
             return null;

@@ -7,7 +7,7 @@
     "src": "public/imgs/bg/fondo_wsp.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BL-CxWCQ.css",
+    "file": "assets/app-7ty0zlmx.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -17,7 +17,7 @@
     "isEntry": true
   },
   "resources/css/stylesapp/app.scss": {
-    "file": "assets/app-Ca6zouCk.css",
+    "file": "assets/app-CWs4NXrO.css",
     "src": "resources/css/stylesapp/app.scss",
     "isEntry": true
   },
@@ -30,7 +30,7 @@
     ]
   },
   "resources/js/wspservice_chat/index.ts": {
-    "file": "assets/index-Cz4VVvh7.js",
+    "file": "assets/index-CjibGRxq.js",
     "src": "resources/js/wspservice_chat/index.ts",
     "isEntry": true,
     "imports": [

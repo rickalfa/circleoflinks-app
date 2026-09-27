@@ -79,14 +79,17 @@
                                                
                                                 </ul>
                                                     <!-- Button trigger modal -->
-                                                     <button  data-value={{$Lead->id}}  id="btmodal"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-
-                                                        chat Live 
-
-                                                        <input type="hidden" id="phone_number_"{{$count}} value={{$Lead->id}}>
-
+                                                     <button data-value="{{$Lead->id}}" 
+                                                             data-name="{{$Lead->name}}" 
+                                                             data-phone="{{$Lead->phone_number}}" 
+                                                             data-avatar="{{$link_img}}" 
+                                                             type="button" 
+                                                             class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" 
+                                                             data-bs-toggle="modal" 
+                                                             data-bs-target="#staticBackdrop">
+                                                        <i class="bi bi-chat-dots-fill me-1"></i> Chat Live
                                                      </button>
-                                               
+                                                
                                             </div>
                                    </div>
    
@@ -109,19 +112,17 @@
 
         </div>
 <!-- Modal -->
-<div style="height: width:80wv;" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content" >
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content overflow-hidden border-0 shadow-lg">
         <div class="modal-body p-0">
-          <!-- Aquí inyectamos el componente Blade que ahora contiene la UI TypeScript -->
+          <!-- Aquí inyectamos el componente Blade con la UI TypeScript -->
           @include('components.chat-leads', ['Lead' => new \App\Models\WhatsappApi\Lead()])
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-lg me-1"></i> Cerrar Chat
+          </button>
         </div>
       </div>
     </div>
@@ -134,31 +135,35 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('staticBackdrop');
-    let chatManagerInstance = null; // Guardará la instancia del ChatManager
 
     if (modal) {
         modal.addEventListener('show.bs.modal', function (event) {
             // Botón que activó el modal
             const button = event.relatedTarget;
-            // Extraer info de atributos data-* (data-value tiene el lead id)
+            if (!button) return;
+
+            // Extraer info de atributos data-*
             const leadId = button.getAttribute('data-value');
+            const leadName = button.getAttribute('data-name') || '';
+            const leadPhone = button.getAttribute('data-phone') || '';
+            const leadAvatar = button.getAttribute('data-avatar') || '';
             
-            console.log("Abriendo modal para Lead ID:", leadId);
+            console.log("Abriendo modal para Lead ID:", leadId, { leadName, leadPhone, leadAvatar });
 
             // Asignar el lead id al wrapper para que TypeScript lo sepa
             const wrapper = document.getElementById('wspservice-chat-wrapper');
             if (wrapper) {
                 wrapper.setAttribute('data-lead-id', leadId);
                 
-                // Limpiar instancia previa si existe (evita múltiples pollings)
-                if (chatManagerInstance) {
-                    chatManagerInstance.destroy();
-                }
-
-                // Disparar un evento personalizado que escuche index.ts
-                // o instanciar ChatManager directamente si lo exponemos al window.
-                // Como lo importamos por Vite, la mejor forma es un CustomEvent
-                const eventToDispatch = new CustomEvent('InitLiveChat', { detail: { leadId: Number(leadId) } });
+                // Disparar evento personalizado que escucha index.ts
+                const eventToDispatch = new CustomEvent('InitLiveChat', { 
+                    detail: { 
+                        leadId: Number(leadId),
+                        name: leadName,
+                        phone: leadPhone,
+                        avatar: leadAvatar
+                    } 
+                });
                 document.dispatchEvent(eventToDispatch);
             }
         });
@@ -170,7 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Limpiar contenedor de mensajes
             const container = document.getElementById('chat-messages-container');
-            if (container) container.innerHTML = '<div class="text-center text-muted mt-3"><small>Cargando mensajes...</small></div>';
+            if (container) {
+                container.innerHTML = '<div class="text-center text-muted my-auto"><div class="spinner-border text-primary spinner-border-sm me-2" role="status"></div><small>Cargando mensajes...</small></div>';
+            }
         });
     }
 });

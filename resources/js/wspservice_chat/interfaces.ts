@@ -11,6 +11,16 @@ export interface ChatMessage {
     sent_at: string;
 }
 
+export interface Lead {
+    id: number;
+    name: string;
+    phone_number: string;
+    last_message_time?: string;
+    state?: string;
+    user_id?: number;
+    avatar_url?: string;
+}
+
 export interface Conversation {
     id: number;
     user_id: number;
@@ -18,3 +28,9 @@ export interface Conversation {
     status: 'bot_active' | 'human_active' | 'closed';
     messages: ChatMessage[];
 }
+
+export interface ConversationResponse {
+    conversation: Conversation;
+    lead: Lead;
+}
+

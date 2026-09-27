@@ -1,4 +1,4 @@
-import type { ChatMessage } from './interfaces';
+import type { ChatMessage, Lead } from './interfaces';
 
 export class ChatUI {
     private chatContainer: HTMLElement;
@@ -7,6 +7,10 @@ export class ChatUI {
     private btnTakeControl: HTMLButtonElement;
     private btnReleaseControl: HTMLButtonElement;
     private statusText: HTMLElement;
+    private statusBadge: HTMLElement | null;
+    private leadName: HTMLElement | null;
+    private leadPhone: HTMLElement | null;
+    private leadAvatar: HTMLImageElement | null;
 
     constructor() {
         this.chatContainer = document.getElementById('chat-messages-container') as HTMLElement;
@@ -15,13 +19,30 @@ export class ChatUI {
         this.btnTakeControl = document.getElementById('btn-take-control') as HTMLButtonElement;
         this.btnReleaseControl = document.getElementById('btn-release-control') as HTMLButtonElement;
         this.statusText = document.getElementById('chat-status-text') as HTMLElement;
+        this.statusBadge = document.getElementById('chat-status-badge');
+        this.leadName = document.getElementById('chat-lead-name');
+        this.leadPhone = document.getElementById('chat-lead-phone');
+        this.leadAvatar = document.getElementById('chat-lead-avatar') as HTMLImageElement;
+    }
+
+    public setLeadInfo(lead: Partial<Lead>) {
+        if (this.leadName && lead.name) {
+            this.leadName.innerText = lead.name;
+        }
+        if (this.leadPhone && lead.phone_number) {
+            this.leadPhone.innerHTML = `<i class="bi bi-whatsapp text-success me-1"></i>+${lead.phone_number}`;
+        }
+        if (this.leadAvatar) {
+            const avatarUrl = lead.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(lead.name || 'Lead')}&background=0D8ABC&color=fff`;
+            this.leadAvatar.src = avatarUrl;
+        }
     }
 
     public renderMessages(messages: ChatMessage[]) {
-        this.chatContainer.innerHTML = ''; // Limpiar
+        this.chatContainer.innerHTML = '';
         
         if (messages.length === 0) {
-            this.chatContainer.innerHTML = '<div class="text-center text-muted mt-3"><small>No hay mensajes aún.</small></div>';
+            this.chatContainer.innerHTML = '<div class="text-center text-muted my-auto"><small>No hay mensajes en esta conversación aún.</small></div>';
             return;
         }
 
@@ -33,33 +54,50 @@ export class ChatUI {
 
     public appendMessage(msg: ChatMessage) {
         const isUser = msg.sender_type === 'user';
-        const justifyClass = isUser ? 'justify-content-start' : 'justify-content-end';
-        const bgClass = isUser ? 'bg-success text-white' : 'bg-secondary text-white';
+        const isBot = msg.sender_type === 'agent';
         
         const row = document.createElement('div');
-        row.className = `row ${justifyClass} mb-2`;
-
-        const col = document.createElement('div');
-        col.className = 'col-8 col-md-6';
+        row.className = `d-flex ${isUser ? 'justify-content-start' : 'justify-content-end'} mb-2 w-100`;
 
         const bubble = document.createElement('div');
-        bubble.className = `d-inline-flex rounded-pill p-2 ${bgClass}`;
-        
+        const bubbleTypeClass = isUser ? 'bubble-user' : (isBot ? 'bubble-bot' : 'bubble-admin');
+        bubble.className = `chat-bubble ${bubbleTypeClass}`;
+
+        // Etiqueta del remitente
+        const senderTag = document.createElement('div');
+        senderTag.className = 'bubble-sender';
+        if (isUser) {
+            senderTag.className += ' text-muted';
+            senderTag.innerText = 'Cliente';
+        } else if (isBot) {
+            senderTag.className += ' text-primary';
+            senderTag.innerHTML = '<i class="bi bi-robot me-1"></i>Bot Automático';
+        } else {
+            senderTag.className += ' text-success';
+            senderTag.innerHTML = '<i class="bi bi-person-fill me-1"></i>Operador (Tú)';
+        }
+
         const textWrapper = document.createElement('div');
-        textWrapper.className = 'p-1';
+        textWrapper.className = 'bubble-content';
         textWrapper.innerText = msg.content;
 
-        const timeWrapper = document.createElement('div');
-        timeWrapper.className = 'd-flex align-items-end ms-2';
-        const timeSmall = document.createElement('small');
-        timeSmall.style.fontSize = '0.7em';
-        timeSmall.innerText = msg.sent_at ? new Date(msg.sent_at).toLocaleTimeString() : '';
+        const footerWrapper = document.createElement('div');
+        footerWrapper.className = 'bubble-footer';
         
-        timeWrapper.appendChild(timeSmall);
+        const timeSmall = document.createElement('span');
+        timeSmall.innerText = msg.sent_at ? new Date(msg.sent_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+        footerWrapper.appendChild(timeSmall);
+
+        if (!isUser) {
+            const checkIcon = document.createElement('i');
+            checkIcon.className = 'bi bi-check-all text-primary ms-1';
+            footerWrapper.appendChild(checkIcon);
+        }
+
+        bubble.appendChild(senderTag);
         bubble.appendChild(textWrapper);
-        bubble.appendChild(timeWrapper);
-        col.appendChild(bubble);
-        row.appendChild(col);
+        bubble.appendChild(footerWrapper);
+        row.appendChild(bubble);
 
         this.chatContainer.appendChild(row);
         this.scrollToBottom();
@@ -71,17 +109,38 @@ export class ChatUI {
 
     public updateStatus(status: 'bot_active' | 'human_active' | 'closed') {
         if (status === 'bot_active') {
-            this.btnTakeControl.style.display = 'block';
+            this.btnTakeControl.style.display = 'inline-flex';
             this.btnReleaseControl.style.display = 'none';
             this.inputField.disabled = true;
             this.sendButton.disabled = true;
-            this.statusText.innerText = 'El Bot está respondiendo...';
-        } else {
+            this.inputField.placeholder = 'Modo Bot: Toma el control para escribir...';
+            this.statusText.innerText = 'Bot respondiendo automáticamente';
+            if (this.statusBadge) {
+                this.statusBadge.className = 'badge bg-warning text-dark';
+                this.statusBadge.innerHTML = '<i class="bi bi-robot me-1"></i> Bot Activo';
+            }
+        } else if (status === 'human_active') {
             this.btnTakeControl.style.display = 'none';
-            this.btnReleaseControl.style.display = 'block';
+            this.btnReleaseControl.style.display = 'inline-flex';
             this.inputField.disabled = false;
             this.sendButton.disabled = false;
-            this.statusText.innerText = 'Tú tienes el control (Humano)';
+            this.inputField.placeholder = 'Escribe un mensaje como operador...';
+            this.statusText.innerText = 'Modo Humano en Vivo';
+            if (this.statusBadge) {
+                this.statusBadge.className = 'badge bg-success';
+                this.statusBadge.innerHTML = '<i class="bi bi-person-fill me-1"></i> Agente en Vivo';
+            }
+        } else {
+            this.btnTakeControl.style.display = 'none';
+            this.btnReleaseControl.style.display = 'none';
+            this.inputField.disabled = true;
+            this.sendButton.disabled = true;
+            this.inputField.placeholder = 'Conversación cerrada';
+            this.statusText.innerText = 'Conversación cerrada';
+            if (this.statusBadge) {
+                this.statusBadge.className = 'badge bg-secondary';
+                this.statusBadge.innerHTML = '<i class="bi bi-x-circle me-1"></i> Cerrado';
+            }
         }
     }
 
@@ -90,7 +149,7 @@ export class ChatUI {
             const text = this.inputField.value.trim();
             if (text) {
                 callback(text);
-                this.inputField.value = ''; // Limpiar input después de enviar
+                this.inputField.value = '';
             }
         });
 
@@ -114,3 +173,4 @@ export class ChatUI {
         });
     }
 }
+
