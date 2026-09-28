@@ -1,0 +1,5 @@
+$kind: http-request
+name: /proyectos
+url: "{{patch-col-local-api}}/proyectos"
+method: GET
+order: 1774659309265

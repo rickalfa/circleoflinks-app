@@ -1,8 +1,11 @@
 <!-- Barra de navegacion -->  
-<nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 backopa" 
->
+<nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 backopa" >
     <div class="container">
+<<<<<<< HEAD
+      <a class="navbar-brand text-dark fs-1" href="{{ url('/')}}">Circle of links</a>
+=======
       <a class="navbar-brand text-white" href="{{ url('/')}}">{{ env('APP_NAME')}}</a>
+>>>>>>> origin/chatbotwsp
 
       <button id="buttonnav" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,10 +13,10 @@
       <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item ">
-            <a class="nav-link " aria-current="page" href="#scrollspyHeading1">Home</a>
+            <a class="nav-link " aria-current="page" href="#about">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="#scrollspyHeading2">Project</a>
+            <a class="nav-link " href="#api-features">Project-features</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="{{ route('l5-swagger.default.api')}}" >API V1 Doc</a>
@@ -75,15 +78,17 @@
                  
               <li>
                 <!-- Button REGISTER Modal-->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Register
-                 </button>
+               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegister">
+                 Registrarse
+              </button>
+               
               </li>
               
               <li> 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
-                 Login
-               </button>
+             <!-- Botón para abrir login -->
+             <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                Iniciar sesión
+              </button>
               </li>
               @endguest
         

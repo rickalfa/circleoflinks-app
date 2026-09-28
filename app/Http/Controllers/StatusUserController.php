@@ -14,56 +14,32 @@ use Exception;
 class StatusUserController extends Controller
 {
  
-        /**
-* show statususer
-* @OA\Get(
-*     path="/api/v1/statususer",
-*     summary="Se muestra el registro status user ",
-*     tags={"Status users"},
-
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="name",
-*                         type="stringr",
-*                         example="status name"
-*                     ),
-*                     @OA\Property(
-*                         property="description",
-*                         type="string",
-*                         example="description"
-*                     ),
-
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
-    public function index()
+    public function index(Request $request)
     {
-        $statusUsers = Status_user::all();
+        try {
+            $perPage = $request->input('per_page', 10);
+            $page = $request->input('page', 1);
 
-        return $statusUsers->toJson();
-        
+            $statusUsers = Status_user::paginate($perPage, ['*'], 'page', $page);
+
+            return ResponseService::success(
+                $statusUsers,
+                'Listado obtenido',
+                200,
+                [
+                    'current_page' => $statusUsers->currentPage(),
+                    'total'        => $statusUsers->total(),
+                    'last_page'    => $statusUsers->lastPage()
+                ]
+            );
+        } catch (Exception $e) {
+
+            return ResponseService::error(
+                'Error en el servidor',
+                500,
+                $e->getMessage()
+            );
+        }
 
     }
 
@@ -73,62 +49,6 @@ class StatusUserController extends Controller
         //
     }
 
-   /** 
-    * agregar Status user
-    * @OA\Post(
-    *     path="/api/v1/statususer",
-    *     tags={"Status users"},
-*    @OA\RequestBody(
-*         description="User object to be created",
-*         required=true,
-*         @OA\JsonContent(
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="baneado"
-*                     ),
-*                     @OA\Property(
-*                         property="description",
-*                         type="string",
-*                         example="el usuario no puede comentar o crear posts"
-*                     ),
-*          )
-*     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="descripción o el nombre del código de la petición",
-    *         @OA\JsonContent(
-    *             @OA\Property(
-    *                 type="array",
-    *                 property="rows",
-    *                 @OA\Items(
-    *                     type="object",
-    *                     @OA\Property(
-    *                         property="id",
-    *                         type="number",
-    *                         example="1"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="name",
-    *                         type="string",
-    *                         example="Aderson Felix"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="email",
-    *                         type="string",
-    *                         example="angelshamael@gmail.com"
-    *                     ),
-    *                     @OA\Property(
-    *                         property="updated_at",
-    *                         type="string",
-    *                         example="2023-02-23T12:33:45.000000Z"
-    *                     )
-    *                 )
-    *             )
-    *         )
-    *     )
-    * )
-    */  
     public function store(Request $request)
     {
         
@@ -157,54 +77,7 @@ class StatusUserController extends Controller
     }
 
   
-        /**
-* show statususer
-* @OA\Get(
-*     path="/api/v1/statususer/{id}",
-*     summary="Se muestra el registro status user ",
-*     tags={"Status users"},
-*     @OA\parameter(
-*       name="id",
-*       in="path",
-*       required=false   
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="name",
-*                         type="stringr",
-*                         example="status name"
-*                     ),
-*                     @OA\Property(
-*                         property="description",
-*                         type="string",
-*                         example="description"
-*                     ),
-
-*                     @OA\Property(
-*                         property="created_at",
-*                         type="string",
-*                         example="2023-02-23T00:09:16.000000Z"
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
+    
     public function show($id)
     {
         
@@ -238,60 +111,7 @@ class StatusUserController extends Controller
         
     }
 
-   /**
-* update user
-* @OA\Patch(
-*     path="/public/api/v1/statususer/",
-*     summary="Se muestra un solo registro user ",
-*     tags={"Status users"},
-*    @OA\RequestBody(
-*         description="User object to be created",
-*         required=true,
-*         @OA\JsonContent(
-*                     @OA\Property(
-*                         property="id",
-*                         type="number",
-*                         example="1"
-*                     ),
-*          )
-*     ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="success-update",
-*                         type="boolean",
-*                         example=true
-*                     ),
-*                     @OA\Property(
-*                         property="updated_at",
-*                         type="string",
-*                         example="2023-02-23T12:33:45.000000Z"
-*                     )
-*                 )
-*             )
-*         )
-*     ),
-*      @OA\Response(
-*         response=400,
-*         description="Bad request",
-*         @OA\JsonContent(
-*                     @OA\Property(
-*                         property="success-update",
-*                         type="number",
-*                         example="1"
-*                     )
-*                )
-*     )
-* )
-*
-*/
+
     public function update(Request $request)
     {
 
@@ -333,46 +153,7 @@ class StatusUserController extends Controller
 
         
     }
-
-  
-    /**
-* Delete StatusUser
-* @OA\Delete(
-*     path="/public/api/v1/statususer/",
-*     summary="Se muestra un solo registro user ",
-*     tags={"Status users"},
-*     @OA\parameter(
-*       name="id",
-*       in="query",
-*       required=true    
-*        ),
-*     @OA\Response(
-*         response=200,
-*         description="descripción o el nombre del código de la petición",
-*         @OA\JsonContent(
-*             @OA\Property(
-*                 type="array",
-*                 property="rows",
-*                 @OA\Items(
-*                     type="object",
-*                     @OA\Property(
-*                         property="message",
-*                         type="number",
-*                         example="1"
-*                     ),
-*                     @OA\Property(
-*                         property="name",
-*                         type="string",
-*                         example="Aderson Felix"
-*                     )
-*                 )
-*             )
-*         )
-*     )
-* )
-*
-*/
-    public function destroy($id)
+public function destroy($id)
     {
     
         try {
@@ -402,3 +183,5 @@ class StatusUserController extends Controller
         }
     }
 }
+
+

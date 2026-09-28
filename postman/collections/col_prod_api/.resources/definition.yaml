@@ -1,0 +1,4 @@
+$kind: collection
+name: col_prod_api
+variables:
+  patch_col_pro: ""

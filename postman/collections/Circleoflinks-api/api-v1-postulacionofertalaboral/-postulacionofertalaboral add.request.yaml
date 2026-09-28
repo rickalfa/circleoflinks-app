@@ -1,0 +1,5 @@
+$kind: http-request
+name: /postulacionofertalaboral add
+url: ""
+method: GET
+order: 991111980145290

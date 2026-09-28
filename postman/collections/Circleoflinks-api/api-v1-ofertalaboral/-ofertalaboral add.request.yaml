@@ -1,0 +1,21 @@
+$kind: http-request
+name: /ofertalaboral add
+url: "{{patch-col-local-api}}/ofertalaboral?title=trabajo con
+  darkco&name=Marketing digital&description=Responsable de campañas
+  digitales&date_expire=2024-11-11&salary=1500000&status_oferta_laboral_id=1&em\
+  presa_id=18&user_oferta_laboral_id=1"
+method: POST
+queryParams:
+  title: trabajo con darkco
+  name: Marketing digital
+  description: Responsable de campañas digitales
+  date_expire: 2024-11-11
+  salary: "1500000"
+  status_oferta_laboral_id: "1"
+  empresa_id: "18"
+  user_oferta_laboral_id: "1"
+auth:
+  type: bearer
+  credentials:
+    token: 19|qm1FlqmHi4fEXVwc4gdZqjRUBBg6bmw45JcmbH6me43dce4d
+order: 1271369430024590

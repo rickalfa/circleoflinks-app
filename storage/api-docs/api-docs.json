@@ -2,12 +2,12 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API circleoflinks",
-        "description": "API de red social de profecionales ",
+        "description": "API de red social de profecionales test",
         "version": "1.0"
     },
     "servers": [
         {
-            "url": "http://localhost/circleoflinks-app/public"
+            "url": "http://localhost:8001"
         }
     ],
     "paths": {
@@ -16,51 +16,332 @@
                 "tags": [
                     "Empresa"
                 ],
-                "summary": "Se muestra todos los registros empresa ",
-                "description": "show user",
+                "summary": "Obtiene un listado paginado de empresas",
+                "description": "index Empresa",
                 "operationId": "0aa607cb3de922d1314b976f5b385fbb",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Oferta laboral encontrada",
+                        "description": "Empresas encontradas",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "success": {
                                             "type": "boolean",
-                                            "example": false
+                                            "example": true
                                         },
-                                        "id": {
+                                        "status": {
                                             "type": "integer",
-                                            "example": 3
+                                            "example": 200
                                         },
-                                        "name": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "closed"
+                                            "example": "Listado de empresas obtenido correctamente"
                                         },
-                                        "email": {
-                                            "type": "string",
-                                            "example": " oferta laboral cerrada"
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cencocud"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "contacto@empresa.cl"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "comercio_exterior.png"
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": "Street Brlmoor #3453"
+                                                    },
+                                                    "rubro": {
+                                                        "type": "string",
+                                                        "example": "Transporte comercio local"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         },
-                                        "avatar": {
-                                            "type": "string",
-                                            "example": "comercio exterior"
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
                                         },
-                                        "address": {
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 12
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Empresa"
+                ],
+                "summary": "Crea una empresa",
+                "description": "Crea una nueva empresa usando API token (Sanctum).",
+                "operationId": "0e55a403c712113dd84fcc7f46f86592",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "rubro"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Mi Empresa SPA"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "contacto@empresa.cl"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "logo.png"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Calle 123"
+                                    },
+                                    "rubro": {
+                                        "type": "string",
+                                        "example": "Tecnologia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "succes": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "street brlmoor #3453"
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
                                         },
-                                        "rubro": {
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Empresa"
+                ],
+                "summary": "Actualiza una empresa",
+                "description": "Actualiza los campos enviados para una empresa. Requiere API token.",
+                "operationId": "0128440cf6bdb0089231cd1c4c246e99",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Empresa Actualizada"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "nuevo@empresa.cl"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "logo.png"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Calle 123"
+                                    },
+                                    "rubro": {
+                                        "type": "string",
+                                        "example": "Tecnologia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "transporte comercio local"
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
                                         },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T00:09:16.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T12:33:45.000000Z"
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -76,58 +357,69 @@
                 "tags": [
                     "Empresa"
                 ],
-                "summary": "Se muestra un solo registro Empresa ",
-                "description": "show  empresa",
+                "summary": "Obtienes los datos del registro empresa ",
+                "description": "Mostramos la empresa especificada por el id",
                 "operationId": "cb1885f1bb5e7501e5988feb440d5bcc",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": false
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "Oferta laboral encontrada",
+                        "description": "Empresa encontrada",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "success": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "boolean"
                                         },
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 3
+                                        "status": {
+                                            "type": "integer"
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "closed"
+                                        "message": {
+                                            "type": "string"
                                         },
-                                        "email": {
-                                            "type": "string",
-                                            "example": " oferta laboral cerrada"
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": " cencocud"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": " oferta laboral cerrada"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "comercio exterior"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "street brlmoor #3453"
+                                                },
+                                                "rubro": {
+                                                    "type": "string",
+                                                    "example": "transporte comercio local"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2023-02-23T00:09:16.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2023-02-23T12:33:45.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
-                                        "avatar": {
-                                            "type": "string",
-                                            "example": "comercio exterior"
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
                                         },
-                                        "address": {
-                                            "type": "string",
-                                            "example": "street brlmoor #3453"
-                                        },
-                                        "rubro": {
-                                            "type": "string",
-                                            "example": "transporte comercio local"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T00:09:16.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T12:33:45.000000Z"
+                                        "meta": {
+                                            "type": "object",
+                                            "nullable": true
                                         }
                                     },
                                     "type": "object"
@@ -138,45 +430,82 @@
                 }
             }
         },
-        "/api/v1/ofertalaboral": {
+        "/api/v1/empresa/{id}/ofertalaboral": {
             "get": {
                 "tags": [
-                    "Oferta laboral"
+                    "Empresa"
                 ],
-                "summary": "Obtener todos los registros de una oferta laboral",
-                "description": "Devuelve información detallada sobre una oferta laboral específica.",
-                "operationId": "1dd89fa7920273eb7416d69f9c59c501",
+                "summary": "Obtiene luna paginacion de las Ofertas Laborales de la empresa con {id} ",
+                "description": "Obtener empresa con sus ofertas laborales",
+                "operationId": "9787236871de8572af58e67c5a7b722c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Oferta laboral encontrada",
+                        "description": "Empresa y ofertas encontradas",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 3
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "title": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "se necesita Dev Junior Front"
+                                            "example": "Empresa y sus ofertas obtenidas"
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "trabajo desarrollo"
-                                        },
-                                        "description": {
-                                            "type": "string",
-                                            "example": " se necesita con urgencia"
-                                        },
-                                        "salary": {
-                                            "type": "number",
-                                            "example": 2
-                                        },
-                                        "date_expire": {
-                                            "type": "string",
-                                            "format": "date",
-                                            "example": "2024-11-11"
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Empresa X"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "contacto@empresa.com"
+                                                },
+                                                "ofertas": {
+                                                    "description": "Listado de ofertas asociadas",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 101
+                                                            },
+                                                            "titulo": {
+                                                                "type": "string",
+                                                                "example": "Desarrollador Fullstack"
+                                                            },
+                                                            "salario": {
+                                                                "type": "integer",
+                                                                "example": 1500000
+                                                            },
+                                                            "fecha_limite": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-12-31"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -185,7 +514,74 @@
                         }
                     },
                     "404": {
-                        "description": "Oferta laboral no encontrada",
+                        "description": "Empresa no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/v1/ofertalaboral": {
+            "get": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Obtiene el listado paginado de ofertas laborales",
+                "description": "Devuelve la colección paginada de ofertas y metadatos útiles para navegación.",
+                "operationId": "1dd89fa7920273eb7416d69f9c59c501",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de ofertas laborales paginado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado de ofertas obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -196,7 +592,239 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Oferta laboral no encontrada con ID: {id}"
+                                            "example": "Error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Registra una oferta laboral",
+                "description": "Valida los datos obligatorios y guarda la oferta laboral en la base de datos. Requiere API token.",
+                "operationId": "e21e677c52b9f2699e69cd3fcf7e702d",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "name",
+                                    "description",
+                                    "date_expire",
+                                    "salary",
+                                    "status_oferta_laboral_id",
+                                    "empresa_id",
+                                    "user_oferta_laboral_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Asistente de marketing"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Marketing digital"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Responsable de campañas digitales"
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-11-11"
+                                    },
+                                    "salary": {
+                                        "type": "number",
+                                        "example": 1500000
+                                    },
+                                    "status_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "user_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta laboral creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Oferta laboral creada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Actualiza los datos de una oferta laboral",
+                "description": "Valida los campos enviados y aplica los cambios sobre el registro identificado por su id.",
+                "operationId": "a5921e30cf17b3f71fa386c05cf90bef",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Dev Semi Senior Back"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Back-end"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Actualiza APIs"
+                                    },
+                                    "salary": {
+                                        "type": "number",
+                                        "example": 2500000
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-31"
+                                    },
+                                    "status_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "user_oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 4
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta laboral actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Oferta laboral actualizada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación o registro inexistente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -212,8 +840,8 @@
                 "tags": [
                     "Oferta laboral"
                 ],
-                "summary": "Obtener detalles de una oferta laboral",
-                "description": "Devuelve información detallada sobre una oferta laboral específica.",
+                "summary": "Obtiene una oferta por su id",
+                "description": "Incluye el estado, compañía y campos principales de la oferta.",
                 "operationId": "5a96fc807bcf13b4a64127229d3baf70",
                 "parameters": [
                     {
@@ -222,7 +850,8 @@
                         "description": "ID de la oferta laboral",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 3
                         }
                     }
                 ],
@@ -233,30 +862,47 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
                                             "type": "integer",
-                                            "example": 3
+                                            "example": 200
                                         },
-                                        "title": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "se necesita Dev Junior Front"
+                                            "example": "Oferta laboral encontrada"
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "trabajo desarrollo"
-                                        },
-                                        "description": {
-                                            "type": "string",
-                                            "example": " se necesita con urgencia"
-                                        },
-                                        "salary": {
-                                            "type": "number",
-                                            "example": 2
-                                        },
-                                        "date_expire": {
-                                            "type": "string",
-                                            "format": "date",
-                                            "example": "2024-11-11"
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Dev Junior Front"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Trabajo desarrollo"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Se necesita con urgencia"
+                                                },
+                                                "salary": {
+                                                    "type": "number",
+                                                    "example": 2000000
+                                                },
+                                                "date_expire": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-11-11"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -270,6 +916,14 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
                                         "message": {
                                             "type": "string",
                                             "example": "Oferta laboral no encontrada con ID: {id}"
@@ -283,14 +937,111 @@
                 }
             }
         },
-        "/api/v1/postulacionuserofertalaboral": {
+        "/api/v1/ofertalaboral/{id}/empresa": {
+            "get": {
+                "tags": [
+                    "Oferta laboral"
+                ],
+                "summary": "Obtiene una oferta con sus relaciones",
+                "description": "Incluye la empresa y el estado definido en la relación de la oferta.",
+                "operationId": "aa6f1644689f8f4f6eca6e83bdc9ca82",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta laboral",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta y empresa encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "oferta y empresa encontrados"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la oferta o la empresa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al buscar la empresa a la que pertenece la oferta laboral"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/postulacionofertalaboral": {
             "get": {
                 "tags": [
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show postulacion oferta laboral",
-                "operationId": "c3f5c5abade9578e1a4eba9dd8c7c11f",
+                "operationId": "b2fd510bfdfb35ebd692539847a24441",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Oferta laboral encontrada",
@@ -350,16 +1101,229 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Postulacion oferta laboral"
+                ],
+                "summary": "Crea una postulacion",
+                "description": "Registra una postulacion asociada a una oferta laboral. Requiere API token.",
+                "operationId": "1058ead3e260325b4419c82ac77fa0a3",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "date_expire",
+                                    "oferta_laboral_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Postulacion Frontend"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Me interesa la vacante"
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-04-30"
+                                    },
+                                    "oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Postulacion creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Postulacion oferta laboral"
+                ],
+                "summary": "Actualiza una postulacion",
+                "description": "Actualiza los campos enviados de la postulacion. Requiere API token.",
+                "operationId": "19c74ad26db34517fec5300f9611b4b8",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Postulacion Actualizada"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Actualizo mi interes"
+                                    },
+                                    "date_expire": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-05-01"
+                                    },
+                                    "oferta_laboral_id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Postulacion actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
-        "/api/v1/postulacionuserofertalaboral/{id}": {
+        "/api/v1/postulacionofertalaboral/{id}": {
             "get": {
                 "tags": [
                     "Postulacion oferta laboral"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
                 "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "31fb5060251413dddf3a0236b0bb525f",
+                "operationId": "a1e08909847117e09f6dce65b836ee4c",
                 "parameters": [
                     {
                         "name": "id",
@@ -428,6 +1392,358 @@
                 }
             }
         },
+        "/api/v1/proyectos": {
+            "get": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Obtiene el listado paginado de proyectos",
+                "description": "Lista los proyectos con paginacion.",
+                "operationId": "fbee6d1d41836301ae85034ba256807e",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de proyectos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "listado de Proyectos obtenidos"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Crea un proyecto",
+                "description": "Registra un proyecto asociado a una empresa. Requiere API token.",
+                "operationId": "caec55c76a1f2555cfbb7537fdd2fc53",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "date_finish",
+                                    "empresa_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Proyecto Web"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Desarrollo de portal corporativo"
+                                    },
+                                    "date_finish": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-12-31"
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Proyecto creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Proyecto creado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Actualiza un proyecto",
+                "description": "Actualiza los campos enviados del proyecto. Requiere API token.",
+                "operationId": "95df19822b0154754b52bd96bad76f8d",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Proyecto Web v2"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Actualizacion del portal"
+                                    },
+                                    "date_finish": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-03-01"
+                                    },
+                                    "empresa_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Proyecto actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proyectos/{id}": {
+            "get": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Obtiene un proyecto por ID",
+                "description": "Obtiene el detalle de un proyecto por ID.",
+                "operationId": "6cf58e76f654a3a689a01472669df582",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proyecto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proyecto encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Proyecto y su empresa obtenidos correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Proyecto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Proyecto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/statusofertalaboral": {
             "get": {
                 "tags": [
@@ -474,6 +1790,101 @@
                                         "message": {
                                             "type": "string",
                                             "example": "status Oferta laboral no encontrada con ID: {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Status Oferta laboral"
+                ],
+                "summary": "Crea un status de oferta laboral",
+                "description": "Valida los datos obligatorios y registra el status. Requiere API token.",
+                "operationId": "da9b342432c842ff6ccefd828b62e424",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "closed"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "oferta laboral cerrada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "succes": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -547,44 +1958,80 @@
                 }
             }
         },
-        "/api/v1/statususer": {
+        "/api/v1/users": {
             "get": {
                 "tags": [
-                    "Status users"
+                    "Users"
                 ],
-                "summary": "Se muestra el registro status user ",
-                "description": "show statususer",
-                "operationId": "81c1933259182fcee9596a983dd6c375",
+                "summary": "Obtiene un listado paginado de usuarios",
+                "description": "all users Json",
+                "operationId": "0e4dcb150e6428cad11237b5f307e338",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Listado paginado de usuarios",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "stringr",
-                                                        "example": "status name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
                                         }
                                     },
                                     "type": "object"
@@ -596,24 +2043,47 @@
             },
             "post": {
                 "tags": [
-                    "Status users"
+                    "Users"
                 ],
-                "summary": "agregar Status user",
-                "operationId": "d973336823e701cd7609287e586af0c7",
+                "summary": "Crea un usuario",
+                "description": "Registra un usuario. Requiere API token.",
+                "operationId": "efb6b7b0ee4cbeb06b62835fa7294475",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
-                    "description": "User object to be created",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "baneado"
+                                        "example": "Aderson Felix"
                                     },
-                                    "description": {
+                                    "email": {
                                         "type": "string",
-                                        "example": "el usuario no puede comentar o crear posts"
+                                        "example": "angelshamael@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "mypass_1234$"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "calle olivos 2345"
                                     }
                                 },
                                 "type": "object"
@@ -623,136 +2093,59 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Usuario creado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario creado correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/api/v1/statususer/{id}": {
-            "get": {
-                "tags": [
-                    "Status users"
-                ],
-                "summary": "Se muestra el registro status user ",
-                "description": "show statususer",
-                "operationId": "b09ebd1df1a3448860818c920ec860bb",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                    },
+                    "401": {
+                        "description": "No autorizado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "stringr",
-                                                        "example": "status name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/public/api/v1/statususer/": {
-            "delete": {
-                "tags": [
-                    "Status users"
-                ],
-                "summary": "Se muestra un solo registro user ",
-                "description": "Delete StatusUser",
-                "operationId": "ab4f5aab15b42c9f262f522159d9ac6c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                    },
+                    "422": {
+                        "description": "Error de validacion",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "message": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -764,21 +2157,50 @@
             },
             "patch": {
                 "tags": [
-                    "Status users"
+                    "Users"
                 ],
-                "summary": "Se muestra un solo registro user ",
-                "description": "update user",
-                "operationId": "7e8dc79ef7a50c3447aacd98c0888d1d",
+                "summary": "Actualiza un usuario",
+                "description": "Actualiza los campos enviados del usuario. Requiere API token.",
+                "operationId": "79a12fa8c8d1312c1e520d1e3dbc9037",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
-                    "description": "User object to be created",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "id"
+                                ],
                                 "properties": {
                                     "id": {
-                                        "type": "number",
-                                        "example": "1"
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aderson Felix"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "angelshamael@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "mypass_1234$"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "calle ventura"
                                     }
                                 },
                                 "type": "object"
@@ -788,26 +2210,17 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Usuario actualizado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "success-update": {
-                                                        "type": "boolean",
-                                                        "example": true
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success-update": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -815,128 +2228,33 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request",
+                    "401": {
+                        "description": "No autorizado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "success-update": {
-                                            "type": "number",
-                                            "example": "1"
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/public/api/v1/users": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "all users",
-                "operationId": "5fbeb63d902a31938704539e132227df",
-                "responses": {
-                    "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                    },
+                    "422": {
+                        "description": "Error de validacion",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/users": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "agregar usuario",
-                "operationId": "efb6b7b0ee4cbeb06b62835fa7294475",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "descripción o el nombre del código de la petición",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "password": {
-                                                        "type": "string",
-                                                        "example": "mypass_1234$"
-                                                    },
-                                                    "address": {
-                                                        "type": "string",
-                                                        "example": "calle olivos 2345"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -952,7 +2270,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Se muestra un solo registro user ",
+                "summary": "Obtiene un usuario por ID",
                 "description": "show user",
                 "operationId": "493da9372895ff38977fa81dea25025b",
                 "parameters": [
@@ -964,26 +2282,45 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Usuario encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": "1"
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Aderson Felix"
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
                                         },
-                                        "email": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "angelshamael@gmail.com"
+                                            "example": "Usuario encontrado"
                                         },
-                                        "address": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
                                             "type": "string",
-                                            "example": "calle ventura"
+                                            "example": "Usuario no encontrado"
                                         }
                                     },
                                     "type": "object"
@@ -994,55 +2331,361 @@
                 }
             }
         },
-        "/api/v1/users/": {
+        "/api/v1/userappstatus": {
+            "get": {
+                "tags": [
+                    "User app status"
+                ],
+                "summary": "Obtiene un listado paginado de estados de usuario",
+                "description": "index UserAppStatus",
+                "operationId": "5d35f0e9accbcd0be96a8571cade0292",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado paginado de estados de usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User app status"
+                ],
+                "summary": "Crea un estado de usuario",
+                "description": "Crea un estado de usuario. Requiere API token.",
+                "operationId": "d51883b038196bf8179824365396fffb",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Activo"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Usuario activo en la plataforma"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registro creado"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "patch": {
                 "tags": [
-                    "Users"
+                    "User app status"
                 ],
-                "summary": "Se muestra un solo registro user ",
-                "description": "update user",
-                "operationId": "0ade872e6ecf4bc9eed3c17401781d06",
+                "summary": "Actualiza un estado de usuario",
+                "description": "Actualiza los campos enviados. Requiere API token.",
+                "operationId": "6dd401e151ee81cc0edb3580092a6e04",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {token}",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Suspendido"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Usuario con cuenta suspendida"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registro actualizado"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validacion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/userappstatus/{id}": {
+            "get": {
+                "tags": [
+                    "User app status"
+                ],
+                "summary": "Obtiene un estado de usuario por ID",
+                "description": "show user app status",
+                "operationId": "51b980a79b6d7c80c01c33633f764777",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Registro encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Aderson Felix"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "angelshamael@gmail.com"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registro encontrado"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registro no encontrado"
                                         }
                                     },
                                     "type": "object"
@@ -1058,43 +2701,75 @@
                 "tags": [
                     "User oferta laboral"
                 ],
-                "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show statususer",
+                "summary": "Obtiene un listado paginado de user ofertas laborales",
+                "description": "index UserOfertaLaboral",
                 "operationId": "30ab2f021ddc4b375829060d07e1d4fc",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de registros por pagina",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "descripción o el nombre del código de la petición",
+                        "description": "Listado paginado de user ofertas laborales",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 2
-                                                    },
-                                                    "user_id": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "oferta_laboral_id": {
-                                                        "type": "string",
-                                                        "example": "description"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Listado obtenido"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
                                         }
                                     },
                                     "type": "object"
@@ -1268,14 +2943,14 @@
                 }
             }
         },
-        "/api/v1/userperfil": {
+        "/api/v1/usersperfil": {
             "get": {
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "1f48b5b7be862fb7015a71830ef03f18",
+                "description": "* show muestra registro especifico de postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/usersperfil\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User profile\"},\n\n*     @OA\\Response(\n*         response=200,\n*         description=\"Oferta laboral encontrada\",\n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*             @OA\\Property(property=\"info\", type=\"string\", example=\"closed\"),\n*             @OA\\Property(property=\"education\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"exp_laboral\", type=\"string\", example=\"2024-11-11\"),\n*             @OA\\Property(property=\"habilidades\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"profetion_name\", type=\"string\", example=\"comercio exterior\"),\n*             @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*             @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n* \n*         )\n*      ),\n*     @OA\\Response(\n*         response=404,\n*         description=\"Oferta laboral no encontrada\",\n* \n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"message\", type=\"string\", example=\"status Oferta laboral no encontrada con ID: {id}\")\n*         )\n*      )\n*     )\n* )\n*",
+                "operationId": "6c784e06f12b642a3754ae600b7b94de",
                 "responses": {
                     "200": {
                         "description": "Oferta laboral encontrada",
@@ -1348,14 +3023,14 @@
                 }
             }
         },
-        "/api/v1/userperfil/{id}": {
+        "/api/v1/usersperfil/{id}": {
             "get": {
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Se muestran los registros de user oferta laborales del user ",
-                "description": "show muestra registro especifico de postulacion oferta laboral",
-                "operationId": "6ef48432b0e363dd0c0f3758c9407430",
+                "description": "* show muestra registro especifico de postulacion oferta laboral\n* @OA\\Get(\n*     path=\"/api/v1/usersperfil/{id}\",\n*     summary=\"Se muestran los registros de user oferta laborales del user \",\n*     tags={\"User profile\"},\n*      @OA\\parameter(\n*          name=\"id\",\n*          in=\"path\",\n*          required=false   \n*        ),\n*\n*     @OA\\Response(\n*         response=200,\n*         description=\"Oferta laboral encontrada\",\n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"id\", type=\"integer\", example=3),\n*             @OA\\Property(property=\"info\", type=\"string\", example=\"closed\"),\n*             @OA\\Property(property=\"education\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"exp_laboral\", type=\"string\", example=\"2024-11-11\"),\n*             @OA\\Property(property=\"habilidades\", type=\"string\", example=\" oferta laboral cerrada\"),\n*             @OA\\Property(property=\"profetion_name\", type=\"string\", example=\"comercio exterior\"),\n*             @OA\\Property( property=\"created_at\", type=\"string\", example=\"2023-02-23T00:09:16.000000Z\"),\n*             @OA\\Property( property=\"updated_at\", type=\"string\", example=\"2023-02-23T12:33:45.000000Z\")\n* \n*         )\n*      ),\n*     @OA\\Response(\n*         response=404,\n*         description=\"Oferta laboral no encontrada\",\n* \n*         @OA\\JsonContent(\n*             @OA\\Property(property=\"success\", type=\"boolean\", example=false),\n*             @OA\\Property(property=\"message\", type=\"string\", example=\"status Oferta laboral no encontrada con ID: {id}\")\n*         )\n*     )\n*     \n* )\n*",
+                "operationId": "657750e234f5752fd6d8d3f74d20f7ba",
                 "parameters": [
                     {
                         "name": "id",
@@ -1435,5 +3110,43 @@
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Empresa",
+            "description": "Empresa"
+        },
+        {
+            "name": "Oferta laboral",
+            "description": "Oferta laboral"
+        },
+        {
+            "name": "Postulacion oferta laboral",
+            "description": "Postulacion oferta laboral"
+        },
+        {
+            "name": "Proyectos",
+            "description": "Proyectos"
+        },
+        {
+            "name": "Status Oferta laboral",
+            "description": "Status Oferta laboral"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "User app status",
+            "description": "User app status"
+        },
+        {
+            "name": "User oferta laboral",
+            "description": "User oferta laboral"
+        },
+        {
+            "name": "User profile",
+            "description": "User profile"
+        }
+    ]
 }

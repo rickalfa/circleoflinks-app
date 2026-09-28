@@ -21,11 +21,9 @@ return new class extends Migration
     
      
             
+        if (DB::getDriverName() === 'mysql') {
             DB::statement("ALTER TABLE user_app MODIFY user_app_status_id BIGINT UNSIGNED DEFAULT 1");
-
-        
-       
-
+        }
     }
 
     /**
@@ -34,9 +32,10 @@ return new class extends Migration
      * @return void
      */
     public function down()
-   { 
-          
-             DB::statement("ALTER TABLE user_app MODIFY user_app_status_id BIGINT UNSIGNED DEFAULT NULL");
+    { 
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE user_app MODIFY user_app_status_id BIGINT UNSIGNED DEFAULT NULL");
+        }
    
     
            

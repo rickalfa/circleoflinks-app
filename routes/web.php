@@ -14,6 +14,9 @@ use App\Http\Controllers\WhatsappApi\LeadController;
 
 use App\Http\Controllers\WhatsappApi\ChatLeadController;
 
+use App\Http\Controllers\AuthApiController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -104,7 +107,7 @@ Route::get('/login', function (){
 
     return view('auth.login');
 
-});
+})->middleware('throttle:login');
 
 
 /**

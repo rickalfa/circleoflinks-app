@@ -8,8 +8,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use App\Models\Empresa;
-use App\Models\Oferta_laboral;
-use App\Models\Status_oferta_laboral;
+use App\Models\OfertaLaboral;
+use App\Models\StatusOfertaLaboral;
 
 class Oferta_laboralSeeder extends Seeder
 {
@@ -36,7 +36,7 @@ class Oferta_laboralSeeder extends Seeder
 /////// Obtenemos Registros del modelo Status_oferta_laboral
         $statusOfertaLaboral_id = array();
 
-        $StatusOfertaLaboral = Status_oferta_laboral::all();
+        $StatusOfertaLaboral = StatusOfertaLaboral::all();
 
         foreach ($StatusOfertaLaboral as $StatusOL) {
             
@@ -49,7 +49,7 @@ class Oferta_laboralSeeder extends Seeder
 
 
        
-        Oferta_laboral::factory()
+        OfertaLaboral::factory()
         ->count($count_empresas)
         ->state(new Sequence(
             ['empresa_id' => $Empresas_id[rand(0, $count_empresas - 1)]],

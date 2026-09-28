@@ -1,0 +1,5 @@
+$kind: http-request
+name: /ofertalaboral add
+url: ""
+method: GET
+order: 2562306522801087

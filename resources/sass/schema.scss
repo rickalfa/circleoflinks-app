@@ -1,0 +1,36 @@
+// styles/schema.scss
+$pk-color: #f1c40f; // Amarillo para PK
+$fk-color: #3498db; // Azul para FK
+$table-header-bg: #2c3e50;
+
+.table-card {
+  transition: transform 0.3s ease;
+  border: 1px solid #dee2e6;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .card-header {
+    background-color: $table-header-bg;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .field-item {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+
+    .badge-pk { background-color: $pk-color; color: #000; }
+    .badge-fk { background-color: $fk-color; color: #fff; }
+    
+    .field-type {
+      color: #6c757d;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+    }
+  }
+}

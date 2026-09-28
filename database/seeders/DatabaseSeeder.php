@@ -17,20 +17,13 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call(Status_userSeeder::class);
-
+        $this->call(RoleAndPermissionSeeder::class);
         $this->call(UserSeeder::class);
 
         $this->call(UserOfertaLaboralSeeder::class);
         
       
-        $this->call(User_perfilSeeder::class);
-
-        $this->call(EmpresaSeeder::class);
-
-        $this->call(StatusOfertaLaboralSeeder::class);
-
-        $this->call(Oferta_laboralSeeder::class);
-        
+         
         /**
          * seeder user app web
          */
