@@ -28,15 +28,23 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string']
-            //'g-recaptcha-response' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'cf-turnstile-response' => ['required'],
         ];
     }
 
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
-            'g-recaptcha-response.required' => 'Completa el reCAPTCHA.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Por favor ingresa un correo electrónico válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'cf-turnstile-response.required' => 'Por favor completa la verificación de seguridad anti-bot.',
         ];
     }
 

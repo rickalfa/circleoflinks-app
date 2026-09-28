@@ -13,5 +13,11 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+
+        /**
+         * Ruta donde se recibira las request de WhatsApp APi Cloud
+         */
+        '/wspservice'
+
     ];
 }

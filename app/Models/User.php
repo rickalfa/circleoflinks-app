@@ -54,6 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+   
+
     public function UserOfertasLaborals()
     {
         return $this->hasOne('App\Models\UserOfertaLaboral');

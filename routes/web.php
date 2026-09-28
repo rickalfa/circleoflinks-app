@@ -2,6 +2,17 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WhatsappApi\WspbController;
+use App\Http\Controllers\WhatsappApi\WspSendMessageController;
+
+use App\Http\Controllers\Web\UserAppController as UserAppWeb;
+use App\Http\Controllers\Web\UserAppContactController as ContactsApp;
+
+use App\Http\Controllers\WhatsappApi\AgentController;
+use App\Http\Controllers\WhatsappApi\LogicResponseController;
+use App\Http\Controllers\WhatsappApi\LeadController;
+
+use App\Http\Controllers\WhatsappApi\ChatLeadController;
 
 use App\Http\Controllers\AuthApiController;
 
@@ -19,11 +30,78 @@ use App\Http\Controllers\AuthApiController;
 
 Route::get('/', function(){
     return view('welcome');
-});
+})->name('/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/admindashboard',function(){
+
+    return view('dashboard');
+
+})->name('admindashboard');
+
+
+Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindashboard/user');
+
+Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admindashboard/user/');
+
+/**
+ * RUTAS CONVERSATIONS USER 
+ */
+
+ Route::get('/admindashboard/userconversation/{id}',[UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
+ Route::get('/admindashboard/userconversation-detail/{id}',[UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
+
+ /**
+  * CHAT LIVE
+  */
+
+  Route::post('/sendmessagewsp', [ChatLeadController::class, 'sendmessage'])->name('chatlead.sendmessage');
+
+
+ /**
+  * RUTAS LOGIC RESPONSE
+  */
+ 
+  Route::get('/admindashboard/bots-r/{idagent}/logicresponse-create',[LogicResponseController::class, 'create'] )->name('logic_responses.create');
+  Route::post('/admindashboard/logicresponse',[LogicResponseController::class, 'store'] )->name('logicresponse.store');
+
+
+
+/*******************************************************************
+ * RUTAS  AGENTE BOTS de Respuesta para Chats
+ */
+Route::get('/admindashboard/bots-r',[AgentController::class, 'index'])->name('/admindashboard/bots-r');
+Route::get('/admindashboard/bots-r/{id}',[AgentController::class, 'show'])->name('/admindashboard/bots-r/');
+Route::get('/admindashboard/bots-r-fabric',[AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
+Route::post('/admindashboard/bots-r-store',[AgentController::class, 'store'])->name('bot.store');
+Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
+Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBots'])->name('bot.actives');
+Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
+
+
+
+/**
+ * RUTAS  CONTACTS Usuarios que contactaron por WSP a la APP
+ */
+
+ Route::get('/admindashboard/contacts', [ContactsApp::class, 'index'])->name('/admindashboard/contacts');
+
+ /**
+  * RUTAS LEADS 
+  */
+
+  Route::get('/admindashboard/leads',[LeadController::class, 'index'])->name('leads.index');
+
+  /**
+   * CHAT LEADS Route 
+   */
+  Route::get('/component/chatlead/{id_lead}', [ChatLeadController::class, 'create'])->name('chatlead.create');
+
+
 
 Route::get('/login', function (){
 
@@ -32,34 +110,37 @@ Route::get('/login', function (){
 })->middleware('throttle:login');
 
 
+/**
+ * rutas donde se conecta la Plataforma de META Whatssap API para autenticar la App 
+ *  se utiliza WebHook
+ */
+Route::get('/wspservice', [WspbController::class, 'webhook']);
+
+Route::post('/wspservice', [WspbController::class, 'recibir']);
+
+
+Route::get('/sendmessage', [WspSendMessageController::class, 'sendmessage']);
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/accesstoken', [ProfileController::class, 'showAccessToken'])->name('/profile/accesstoken');
-});
 
-/**
- * rutas para la Creacion de API-Keys
- * para crear API-keys debe de estar autenticado y su email verificado
- */
-
-Route::middleware(['auth','verified'])->group(function(){
-
-Route::get('/profile/api-tokens',[AuthApiController::class,'index'])
-->name('api.tokens');
-
-Route::post('/profile/api-tokens/create',[AuthApiController::class,'store'])
-->name('api.tokens.create');
-
-Route::delete('/profile/api-tokens/{id}',[AuthApiController::class,'destroy'])
-->name('api.tokens.delete');
-
-Route::get('/profile/api-tokens/{id}/plain',[AuthApiController::class,'showPlainToken'])
-->name('api.tokens.plain');
+    // Rutas para Chat en Vivo con Vue
+    Route::prefix('chat-api')->group(function () {
+        Route::get('/conversation/lead/{leadId}', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'getConversation']);
+        Route::post('/take-control', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'takeControl']);
+        Route::post('/send', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'sendMessage']);
+        Route::post('/refresh-avatar', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'refreshLeadAvatar']);
+    });
 
 });
 
+Route::get('/politica-de-privacidad', function () {
+    return view('privacy');
+})->name('privacy');
 
 require __DIR__.'/auth.php';

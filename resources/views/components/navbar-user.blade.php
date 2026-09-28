@@ -1,7 +1,11 @@
 <!-- Barra de navegacion -->  
 <nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 backopa" >
     <div class="container">
+<<<<<<< HEAD
       <a class="navbar-brand text-dark fs-1" href="{{ url('/')}}">Circle of links</a>
+=======
+      <a class="navbar-brand text-white" href="{{ url('/')}}">{{ env('APP_NAME')}}</a>
+>>>>>>> origin/chatbotwsp
 
       <button id="buttonnav" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

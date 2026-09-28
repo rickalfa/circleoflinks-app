@@ -39,9 +39,16 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+<<<<<<< HEAD
         <div class="mt-4">
             <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
             <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
+=======
+        <!-- Cloudflare Turnstile Verification -->
+        <div class="mt-4 flex flex-col items-center justify-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+            <x-input-error :messages="$errors->get('cf-turnstile-response')" class="mt-2" />
+>>>>>>> origin/chatbotwsp
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -54,4 +61,7 @@
             </x-primary-button>
         </div>
     </form>
+
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </x-guest-layout>

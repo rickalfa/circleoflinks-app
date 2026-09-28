@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 use Illuminate\Support\Facades\DB;
@@ -39,91 +39,79 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class.',email'],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'cf-turnstile-response' => ['required'],
+            ], [
+                'name.required' => 'El nombre es obligatorio.',
+                'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+                'email.required' => 'El correo electrónico es obligatorio.',
+                'email.email' => 'Por favor ingresa un correo electrónico válido.',
+                'email.unique' => 'Este correo electrónico ya se encuentra registrado.',
+                'password.required' => 'La contraseña es obligatoria.',
+                'password.confirmed' => 'La confirmación de la contraseña no coincide.',
+                'cf-turnstile-response.required' => 'Por favor completa la verificación de seguridad anti-bot.',
+            ]);
 
-       try {
-                $validatedData = $request->validate([
-                    'name' => ['required', 'string', 'max:255'],
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-                    'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
-                    'g-recaptcha-response' => ['required', 'string'],
+            // Validación del token con la API de Cloudflare Turnstile
+            $turnstileSecret = config('services.turnstile.secret_key');
+            $turnstileResponse = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                'secret'   => $turnstileSecret,
+                'response' => $request->input('cf-turnstile-response'),
+                'remoteip' => $request->ip(),
+            ]);
+
+            if (!$turnstileResponse->json('success')) {
+                throw ValidationException::withMessages([
+                    'cf-turnstile-response' => ['Falló la verificación anti-bot de Cloudflare. Intenta de nuevo.'],
                 ]);
-
-                $captchaError = $this->verifyRecaptcha($request);
-                if ($captchaError) {
-                    return response()->json([
-                        "success" => false,
-                        "message" => $captchaError,
-                        "errors" => [
-                            "recaptcha" => [$captchaError],
-                        ],
-                    ], 422);
-                }
-
-                // Encriptamos el password antes de guardar
-                $validatedData['password'] = Hash::make($request->password);
-
-                // Usamos los datos validados y encriptados, NO $request->all()
-                $register = User::create($validatedData);
-
-                
-                /**
-                 * Evento de envio de EMAIL
-                 */
-             event(new Registered($register));
-
-               return response()->json([
-                     "success" => true, 
-                     "data" =>["user" => $register]
-                   ], 200);
-
-
-                
-            } catch (ValidationException $e) {
-                // Retornamos los errores estructurados que espera tu TypeScript
-                return response()->json([
-                    "success" => false,
-                    "message" => "Los datos proporcionados no son válidos.",
-                    "errors" => $e->errors() // Esto envía: { email: ["The email has already been taken."] }
-                ], 422);
-
-            } catch (\Exception $Ex) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "Error interno: " . $Ex->getMessage()
-                ], 500);
             }
 
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-            
-              
+            event(new Registered($user));
 
+            // Iniciar sesión y fijar la sesión de inmediato
+            Auth::login($user, true);
+            $request->session()->regenerate();
+            $request->session()->save();
+
+            // Construir URL de redirección dinámica que respeta la subcarpeta en XAMPP y el host local
+            $redirectUrl = $request->root() . '/admindashboard';
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success" => true,
+                    "user" => $user,
+                    "redirect" => $redirectUrl,
+                ], 200);
+            }
+
+            return redirect($redirectUrl);
+
+        } catch (ValidationException $Ex) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success" => false,
+                    "errors"  => $Ex->errors(),
+                ], 422);
+            }
+            throw $Ex;
+        } catch (Exception $Ex) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success" => false,
+                    "message" => $Ex->getMessage(),
+                ], 422);
+            }
+            return back()->withInput()->withErrors(['error' => $Ex->getMessage()]);
+        }
     }
-
-    private function verifyRecaptcha(Request $request): ?string
-    {
-        $token = $request->input('g-recaptcha-response');
-        if (! $token) {
-            return 'Completa el reCAPTCHA.';
-        }
-
-        $secret = config('services.recaptcha.secret_key');
-        if (! $secret) {
-            return 'Configuracion reCAPTCHA incompleta.';
-        }
-
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secret,
-            'response' => $token,
-            'remoteip' => $request->ip(),
-        ]);
-
-        if (! $response->ok() || ! data_get($response->json(), 'success')) {
-            return 'reCAPTCHA invalido. Intenta nuevamente.';
-        }
-
-        return null;
-    }
-    
-
- }
- 
+}

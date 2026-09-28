@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\UserApp;
 use Illuminate\Support\ServiceProvider;
 use App\Enums\RoleEnum;
 
@@ -19,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+    
+        $this->app->bind('UserApp', UserApp::class);
+
     }
 
     /**

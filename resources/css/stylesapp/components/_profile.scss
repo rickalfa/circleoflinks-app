@@ -1,0 +1,114 @@
+@import '../abstracts/variables';
+
+/* 
+ * Estilos modernos y animaciones para la Vista Principal del Perfil (edit.blade.php) 
+ */
+
+.profile-container {
+    background-color: $background-color;
+    min-height: 100vh;
+}
+
+/* Tarjetas (Cards) de Información */
+.profile-card {
+    background: $white;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow-md;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: $transition-bounce;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: $shadow-lg;
+        transform: translateY(-2px);
+    }
+
+    /* Imagen de Avatar dentro de la tarjeta */
+    .profile-avatar-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-avatar {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid $white;
+        box-shadow: $shadow-avatar;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    }
+
+    &:hover .profile-avatar {
+        transform: scale(1.05) rotate(2deg);
+        box-shadow: $shadow-avatar-hover;
+    }
+}
+
+/* Filas de Información de Contacto */
+.info-row {
+    padding: 0.85rem 0;
+    transition: $transition-fast;
+    border-radius: $border-radius-sm;
+    margin: 0 -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &:hover {
+        background-color: #f1f5f9;
+        transform: translateX(4px);
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: $secondary-color;
+        display: flex;
+        align-items: center;
+
+        i {
+            margin-right: 8px;
+            color: $primary-color;
+            font-size: 1.1rem;
+            transition: $transition-fast;
+        }
+    }
+
+    &:hover .info-label i {
+        transform: scale(1.2);
+    }
+
+    .info-value {
+        color: $text-muted;
+        font-weight: 500;
+    }
+}
+
+/* Breadcrumb Moderno */
+.modern-breadcrumb {
+    background: $white;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-sm;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    padding: 1rem 1.25rem;
+
+    .breadcrumb-item a {
+        color: $primary-color;
+        text-decoration: none;
+        transition: $transition-fast;
+        font-weight: 500;
+
+        &:hover {
+            color: darken($primary-color, 10%);
+            text-decoration: underline;
+        }
+    }
+}
+
+/* Alertas Modificadas */
+.modern-alert {
+    border-radius: $border-radius-md;
+    border: none;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.15);
+    display: flex;
+    align-items: center;
+}

@@ -6,9 +6,11 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel([
+            'resources/css/app.css',
+            'resources/js/app.ts',
+            'resources/js/wspservice_chat/index.ts',
             'resources/css/styleboots.css',
-            'resources/js/main.ts',
-            'resources/css/styleboots.css'
+            'resources/css/stylesapp/app.scss'
         ]),
         // react(),
         // vue({

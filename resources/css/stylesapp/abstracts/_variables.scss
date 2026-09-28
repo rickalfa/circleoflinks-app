@@ -1,0 +1,28 @@
+// 1. Sobrescribir Variables de Bootstrap (Deben definirse antes de importar Bootstrap)
+$primary: #0d6efd;
+$secondary: #475569;
+$body-bg: #f8fafc;
+$enable-gradients: true;
+
+// 2. Variables Globales de Estilo Personalizadas
+$primary-color: $primary;
+$secondary-color: $secondary;
+$background-color: $body-bg;
+$white: #ffffff;
+$text-muted: #64748b;
+
+$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.02);
+$shadow-md: 0 4px 20px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+$shadow-avatar: 0 8px 20px rgba(13, 110, 253, 0.15);
+$shadow-avatar-hover: 0 12px 28px rgba(13, 110, 253, 0.25);
+
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 14px;
+$border-radius-xl: 16px;
+
+$transition-base: all 0.3s ease;
+$transition-fast: all 0.2s ease;
+$transition-bounce: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+

@@ -9,12 +9,12 @@ use App\Providers\RouteServiceProvider;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Illuminate\Support\Facades\Http;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
+//use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -32,37 +32,59 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        try{
+        try {
+            // 1. Validación del token con la API de Cloudflare Turnstile
+            $turnstileSecret = config('services.turnstile.secret_key');
+            $turnstileResponse = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                'secret'   => $turnstileSecret,
+                'response' => $request->input('cf-turnstile-response'),
+                'remoteip' => $request->ip(),
+            ]);
 
-        //  $captchaError = $this->verifyRecaptcha($request);
-        //  if ($captchaError) {
-        //      return response()->json([
-        //          "success" => false,
-        //          "errors" => [
-        //              "recaptcha" => [$captchaError],
-        //          ],
-        //      ], 422);
-        //  }
+            if (!$turnstileResponse->json('success')) {
+                throw ValidationException::withMessages([
+                    'cf-turnstile-response' => ['Falló la verificación anti-bot de Cloudflare. Intenta de nuevo.'],
+                ]);
+            }
 
-           $request->authenticate();
+            // 2. Autenticar credenciales
+            $request->authenticate();
 
-           $request->session()->regenerate();
+            // 3. Regenerar y guardar la sesión de inmediato
+            $request->session()->regenerate();
+            $request->session()->save();
 
+            // 4. URL de redirección dinámica respetando entorno local XAMPP
+            $redirectUrl = $request->root() . '/admindashboard';
 
-           return redirect()->intended(RouteServiceProvider::HOME);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success"   => true,
+                    "data-Auth" => Auth::user(),
+                    "redirect"  => $redirectUrl,
+                ], 200);
+            }
 
-           return response()->json(["success" => true,
-                                   "data-Auth" => Auth::user()], 200);
+            return redirect()->intended($redirectUrl);
 
-        }catch(Exception $Ex){
-
-            return response()->json(["success" => false,
-                              "messagge" => $Ex->getMessage()], 422);
-
-
-
+        } catch (ValidationException $Ex) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success" => false,
+                    "errors"  => $Ex->errors(),
+                    "message" => $Ex->getMessage(),
+                ], 422);
+            }
+            throw $Ex;
+        } catch (Exception $Ex) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "success" => false,
+                    "message" => $Ex->getMessage(),
+                ], 422);
+            }
+            return back()->withInput()->withErrors(['error' => $Ex->getMessage()]);
         }
-
     }
 
     private function verifyRecaptcha(Request $request): ?string

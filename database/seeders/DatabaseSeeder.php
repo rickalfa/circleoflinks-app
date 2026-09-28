@@ -30,16 +30,16 @@ class DatabaseSeeder extends Seeder
 
          $this->call(UserAppStatusSeeder::class);
          $this->call(UserAppSeeder::class);
+         $this->call(UserAppContactSeeder::class);
          
 
-        $this->call(User_perfilSeeder::class);
+         $this->call(AgentSeeder::class);
 
-        $this->call(EmpresaSeeder::class);
 
-        $this->call(StatusOfertaLaboralSeeder::class);
+         $this->call(ConversationSeeder::class);
+         $this->call(MessageSeeder::class);
 
-        $this->call(Oferta_laboralSeeder::class);
-       
+         $this->call(LogicResponseSeeder::class);
 
 
     }

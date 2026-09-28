@@ -22,6 +22,7 @@ class UserApp extends Model
         'email',
         'password',
         'address',
+        'phone',
         'avatar'
     ];
 
@@ -35,6 +36,13 @@ class UserApp extends Model
         return $this->belongsTo('App\Models\UserAppStatus', 'user_app_status_id');
 
     }
+
+    public function lead()
+    {
+
+        return $this->hasOne('App\Models\WhatsappApi\Lead','user_id', 'id');
+
+    }
     
     public function UserPerfil()
     {
@@ -43,7 +51,27 @@ class UserApp extends Model
 
 
     }
+
+    public function contact()
+     {
+        
+        return $this->hasOne(UserAppContact::class, 'user_id');
+     
+    }
     
     
+    public function Conversations()
+    {
+
+        return $this->hasMany('App\Models\WhatsappApi\Conversation', 'user_id', 'id');
+
+
+    }
+
+
+    public static function getUserAppIdsWithContact()
+    {
+        return self::has('contact')->pluck('id');
+    }
 
 }

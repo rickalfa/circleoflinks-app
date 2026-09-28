@@ -21,16 +21,17 @@ class UserAppStatusSeeder extends Seeder
     {
         //
 
-        $status_names = array("email-no-verificed", "verificed", "sub-lv-1");
+        $status_names = array("email-no-verificed", "verificed", "sub-lv-1", "contact");
 
 
 
         UserAppStatus::factory()
-        ->count(3)
+        ->count(4)
         ->state(new Sequence(
           ['name' => $status_names[0] ],
           ['name' => $status_names[1] ],
-          ['name' => $status_names[2] ]
+          ['name' => $status_names[2] ],
+          ['name' => $status_names[3] ]
         
         )
       )

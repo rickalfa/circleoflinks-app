@@ -3,9 +3,6 @@
 
     <!-- Session Status -->
    
-    
-      
-
 
   <div class="row">
         <div class="boxsimple pt-4" style="background-color: #6d6d6d;">
