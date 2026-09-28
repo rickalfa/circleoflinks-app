@@ -1,122 +1,28 @@
-<<<<<<< HEAD
-<style>
-    .sidebar-profile {
-        background: #111827;
-        border-radius: 14px;
-        color: #e5e7eb;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
-        overflow: hidden;
-    }
-
-    .sidebar-profile .sidebar-header {
-        padding: 16px 18px 8px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    .sidebar-profile .sidebar-title {
-        font-size: 14px;
-        letter-spacing: 0.4px;
-        text-transform: uppercase;
-        color: rgba(226, 232, 240, 0.7);
-    }
-
-    .sidebar-profile .sidebar-list {
-        padding: 12px;
-        gap: 8px;
-    }
-
-    .sidebar-profile .nav-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 10px;
-        color: #e2e8f0;
-        transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .sidebar-profile .nav-link:hover,
-    .sidebar-profile .nav-link.active {
-        background: rgba(59, 130, 246, 0.18);
-        color: #ffffff;
-    }
-
-    .sidebar-profile .nav-link.disabled {
-        opacity: 0.55;
-    }
-
-    @media (max-width: 991.98px) {
-        .sidebar-profile {
-            margin-bottom: 16px;
-        }
-
-        .sidebar-profile .sidebar-list {
-            flex-direction: row;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding-bottom: 6px;
-        }
-
-        .sidebar-profile .nav-link {
-            white-space: nowrap;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .sidebar-profile {
-            position: sticky;
-            top: 16px;
-        }
-
-        .sidebar-profile .sidebar-list {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<aside class="sidebar-profile bg-dark-custom">
-    <div class="sidebar-header">
-        <div class="sidebar-title">
-            <i class="fas fa-quote-left me-2"></i>
-            Perfil
-        </div>
-    </div>
-
-    <ul class="nav sidebar-list d-flex flex-lg-column">
-        <li class="nav-item">
-            <a class="nav-link {{ Request::is('profile') ? 'active' : '' }}" href="{{ url('/profile') }}">
-                <i class="fas fa-user-circle"></i> <span>Profile</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ Request::is('profile/api-tokens') ? 'active' : '' }}" href="{{ url('/profile/api-tokens') }}">
-                <i class="fas fa-key"></i> <span>Access-API</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">
-                <i class="fas fa-ban"></i> <span>Disabled</span>
-            </a>
-        </li>
-    </ul>
-</aside>
-=======
 <nav class="profile-sidebar mb-4">
-
     <!-- Header Brand -->
     <div class="profile-sidebar-brand d-flex align-items-center">
         <i class="bi bi-shield-lock-fill text-white fs-4 me-2"></i>
-        <a class="text-white text-decoration-none fw-bold fs-5" href="{{ url('/')}}">Demo Service</a>
+        <a class="text-white text-decoration-none fw-bold fs-5" href="{{ url('/')}}">{{ config('app.name', 'CircleOfLinks') }}</a>
     </div>
 
     <!-- Menú de Navegación -->
     <ul class="nav flex-column mb-0">
         <!-- Inicio -->
         <li class="nav-item">
-            <a class="profile-nav-link" href="#">
+            <a class="profile-nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">
                 <span class="d-flex align-items-center">
                     <i class="bi bi-house-door-fill profile-nav-icon text-secondary"></i>
                     <span>Inicio</span>
+                </span>
+            </a>
+        </li>
+
+        <!-- Mi Perfil -->
+        <li class="nav-item">
+            <a class="profile-nav-link {{ Request::is('profile') ? 'active' : '' }}" href="{{ url('/profile') }}">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-person-circle profile-nav-icon text-primary"></i>
+                    <span>Perfil</span>
                 </span>
             </a>
         </li>
@@ -140,34 +46,24 @@
                             <i class="bi bi-speedometer2 me-2"></i> Dashboard Admin
                         </a>
                     </li>
-                    <li>
-                        <a class="profile-subnav-link" href="#">
-                            <i class="bi bi-box-seam me-2"></i> Servicio 2
-                        </a>
-                    </li>
                 </ul>
             </div>
         </li>
 
-        <!-- Seguridad -->
+        <!-- Seguridad / API -->
         <li class="nav-item">
             <a href="#submenu-seguridad" class="profile-nav-toggle w-100 collapsed text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="submenu-seguridad">
                 <span class="d-flex align-items-center">
                     <i class="bi bi-lock-fill profile-nav-icon text-success"></i>
-                    <span>Security</span>
+                    <span>Seguridad y API</span>
                 </span>
                 <i class="bi bi-chevron-right profile-chevron"></i>
             </a>
             <div class="collapse" id="submenu-seguridad">
                 <ul class="profile-subnav list-unstyled">
                     <li>
-                        <a class="profile-subnav-link" href="{{ url('/profile/accesstoken')}}">
-                            <i class="bi bi-key-fill me-2"></i> API Token
-                        </a>
-                    </li>
-                    <li>
-                        <a class="profile-subnav-link" href="#">
-                            <i class="bi bi-shield-check me-2"></i> Servicios 2
+                        <a class="profile-subnav-link {{ Request::is('profile/api-tokens*') ? 'active' : '' }}" href="{{ url('/profile/api-tokens')}}">
+                            <i class="bi bi-key-fill me-2"></i> API Tokens
                         </a>
                     </li>
                 </ul>
@@ -179,7 +75,7 @@
 
         <!-- Contacto -->
         <li class="nav-item">
-            <a class="profile-nav-link" href="#">
+            <a class="profile-nav-link" href="{{ url('/#contact') }}">
                 <span class="d-flex align-items-center">
                     <i class="bi bi-envelope-fill profile-nav-icon text-info"></i>
                     <span>Contacto</span>
@@ -188,4 +84,3 @@
         </li>
     </ul>
 </nav>
->>>>>>> origin/chatbotwsp

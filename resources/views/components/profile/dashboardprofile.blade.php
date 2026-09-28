@@ -2,14 +2,9 @@
 
 <nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 profile-navbar">
     <div class="container">
-<<<<<<< HEAD
-      <a class="bg-info navbar-brand text-white rounded-pill p-2" href="{{ url('/')}}">CircleOfLinks</a>
+      <a class="navbar-brand text-primary fw-bold" href="{{ url('/')}}">CircleOfLinks</a>
 
-      <button id="buttonnav" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-=======
-      
       <button id="buttonnav" class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
->>>>>>> origin/chatbotwsp
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
