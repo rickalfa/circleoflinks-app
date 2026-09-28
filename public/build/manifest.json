@@ -1,6 +1,6 @@
 {
-  "_index-CzApALvg.js": {
-    "file": "assets/index-CzApALvg.js",
+  "_index-B9ygI19o.js": {
+    "file": "assets/index-B9ygI19o.js",
     "name": "index"
   },
   "public/imgs/bg/fondo_wsp.jpg": {
@@ -8,36 +8,36 @@
     "src": "public/imgs/bg/fondo_wsp.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C6gd9GXV.css",
+    "file": "assets/app-CLJl3uKu.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/styleboots.css": {
-    "file": "assets/styleboots-ByJTHtEg.css",
+    "file": "assets/styleboots-DxqcmQsn.css",
     "src": "resources/css/styleboots.css",
     "isEntry": true
   },
   "resources/css/stylesapp/app.scss": {
-    "file": "assets/app-1Nty8tpi.css",
+    "file": "assets/app-DNKNMm78.css",
     "src": "resources/css/stylesapp/app.scss",
     "isEntry": true
   },
   "resources/js/app.ts": {
-    "file": "assets/app-wlqn65Zb.js",
+    "file": "assets/app-DrNJf3dv.js",
     "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,
     "imports": [
-      "_index-CzApALvg.js"
+      "_index-B9ygI19o.js"
     ]
   },
   "resources/js/wspservice_chat/index.ts": {
-    "file": "assets/index-Dcf_2Ouq.js",
+    "file": "assets/index-CwlgkPML.js",
     "name": "index",
     "src": "resources/js/wspservice_chat/index.ts",
     "isEntry": true,
     "imports": [
-      "_index-CzApALvg.js"
+      "_index-B9ygI19o.js"
     ]
   }
 }
