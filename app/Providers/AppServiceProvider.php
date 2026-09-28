@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Models\UserApp;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use App\Enums\RoleEnum;
 
 class AppServiceProvider extends ServiceProvider
