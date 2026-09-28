@@ -1,40 +1,43 @@
 {
-  "_axios-D1JoJEGi.js": {
-    "file": "assets/axios-D1JoJEGi.js"
+  "_index-CzApALvg.js": {
+    "file": "assets/index-CzApALvg.js",
+    "name": "index"
   },
   "public/imgs/bg/fondo_wsp.jpg": {
     "file": "assets/fondo_wsp-DPRI6Csl.jpg",
     "src": "public/imgs/bg/fondo_wsp.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Db65tl-4.css",
+    "file": "assets/app-C6gd9GXV.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/styleboots.css": {
-    "file": "assets/styleboots-jqQcg6Tz.css",
+    "file": "assets/styleboots-ByJTHtEg.css",
     "src": "resources/css/styleboots.css",
     "isEntry": true
   },
   "resources/css/stylesapp/app.scss": {
-    "file": "assets/app-CWs4NXrO.css",
+    "file": "assets/app-1Nty8tpi.css",
     "src": "resources/css/stylesapp/app.scss",
     "isEntry": true
   },
   "resources/js/app.ts": {
-    "file": "assets/app-D0Tw4txt.js",
+    "file": "assets/app-wlqn65Zb.js",
+    "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,
     "imports": [
-      "_axios-D1JoJEGi.js"
+      "_index-CzApALvg.js"
     ]
   },
   "resources/js/wspservice_chat/index.ts": {
-    "file": "assets/index-CjibGRxq.js",
+    "file": "assets/index-Dcf_2Ouq.js",
+    "name": "index",
     "src": "resources/js/wspservice_chat/index.ts",
     "isEntry": true,
     "imports": [
-      "_axios-D1JoJEGi.js"
+      "_index-CzApALvg.js"
     ]
   }
 }
