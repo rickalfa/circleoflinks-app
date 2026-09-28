@@ -1,74 +1,1207 @@
-<x-guest-layout>
-  <div class="container-fluid p-0">
-    {{-- Navbar --}}
-    <x-navbar-user/>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  {{-- ======== SECCIÓN HERO / HOME ======== --}}
-  <section id="home" class="container-fluid py-5 bg-light" 
-  style="top: 40px; position: relative; min-height: 80vh;">
-    <div class="row align-items-center justify-content-center text-center text-md-start">
-      <div class="col-12 col-md-6 px-4">
-        <h1 class="fw-bold mb-3">
-          Circle of Links: la API pública para aprender y probar APIs
-        </h1>
-        <p class="lead mb-4">
-          Aprende, prueba y experimenta con circleoflinks APIs de forma fácil y rápida.
-        </p>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-        {{-- ======== Mostramos los botones solo si el usuario NO está autenticado ======== --}}
-        @guest
-          <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalRegister">
-            Registrarse
-          </button>
-          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLogin">
-            Iniciar sesión
-          </button>
-        @endguest
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-        @auth
-          <a href="{{ url('/profile') }}" class="btn btn-primary me-2">
-            Ir a mi perfil
-          </a>
-          <a href="{{ url('/admindashboard') }}" class="btn btn-outline-secondary">
-            Panel de Servicios
-          </a>
-        @endauth
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+   <!-- Style of the plugin WSP -->
+  <link rel="stylesheet" href="{{ asset('assets/resources/styles/styles_base.css')}}">
+
+  <!-- Style of the plugin WSP-->
+  <link rel="stylesheet" href="{{ asset('assets/resources/plugin/components/Font Awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/resources/plugin/whatsapp-chat-support.css')}}">
+ 
+
+
+
+
+
+      <!-- Scripts -->
+      @vite(['resources/js/app.ts'])
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+
+
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  
+ 
+
+   <!-- Main CSS File -->
+   <link href="assets/css/main.css" rel="stylesheet">
+
+
+ 
+  <!-- =======================================================
+  * Template Name: QuickStart
+  * Template URL: https://bootstrapmade.com/quickstart-bootstrap-startup-website-template/
+  * Updated: Jun 14 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <img src="assets/img/logo.png" alt="">
+        <h1 class="sitename">demo servicio wsp</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Inicio</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#features">Características</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <li><a href="#pricing">Precios</a></li>
+          <li class="dropdown"><a href="#"><span>Área de Cliente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+
+        
+<!-- Button REGISTER Modal-->
+
+
+                @php
+                                  
+                $user = Auth::user()
+
+                @endphp
+
+                
+              @auth
+
+                {{ $user->name}}
+
+              @endauth
+
+              @unless (Auth::check())
+                
+
+               @endunless
+
+               <!-- Mostramos las siguientes opciones si esta autenticado el usuario--->
+               @auth
+
+                    <li> 
+                      <a class="dropdown-item" href="#">{{ $user->name}} </a>
+                  </li>
+
+                  <li><a class="dropdown-item" href="{{ route('profile.edit')}}">Perfil</a></li>
+         
+                      
+          
+
+
+               @endauth
+           
+        
+               @guest
+
+              <li>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  Registrarse
+                 </button>
+              </li>
+
+              <li>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop01">
+                Iniciar Sesión
+              </button>
+             </li>
+
+             @endguest
+
+
+              <li class="dropdown"><a href="#"><span> Servicios</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                 
+                  <li><a href="#">Submenú 3</a></li>
+                  <li><a href="#">Submenú 4</a></li>
+                
+                </ul>
+              </li>
+
+          
+              <li><a href="#">Menú 2</a></li>
+              @auth 
+              <li>
+                <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+
+                  <x-dropdown-link :href="route('logout')"
+                          onclick="event.preventDefault();
+                                      this.closest('form').submit();">
+                      {{ __('Cerrar Sesión') }}
+                  </x-dropdown-link>
+                </form>
+              </li>
+            @endauth
+
+            
+            
+            </ul>
+          </li>
+          <li><a href="#contact">Contacto</a></li>
+
+    
+        </ul>
+
+
+
+
+
+
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="#about">Comenzar</a>
+
+    </div>
+  </header>
+
+
+<!-- Modal LOGIN START-->
+<div class="modal fade" id="staticBackdrop01" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel01" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel01">Iniciar Sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="col-12 col-md-5 mt-5 mt-md-0 text-center">
-        <x-application-logo class="img-fluid" style="max-height: 280px;" />
+      <!-- Mensaje de Respuesta -->
+      <div id="messageresponselogin" class="px-3 pt-2"></div>
+
+      <div class="modal-body">
+
+        <form id="formlogin" method="POST" action="{{ route('login') }}" novalidate>
+
+          @csrf
+
+          <div class="mb-3">
+            <label for="login_email" class="form-label">Correo electrónico:</label>
+            <input type="email" class="form-control" id="login_email" placeholder="Ingresa tu email" name="email" required autocomplete="username">
+            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="login_password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="login_password" placeholder="Ingresa tu contraseña" name="password" required autocomplete="current-password">
+            <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="login_remember" name="remember">
+            <label class="form-check-label" for="login_remember">Recordarme</label>
+          </div>
+
+          <!-- Cloudflare Turnstile -->
+          <div class="mb-3 d-flex flex-column align-items-center justify-content-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+            <div class="invalid-feedback text-center mt-1" id="turnstile-login-error" style="display: none;"></div>
+          </div>
+
+          <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+<!-- Modal LOGIN END-->
+  
+<!-- Modal REGISTER START -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Registro de Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-  {{-- ======== SECCIÓN INFO / CARD ======== --}}
-  <section id="about" class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8">
-        <div class="card shadow-sm">
-          <div class="card-header bg-dark text-light">
-            ¿Para quién es Circle of Links?
+      <!-- Mensaje de Respuesta -->
+      <div id="messageresponse" class="px-3 pt-2"></div>
+
+      <div class="modal-body">
+        <!--- FORMULARIO REGISTER-->
+        <form id="formregister" method="POST" action="{{ route('register')}}" novalidate>
+
+          @csrf
+
+          <div class="mb-3">
+            <label for="reg_name" class="form-label">Nombre completo:</label>
+            <input type="text" class="form-control" id="reg_name" placeholder="Ingresa tu nombre" name="name" required autocomplete="name">
+            <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
           </div>
-          <div class="card-body bg-body-tertiary">
-            <p class="card-text">
-              Ideal para desarrolladores, estudiantes y entusiastas de las APIs que desean aprender, practicar y compartir conocimientos.
-            </p>
-            <footer class="blockquote-footer mt-2">
-              Ricardo B. Dev — <cite>Conscientiam Studios</cite>
-            </footer>
+          
+          <div class="mb-3">
+            <label for="reg_email" class="form-label">Correo electrónico:</label>
+            <input type="email" class="form-control" id="reg_email" placeholder="Ingresa tu email" name="email" required autocomplete="username">
+            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
           </div>
+
+          <div class="mb-3">
+            <label for="reg_password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="reg_password" placeholder="Ingresa tu contraseña" name="password" required autocomplete="new-password">
+            <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="reg_password_confirmation" class="form-label">Confirmar Contraseña:</label>
+            <input type="password" class="form-control" id="reg_password_confirmation" placeholder="Repite tu contraseña" name="password_confirmation" required autocomplete="new-password">
+            <div class="invalid-feedback">Las contraseñas deben coincidir.</div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="reg_terms" name="remember" required>
+            <label class="form-check-label" for="reg_terms">Acepto los términos y condiciones.</label>
+            <div class="invalid-feedback">Debes aceptar los términos para continuar.</div>
+          </div>
+
+          <!-- Cloudflare Turnstile -->
+          <div class="mb-3 d-flex flex-column align-items-center justify-content-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+            <div class="invalid-feedback text-center mt-1" id="turnstile-error" style="display: none;"></div>
+          </div>
+
+          <button type="submit" id="btnRegisterSubmit" class="btn btn-primary w-100">Registrarse</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal REGISTER END -->
+
+
+
+
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="hero-bg">
+        <img src="assets/img/hero-bg-light.webp" alt="">
+      </div>
+      <div class="container text-center">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h1 data-aos="fade-up">Bienvenido a <span>CircleofLinks Wsp-service</span></h1>
+          <p data-aos="fade-up" data-aos-delay="100">Automatiza tu atención al cliente y potencia tus ventas integrando WhatsApp.
+            Una solución estructurada como un núcleo propietario que se conecta de manera directa a la API oficial de WhatsApp Business.
+            Diseñado para pequeñas y medianas empresas que buscan mejorar su atención al cliente y aumentar sus ventas.
+          <br></p>
+          <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+            <a href="#about" class="btn-get-started">Comenzar</a>
+            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Ver Video</span></a>
+          </div>
+          <img src="assets/img/hero-services-img.webp" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300">
         </div>
       </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Featured Services Section -->
+    <section id="featured-services" class="featured-services section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-chat-dots"></i></div>
+              <div>
+                <h4 class="title"><a href="#" class="stretched-link">Atención Masiva y Simultánea</a></h4>
+                <p class="description">Gestión de chat por WhatsApp soportando múltiples cientos de usuarios interactuando a la vez sin demoras.</p>
+              </div>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-person-lines-fill"></i></div>
+              <div>
+                <h4 class="title"><a href="#" class="stretched-link">Captación y Gestión de Leads</a></h4>
+                <p class="description">Herramientas ágiles para capturar datos de contacto de manera orgánica y calificar prospectos automáticamente.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-send-check"></i></div>
+              <div>
+                <h4 class="title"><a href="#" class="stretched-link">Envío de Campañas Automáticas</a></h4>
+                <p class="description">Envía de forma automática promociones, encuestas y links a cientos de contactos según requiera tu modelo de negocio.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Featured Services Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <p class="who-we-are">¿Qué es Circleoflinks-Wsp-service?</p>
+            <h3> El núcleo propietario para la Atención al Cliente Automatizada y Omnicanal
+              </h3>
+            <p class="fst-italic">
+              Circleoflinks-Wsp-service está diseñado estratégicamente para operar en el ecosistema empresarial, respondiendo a las demandas de transformación digital y omnicanalidad que exigen los consumidores.
+             </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>Conexión directa a la API oficial de WhatsApp Business sin dependencias de terceros.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Diseñado para gerencias de operaciones, equipos de marketing/ventas y áreas de TI.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Automatiza interacciones, envía encuestas, y proporciona análisis de datos en tiempo real.</span></li>
+            </ul>
+            <a href="#" class="read-more"><span>Saber más</span><i class="bi bi-arrow-right"></i></a>
+          </div>
+
+          <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
+            <div class="row gy-4">
+              <div class="col-lg-6">
+                <img src="assets/img/about-company-1.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="col-lg-6">
+                <div class="row gy-4">
+                  <div class="col-lg-12">
+                    <img src="assets/img/about-company-2.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="col-lg-12">
+                    <img src="assets/img/about-company-3.jpg" class="img-fluid" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- /About Section -->
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section text-center">
+
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title mb-4">
+          <h2>Empresas y Entidades Ideales para este Servicio</h2>
+          <p>Un enfoque multirrubro y transversal para el mercado chileno</p>
+        </div>
+
+        <div class="row gy-4">
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-cash-coin fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Servicios y Cajas de Compensación</h5>
+              <p class="text-muted small mb-0">Automatización de consultas masivas de afiliados y derivación inteligente.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-heart-pulse fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Salud y Centros Médicos</h5>
+              <p class="text-muted small mb-0">Gestión de agendas, recordatorios de citas e instructivos médicos por QR.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-car-front fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Automotriz y Soporte Técnico</h5>
+              <p class="text-muted small mb-0">Agendamiento de revisiones y presupuestos automáticos.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-building fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">PyMEs y Grandes Corporaciones</h5>
+              <p class="text-muted small mb-0">Equipos operativos buscando optimizar tiempos de respuesta.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-book fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Educación</h5>
+              <p class="text-muted small mb-0">Inscripción de usuarios y flujos informativos automatizados.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="p-4 border rounded shadow-sm h-100 d-flex flex-column align-items-center justify-content-center">
+              <i class="bi bi-globe fs-1 text-primary mb-2"></i>
+              <h5 class="fw-bold">Instituciones sin Fines de Lucro</h5>
+              <p class="text-muted small mb-0">Almacenamiento seguro de interacciones para auditorías e información a la comunidad.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Clients Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Características Principales</h2>
+        <p>Conoce las funciones que hacen de CircleofLinks Wsp-service la herramienta ideal para tu negocio</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 d-flex align-items-center">
+
+            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+              <li class="nav-item">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
+                  <i class="bi bi-robot"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Asistente Virtual Automatizado (IA)</h4>
+                    <p>
+                      Actúa como el primer nivel de contacto, resolviendo menús informativos estáticos y consultas frecuentes de forma inteligente.
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+                  <i class="bi bi-headset"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Protocolo de Hand-off (Soporte Humano)</h4>
+                    <p>
+                      Capacidad de derivar desde el chatbot hacia un ejecutivo en vivo con monitoreo y auditoría en tiempo real para supervisores.
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
+                  <i class="bi bi-bar-chart-line"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Módulo Analítico Centralizado</h4>
+                    <p>
+                      La data transaccional y el feedback se vuelcan automáticamente en tableros dinámicos de Power BI y Google Data Studio.
+                    </p>
+                  </div>
+                </a>
+              </li>
+            </ul><!-- End Tab Nav -->
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="tab-pane fade active show" id="features-tab-1">
+                <img src="assets/img/tabs-1.jpg" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-2">
+                <img src="assets/img/tabs-2.jpg" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-3">
+                <img src="assets/img/tabs-3.jpg" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Features Details Section -->
+    <section id="features-details" class="features-details section">
+
+      <div class="container">
+
+        <div class="row gy-4 justify-content-between features-item">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="content">
+              <h3>Corporis temporibus maiores provident</h3>
+              <p>
+                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+              </p>
+              <a href="#" class="btn more-btn">Learn More</a>
+            </div>
+          </div>
+
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 justify-content-between features-item">
+
+          <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="content">
+              <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
+              <p>
+                Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
+              </p>
+              <ul>
+                <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
+                <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
+                <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
+              </ul>
+              <p></p>
+              <a href="#" class="btn more-btn">Learn More</a>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
+            <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
+          </div>
+
+        </div><!-- Features Item -->
+
+      </div>
+
+    </section><!-- /Features Details Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nuestros Servicios</h2>
+        <p>Alcance del proyecto y funcionalidades clave para transformar tu atención al cliente</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row g-5">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item item-cyan position-relative">
+              <i class="bi bi-whatsapp icon"></i>
+              <div>
+                <h3>Integración de la API de WhatsApp</h3>
+                <p>Conecta WhatsApp de manera oficial con la plataforma web, permitiendo comunicación fluida y sin dependencias externas o restricciones de terceros.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item item-orange position-relative">
+              <i class="bi bi-robot icon"></i>
+              <div>
+                <h3>Agente Automatizado y Bots</h3>
+                <p>Implementación de un agente de IA que responde automáticamente a consultas, envía encuestas y recolecta feedback de clientes las 24 horas.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item item-teal position-relative">
+              <i class="bi bi-pie-chart icon"></i>
+              <div>
+                <h3>Análisis de Datos Avanzado</h3>
+                <p>Recolección y análisis de datos de interacciones a través de portales dinámicos como Power BI o Google Data Studio para toma de decisiones.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item item-red position-relative">
+              <i class="bi bi-qr-code-scan icon"></i>
+              <div>
+                <h3>Generación de Códigos QR</h3>
+                <p>Crea códigos QR dinámicos que redirigen a tus clientes a instructivos, documentos útiles o flujos de conversación en WhatsApp.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item item-indigo position-relative">
+              <i class="bi bi-shield-check icon"></i>
+              <div>
+                <h3>Seguridad y Escalabilidad</h3>
+                <p>El sistema garantiza la seguridad de la información, cumple con las políticas de privacidad y escala para manejar altos volúmenes de mensajes.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item item-pink position-relative">
+              <i class="bi bi-diagram-3 icon"></i>
+              <div>
+                <h3>Gestión Omnicanal</h3>
+                <p>Extensión del monitoreo y respuestas automatizadas más allá de WhatsApp, abarcando también redes sociales oficiales como Facebook e Instagram.</p>
+                <a href="#" class="read-more stretched-link">Saber Más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+    <!-- More Features Section -->
+    <section id="more-features" class="more-features section">
+
+      <div class="container">
+
+        <div class="row justify-content-around gy-4">
+
+          <div class="col-lg-6 d-flex flex-column justify-content-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+            <h3>Enim quis est voluptatibus aliquid consequatur</h3>
+            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
+
+            <div class="row">
+
+              <div class="col-lg-6 icon-box d-flex">
+                <i class="bi bi-easel flex-shrink-0"></i>
+                <div>
+                  <h4>Lorem Ipsum</h4>
+                  <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias </p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-lg-6 icon-box d-flex">
+                <i class="bi bi-patch-check flex-shrink-0"></i>
+                <div>
+                  <h4>Nemo Enim</h4>
+                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiise</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-lg-6 icon-box d-flex">
+                <i class="bi bi-brightness-high flex-shrink-0"></i>
+                <div>
+                  <h4>Dine Pad</h4>
+                  <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-lg-6 icon-box d-flex">
+                <i class="bi bi-brightness-high flex-shrink-0"></i>
+                <div>
+                  <h4>Tride clov</h4>
+                  <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+            </div>
+
+          </div>
+
+          <div class="features-image col-lg-5 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
+            <img src="assets/img/features-3.jpg" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /More Features Section -->
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Pricing</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="pricing-item">
+              <h3>Free Plan</h3>
+              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
+              <h4><sup>$</sup>0<span> / month</span></h4>
+              <a href="#" class="cta-btn">Start a free trial</a>
+              <p class="text-center small">No credit card required</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
+              </ul>
+            </div>
+          </div><!-- End Pricing Item -->
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="pricing-item featured">
+              <p class="popular">Popular</p>
+              <h3>Business Plan</h3>
+              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
+              <h4><sup>$</sup>29<span> / month</span></h4>
+              <a href="#" class="cta-btn">Start a free trial</a>
+              <p class="text-center small">No credit card required</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+                <li><i class="bi bi-check"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
+              </ul>
+            </div>
+          </div><!-- End Pricing Item -->
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="pricing-item">
+              <h3>Developer Plan</h3>
+              <p class="description">Ullam mollitia quasi nobis soluta in voluptatum et sint palora dex strater</p>
+              <h4><sup>$</sup>49<span> / month</span></h4>
+              <a href="#" class="cta-btn">Start a free trial</a>
+              <p class="text-center small">No credit card required</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+                <li><i class="bi bi-check"></i> <span>Voluptate id voluptas qui sed aperiam rerum</span></li>
+                <li><i class="bi bi-check"></i> <span>Iure nihil dolores recusandae odit voluptatibus</span></li>
+              </ul>
+            </div>
+          </div><!-- End Pricing Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Pricing Section -->
+
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Testimonials</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 1,
+                  "spaceBetween": 40
+                },
+                "1200": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 1
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                  <h3>Saul Goodman</h3>
+                  <h4>Ceo &amp; Founder</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                  <h3>Sara Wilsson</h3>
+                  <h4>Designer</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                  <h3>Jena Karlis</h3>
+                  <h4>Store Owner</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                  <h3>Matt Brandon</h3>
+                  <h4>Freelancer</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+                </p>
+                <div class="profile mt-auto">
+                  <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                  <h3>John Larson</h3>
+                  <h4>Entrepreneur</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <p>A108 Adam Street, New York, NY 535022</p>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-telephone"></i>
+              <h3>Call Us</h3>
+              <p>+1 5589 55488 55</p>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-envelope"></i>
+              <h3>Email Us</h3>
+              <p>info@example.com</p>
+            </div>
+          </div><!-- End Info Item -->
+
+        </div>
+
+        <div class="row gy-4 mt-1">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 400px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div><!-- End Google Maps -->
+
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="400">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer position-relative">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">QuickStart</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>A108 Adam Street</p>
+            <p>New York, NY 535022</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+            <p><strong>Email:</strong> <span>info@example.com</span></p>
+          </div>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          <form action="forms/newsletter.php" method="post" class="php-email-form">
+            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+          </form>
+        </div>
+
+      </div>
     </div>
-  </section>
 
-  {{-- ======== SECCIÓN API-FEATURES ======== --}}
-  <section id="features" class="py-4">
-    @include('seccion.api-features')
-  </section>
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">DemoServicio WSP</strong><span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
 
-  {{-- ======== MODALES LOGIN & REGISTER ======== --}}
-  @include('seccion.modals')
+  </footer>
 
-</x-guest-layout>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+
+  
+
+      <!-- Button Whatsapp Structure -->
+      <div class="whatsapp_chat_support wcs_fixed_right" id="button-w">
+        <div class="wcs_button_label">
+                Contáctanos
+            </div>  
+        <div class="wcs_button wcs_button_circle">
+            <span class="fa fa-whatsapp"></span>
+        </div>  
+     
+        <div class="wcs_popup">
+            <div class="wcs_popup_close">
+                <span class="fa fa-close"></span>
+            </div>
+            <div class="wcs_popup_header">
+                <span class="fa fa-whatsapp"></span>
+                <strong>Servicio al cliente</strong>
+                
+                <div class="wcs_popup_header_description">¿Necesitas ayuda? Chatea con nosotros en Whatsapp</div>
+    
+            </div>  
+            <div class="wcs_popup_input" 
+                data-number="56984693206"
+                data-availability='{ "monday":"07:00-22:30", "tuesday":"07:00-22:30", "wednesday":"07:7030-22:30", "thursday":"07:00-22:30", "friday":"07:00-22:30", "saturday":"09:00-18:30", "sunday":"09:00-22:30" }'>
+                <input type="text" placeholder="Escribenos pregunta!" />
+                <i class="fa fa-play"></i>
+            </div>
+            <div class="wcs_popup_avatar">
+                <img src="https://avatars.githubusercontent.com/janl?s=77" alt="">
+            </div>
+        </div>
+    </div>
+    
+    
+        <!-- jQuery 1.8+ -->
+    <script src="{{ asset('assets/resources/plugin/components/jQuery/jquery-1.11.3.min.js')}}"></script>
+        <!-- Plugin JS file -->
+    <script src="{{ asset('assets/resources/plugin/components/moment/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/resources/plugin/components/moment/moment-timezone-with-data.min.js')}}"></script> <!-- spanish language (es) -->
+    <script src="{{ asset('assets/resources/plugin/whatsapp-chat-support.js')}}"></script>
+    <script>
+       $('#button-w').whatsappChatSupport({
+            defaultMsg : '',
+        });
+    </script>
+
+     <!-- Bootstrap core JS-->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- Core theme JS-->
+     <script src="{{ asset('assets/resources/js/scripts.js')}}"></script>
+   
+
+
+
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+          
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

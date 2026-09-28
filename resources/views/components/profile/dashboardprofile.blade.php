@@ -2,7 +2,7 @@
 
 <nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 profile-navbar">
     <div class="container">
-      <a class="navbar-brand text-primary fw-bold" href="{{ url('/')}}">CircleOfLinks</a>
+      <a class="navbar-brand text-primary fw-bold" href="{{ url('/')}}">service wsp </a>
 
       <button id="buttonnav" class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

@@ -1,0 +1,353 @@
+// ============================================================
+// _navbars.scss — Estilos para Navbar Usuario y Sidebar Admin
+// Ubicación: resources/css/stylesapp/components/_navbars.scss
+// ============================================================
+
+// ─────────────────────────────────────────────────────────────
+// 1. NAVBAR USUARIO (navbar-user)
+//    Bootstrap sticky-top + transición al hacer scroll
+// ─────────────────────────────────────────────────────────────
+
+// Contenedor sticky con scroll-state query (Progressive Enhancement)
+.navbar-user-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+
+  // Habilita scroll-state en navegadores compatibles (Chrome 133+, Edge 133+)
+  @supports (container-type: scroll-state) {
+    container-type: scroll-state;
+    container-name: navbar-user;
+  }
+}
+
+// Estilos base del nav
+#navebar {
+  transition: background-color 0.1s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+  background-color: transparent;
+
+  // ── Estado transparente / hero (sin scroll) ──────────────────
+  &.navbar-transparent {
+    background-color: rgba(9, 16, 32, 0.05);
+    backdrop-filter: blur(0px);
+    box-shadow: none;
+
+    .nav-link,
+    .navbar-brand {
+      color: #fff !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  // ── Estado con scroll (clase JS o scroll-state) ───────────────
+  &.navbar-scrolled {
+    background-color: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+
+      &:hover {
+        color: #fff !important;
+      }
+    }
+
+    .navbar-brand {
+      color: #fff !important;
+    }
+  }
+}
+
+// ── Scroll-state query: aplica estilos al hijo cuando el sticky está "stuck" ──
+@supports (container-type: scroll-state) {
+  @container navbar-user scroll-state(stuck: top) {
+    #navebar {
+      background-color: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    }
+  }
+}
+
+// ── Nav links ─────────────────────────────────────────────────
+#navebar {
+  .nav-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 0.45rem 0.85rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff !important;
+    }
+  }
+
+  // ── Brand ─────────────────────────────────────────────────────
+  .navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  // ── Toggler personalizado ─────────────────────────────────────
+  #buttonnav {
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    padding: 0.3rem 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .navbar-toggler-icon {
+      filter: invert(1);
+    }
+  }
+}
+
+// ── Dropdown de usuario ───────────────────────────────────────
+#dropmenunav {
+  .nav-link.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px;
+    padding: 0.35rem 0.75rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .bi-person {
+      font-size: 1.15rem;
+      color: #c084fc;
+    }
+  }
+
+  .dropdown-menu {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-width: 180px;
+    padding: 0.4rem;
+
+    .dropdown-item {
+      border-radius: 7px;
+      font-size: 0.875rem;
+      padding: 0.45rem 0.75rem;
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background-color: rgba(96, 165, 250, 0.1);
+        color: #0d6efd;
+      }
+
+      &.dropdown-item-user {
+        font-weight: 600;
+        color: #334155;
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+  }
+
+  // Botones guest ───────────────────────────────────────────────
+  .btn-nav-register {
+    font-size: 0.875rem;
+    border-radius: 20px;
+    padding: 0.35rem 1rem;
+  }
+
+  .btn-nav-login {
+    font-size: 0.875rem;
+    border-radius: 20px;
+    padding: 0.35rem 1rem;
+    border-color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.75);
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// 2. SIDEBAR ADMIN DASHBOARD (nav-admindashboard)
+//    Estilos extraídos del <style> inline del blade
+// ─────────────────────────────────────────────────────────────
+
+.admin-sidebar {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s ease;
+}
+
+// ── Encabezado ────────────────────────────────────────────────
+.admin-sidebar-header {
+  padding: 1rem 0.85rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f8fafc;
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+.admin-brand-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: #ffffff;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  .admin-sidebar-header:hover & {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+// ── Botones de categoría ──────────────────────────────────────
+.admin-btn-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  font-weight: 600;
+  font-size: 0.93rem;
+  color: #334155;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f5f9;
+    color: #0d6efd;
+    transform: translateX(3px);
+  }
+
+  &:active {
+    transform: scale(0.97) translateX(3px);
+  }
+
+  &[aria-expanded="true"] {
+    background-color: rgba(13, 110, 253, 0.08);
+    color: #0d6efd;
+  }
+
+  .chevron-icon {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  &:hover .chevron-icon {
+    color: #0d6efd;
+  }
+
+  &[aria-expanded="true"] .chevron-icon {
+    transform: rotate(90deg);
+    color: #0d6efd;
+  }
+}
+
+// ── Submenús ──────────────────────────────────────────────────
+.admin-subnav {
+  padding-left: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.35rem;
+  border-left: 2px solid #e2e8f0;
+  margin-left: 1.1rem;
+}
+
+// ── Enlaces de submenú ────────────────────────────────────────
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 2px;
+
+  &:hover {
+    color: #0d6efd;
+    background-color: #f8fafc;
+    transform: translateX(5px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  &:active {
+    transform: translateX(3px) scale(0.98);
+  }
+
+  .menu-icon {
+    font-size: 1rem;
+    margin-right: 0.6rem;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  &:hover .menu-icon {
+    transform: scale(1.2);
+    color: #0d6efd;
+  }
+
+  // Variante peligro (logout / sign out)
+  &.admin-nav-link--danger {
+    color: #dc3545;
+
+    &:hover {
+      color: #b02a37;
+      background-color: rgba(220, 53, 69, 0.06);
+    }
+
+    .menu-icon {
+      color: #dc3545;
+    }
+
+    &:hover .menu-icon {
+      color: #b02a37;
+    }
+  }
+}
+
+// ── Divisor ───────────────────────────────────────────────────
+.admin-nav-divider {
+  border-top: 1px solid #e2e8f0;
+  margin: 0.75rem 0;
+}

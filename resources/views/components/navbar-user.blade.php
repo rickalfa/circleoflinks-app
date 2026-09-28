@@ -1,102 +1,147 @@
-<!-- Barra de navegacion -->  
-<nav id="navebar" class="navbar navbar-expand-lg fixed-top p-3 backopa" >
-    <div class="container">
-      <a class="navbar-brand text-white fs-4 fw-bold" href="{{ url('/')}}">Circle of links</a>
+{{-- ─────────────────────────────────────────────────────────
+     Componente: navbar-user
+     Descripción: Navbar principal del sitio público.
+     Estilos: resources/css/stylesapp/components/_navbars.scss
+     ───────────────────────────────────────────────────────── --}}
 
-      <button id="buttonnav" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+{{-- Contenedor sticky con scroll-state query (Progressive Enhancement) --}}
+<div class="navbar-user-sticky">
+  <nav id="navebar" class="navbar navbar-expand-lg p-0 navbar-transparent">
+    <div class="container py-2">
+
+      {{-- Brand --}}
+      <a class="navbar-brand text-white fw-bold" href="{{ route('/') }}">
+        <i class="bi bi-link-45deg text-purple me-1" style="color:#c084fc;"></i>Wsp service
+      </a>
+
+      {{-- Toggler mobile --}}
+      <button id="buttonnav"
+              class="navbar-toggler border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarMain"
+              aria-controls="navbarMain"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item ">
-            <a class="nav-link " aria-current="page" href="#about">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="#api-features">Project-features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{ route('l5-swagger.default.api')}}" >API V1 Doc</a>
-         
-          </li>
 
+      {{-- Contenido colapsable --}}
+      <div class="collapse navbar-collapse" id="navbarMain">
+
+        {{-- Links principales --}}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('/') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#api-features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('l5-swagger.default.api') }}" target="_blank" rel="noopener">
+              <i class="bi bi-code-slash me-1"></i>API V1 Doc
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('privacy') }}">Privacidad</a>
+          </li>
         </ul>
 
-        @php
-                  
-        $user = Auth::user()
+        {{-- Sección de usuario --}}
+        @php $user = Auth::user(); @endphp
 
-        @endphp
+        <div class="d-flex align-items-center gap-2" id="dropmenunav">
 
-        <div class="align-items-center py-2">
-          <div id="dropmenunav" class="dropdown dropstart">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-              @auth
-
-               {{ $user->name}}
-
-              @endauth
-
-              @unless (Auth::check())
-                
-
-              @endunless
-
-              <i class="bi bi-person" style="font-size: 1.1rem; color: rgb(179, 13, 179);"> 
-              </i>
+          @auth
+            {{-- Dropdown usuario autenticado --}}
+            <div class="dropdown dropstart">
+              <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-expanded="false">
+                <i class="bi bi-person-circle"></i>
+                <span class="d-none d-sm-inline">{{ $user->name }}</span>
               </a>
 
+              <ul class="dropdown-menu dropdown-menu-dark">
+                {{-- Nombre del usuario --}}
+                <li>
+                  <span class="dropdown-item dropdown-item-user text-white-50">
+                    <i class="bi bi-person me-1"></i>{{ $user->name }}
+                  </span>
+                </li>
+                <li><hr class="dropdown-divider border-secondary"></li>
 
-               <ul class="dropdown-menu dropdown-menu-dark">
-             
-              @auth
-                  <li> 
-                    <a class="dropdown-item" href="#">{{ $user->name}} </a>
-                 </li>
+                {{-- Perfil --}}
+                <li>
+                  <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                    <i class="bi bi-person-badge me-2"></i>Perfil
+                  </a>
+                </li>
 
-                 <li><a class="dropdown-item" href="{{ route('profile.edit')}}">Perfil</a></li>
-          
-                     
-               <form method="POST" action="{{ route('logout') }}">
-                  @csrf
+                {{-- Admin Dashboard (visible siempre en menú) --}}
+                <li>
+                  <a class="dropdown-item" href="{{ route('admindashboard') }}">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                  </a>
+                </li>
 
-                  <x-dropdown-link :href="route('logout')"
-                          onclick="event.preventDefault();
-                                      this.closest('form').submit();">
-                      {{ __('Log Out') }}
-                  </x-dropdown-link>
-                </form>
+                <li><hr class="dropdown-divider border-secondary"></li>
 
-              @endauth
-           
-        
-              @guest
-                 
-              <li>
-                <!-- Button REGISTER Modal-->
-               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegister">
-                 Registrarse
-              </button>
-               
-              </li>
-              
-              <li> 
-             <!-- Botón para abrir login -->
-             <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLogin">
-                Iniciar sesión
-              </button>
-              </li>
-              @endguest
-        
+                {{-- Logout --}}
+                <li>
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item text-danger">
+                      <i class="bi bi-box-arrow-right me-2"></i>{{ __('Log Out') }}
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          @endauth
 
-          </ul>
-          </div>
+          @guest
+            {{-- Botones para visitantes --}}
+            <button class="btn btn-sm btn-nav-login btn-outline-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalLogin">
+              Iniciar sesión
+            </button>
+            <button class="btn btn-sm btn-nav-register btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalRegister">
+              Registrarse
+            </button>
+          @endguest
 
-        </div>
-   
+        </div>{{-- /#dropmenunav --}}
 
-      </div>
- 
-    </div>
+      </div>{{-- /.collapse --}}
 
+    </div>{{-- /.container --}}
   </nav>
+</div>{{-- /.navbar-user-sticky --}}
+
+{{-- ─────────────────────────────────────────────────────────
+     JS: Fallback scroll-aware para navegadores sin scroll-state
+     Agrega clase .navbar-scrolled al nav cuando la página hace scroll
+     ───────────────────────────────────────────────────────── --}}
+<script>
+  (function () {
+    const nav = document.getElementById('navebar');
+    if (!nav) return;
+
+    // Solo aplica si scroll-state no está soportado (fallback)
+    if (!CSS.supports('container-type', 'scroll-state')) {
+      const onScroll = () => {
+        const scrolled = window.scrollY > 20;
+        nav.classList.toggle('navbar-scrolled', scrolled);
+        nav.classList.toggle('navbar-transparent', !scrolled);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // estado inicial
+    }
+  })();
+</script>
