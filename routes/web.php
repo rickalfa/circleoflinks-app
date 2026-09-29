@@ -37,69 +37,56 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/admindashboard',function(){
+use App\Http\Controllers\WhatsappApi\OnboardingController;
 
-    return view('dashboard');
+// -------------------------------------------------------------
+// ONBOARDING ROUTES
+// -------------------------------------------------------------
+Route::middleware(['auth'])->group(function () {
+    Route::get('/onboarding/setup', [OnboardingController::class, 'setup'])->name('onboarding.setup');
+    Route::post('/onboarding/setup', [OnboardingController::class, 'store'])->name('onboarding.store');
+});
 
-})->name('admindashboard');
+// -------------------------------------------------------------
+// ADMINDASHBOARD ROUTES (Protected by onboarding middleware)
+// -------------------------------------------------------------
+Route::middleware(['auth', 'onboarding'])->group(function () {
+    Route::get('/admindashboard', function(){
+        return view('dashboard');
+    })->name('admindashboard');
 
+    Route::get('/admindashboard/user', [UserAppWeb::class, 'index'])->name('/admindashboard/user');
+    Route::get('/admindashboard/user/{id}', [UserAppWeb::class, 'show'])->name('/admindashboard/user/');
 
-Route::get('/admindashboard/user',[UserAppWeb::class, 'index'])->name('/admindashboard/user');
+    // RUTAS CONVERSATIONS USER 
+    Route::get('/admindashboard/userconversation/{id}', [UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
+    Route::get('/admindashboard/userconversation-detail/{id}', [UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
 
-Route::get('/admindashboard/user/{id}',[UserAppWeb::class, 'show'])->name('/admindashboard/user/');
+    // CHAT LIVE
+    Route::post('/sendmessagewsp', [ChatLeadController::class, 'sendmessage'])->name('chatlead.sendmessage');
 
-/**
- * RUTAS CONVERSATIONS USER 
- */
+    // RUTAS LOGIC RESPONSE
+    Route::get('/admindashboard/bots-r/{idagent}/logicresponse-create', [LogicResponseController::class, 'create'])->name('logic_responses.create');
+    Route::post('/admindashboard/logicresponse', [LogicResponseController::class, 'store'])->name('logicresponse.store');
 
- Route::get('/admindashboard/userconversation/{id}',[UserAppWeb::class, 'conversations'])->name('/admindashboard/userconversation/');
- Route::get('/admindashboard/userconversation-detail/{id}',[UserAppWeb::class, 'conversationDetail'])->name('/admindashboard/userconversation-detail/');
+    // RUTAS AGENTE BOTS
+    Route::get('/admindashboard/bots-r', [AgentController::class, 'index'])->name('/admindashboard/bots-r');
+    Route::get('/admindashboard/bots-r/{id}', [AgentController::class, 'show'])->name('/admindashboard/bots-r/');
+    Route::get('/admindashboard/bots-r-fabric', [AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
+    Route::post('/admindashboard/bots-r-store', [AgentController::class, 'store'])->name('bot.store');
+    Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
+    Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBots'])->name('bot.actives');
+    Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
 
- /**
-  * CHAT LIVE
-  */
+    // RUTAS CONTACTS
+    Route::get('/admindashboard/contacts', [ContactsApp::class, 'index'])->name('/admindashboard/contacts');
 
-  Route::post('/sendmessagewsp', [ChatLeadController::class, 'sendmessage'])->name('chatlead.sendmessage');
+    // RUTAS LEADS 
+    Route::get('/admindashboard/leads', [LeadController::class, 'index'])->name('leads.index');
 
-
- /**
-  * RUTAS LOGIC RESPONSE
-  */
- 
-  Route::get('/admindashboard/bots-r/{idagent}/logicresponse-create',[LogicResponseController::class, 'create'] )->name('logic_responses.create');
-  Route::post('/admindashboard/logicresponse',[LogicResponseController::class, 'store'] )->name('logicresponse.store');
-
-
-
-/*******************************************************************
- * RUTAS  AGENTE BOTS de Respuesta para Chats
- */
-Route::get('/admindashboard/bots-r',[AgentController::class, 'index'])->name('/admindashboard/bots-r');
-Route::get('/admindashboard/bots-r/{id}',[AgentController::class, 'show'])->name('/admindashboard/bots-r/');
-Route::get('/admindashboard/bots-r-fabric',[AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
-Route::post('/admindashboard/bots-r-store',[AgentController::class, 'store'])->name('bot.store');
-Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
-Route::get('/admindashboard/bots-r-actives', [AgentController::class, 'activesBots'])->name('bot.actives');
-Route::put('/admindashboard/bots-r/{id}', [AgentController::class, 'update'])->name('bot-r.update');
-
-
-
-/**
- * RUTAS  CONTACTS Usuarios que contactaron por WSP a la APP
- */
-
- Route::get('/admindashboard/contacts', [ContactsApp::class, 'index'])->name('/admindashboard/contacts');
-
- /**
-  * RUTAS LEADS 
-  */
-
-  Route::get('/admindashboard/leads',[LeadController::class, 'index'])->name('leads.index');
-
-  /**
-   * CHAT LEADS Route 
-   */
-  Route::get('/component/chatlead/{id_lead}', [ChatLeadController::class, 'create'])->name('chatlead.create');
+    // CHAT LEADS Route 
+    Route::get('/component/chatlead/{id_lead}', [ChatLeadController::class, 'create'])->name('chatlead.create');
+});
 
 
 

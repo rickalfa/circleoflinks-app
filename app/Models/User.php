@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\HasPlanLimits;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPlanLimits;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +27,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'avatar',
         'status_user_id',
         'phone',
+        'plan',
+        'onboarding_completed',
     ];
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
