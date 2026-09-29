@@ -59,7 +59,8 @@
                                                              alt="Avatar de {{ $Lead->name }}"
                                                              onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($Lead->name ?? 'Lead') }}&background=25D366&color=fff&size=128'" />  
                                                         
-                                                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle unread-badge" data-lead-id="{{ $Lead->id }}" style="display: {{ $Lead->has_unread_messages ? 'inline-block' : 'none' }};">
+                                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light unread-badge" data-lead-id="{{ $Lead->id }}" style="display: {{ ($Lead->has_unread_messages || $Lead->unread_messages_count > 0) ? 'inline-block' : 'none' }}; font-size: 0.65rem;">
+                                                            {{ $Lead->unread_messages_count > 99 ? '99+' : $Lead->unread_messages_count }}
                                                             <span class="visually-hidden">Mensajes no leídos</span>
                                                         </span>
                                                     </div>

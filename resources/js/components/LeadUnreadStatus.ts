@@ -38,11 +38,18 @@ export class LeadUnreadStatus {
         }
     }
 
-    private updateUI(leads: Array<{ id: number, has_unread_messages: boolean }>) {
+    private updateUI(leads: Array<{ id: number, has_unread_messages: boolean, unread_messages_count: number }>) {
         leads.forEach(lead => {
             const badge = document.querySelector(`.unread-badge[data-lead-id="${lead.id}"]`) as HTMLElement;
             if (badge) {
-                badge.style.display = lead.has_unread_messages ? 'inline-block' : 'none';
+                if (lead.has_unread_messages || lead.unread_messages_count > 0) {
+                    badge.style.display = 'inline-block';
+                    const countText = lead.unread_messages_count > 99 ? '99+' : lead.unread_messages_count.toString();
+                    badge.innerHTML = `${countText} <span class="visually-hidden">Mensajes no leídos</span>`;
+                } else {
+                    badge.style.display = 'none';
+                    badge.innerHTML = '';
+                }
             }
         });
     }

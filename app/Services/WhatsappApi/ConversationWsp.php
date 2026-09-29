@@ -37,6 +37,7 @@ class ConversationWsp extends Controller{
 
                 // Actualizar Lead: si ya tiene avatar guardado, no sobreescribir con null
                 $existingLead = Lead::where('user_id', $Userexist->user_id)->first();
+                $newCount = ($existingLead->unread_messages_count ?? 0) + 1;
                 Lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
@@ -45,6 +46,7 @@ class ConversationWsp extends Controller{
                         'last_message_time' => now(),
                         'state'             => 'active',
                         'has_unread_messages' => true,
+                        'unread_messages_count' => $newCount,
                         'avatar_url'        => $leadAvatarUrl ?? ($existingLead->avatar_url ?? null),
                     ]
                 );
@@ -71,6 +73,7 @@ class ConversationWsp extends Controller{
                          'last_message_time' => now(),
                          'state'             => 'active',
                          'has_unread_messages' => true,
+                         'unread_messages_count' => 1,
                          'avatar_url'        => $leadAvatarUrl,
                      ]
                  );
