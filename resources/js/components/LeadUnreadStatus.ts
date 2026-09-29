@@ -11,10 +11,10 @@ export class LeadUnreadStatus {
         // Ejecutar inmediatamente
         this.fetchUnreadStatus();
         
-        // Configurar polling cada 5 segundos
+        // Configurar polling cada 15 segundos para no saturar los logs
         this.intervalId = window.setInterval(() => {
             this.fetchUnreadStatus();
-        }, 5000);
+        }, 15000);
     }
 
     private async fetchUnreadStatus() {
