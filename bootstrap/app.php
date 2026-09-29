@@ -20,11 +20,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'onboarding' => \App\Http\Middleware\CheckOnboarding::class,
         ]);
 
-            $middleware->use([
-        \Illuminate\Http\Middleware\HandleCors::class,
-    ]);
+        $middleware->use([
+            \Illuminate\Http\Middleware\HandleCors::class,
+        ]);
 
-
+        $middleware->validateCsrfTokens(except: [
+            'wspservice',
+            'wspservice/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
