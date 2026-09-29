@@ -10,6 +10,7 @@ Alpine.start();
 import { RegisterComponent } from './components/RegisterComponent';
 import { LoginComponent } from './components/LoginComponent';
 import { AlertComponent } from './components/ui/AlertComponent';
+import { LeadUnreadStatus } from './components/LeadUnreadStatus';
 
 // Exportar globalmente para componentes o scripts legacy si se requiere
 (window as any).AlertComponent = AlertComponent;
@@ -31,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         new LoginComponent('#formlogin', '#messageresponselogin');
     }
+
+    // Inicializar el polling de leads si estamos en la vista de leads
+    const leadsContainer = document.getElementById('leads-list-container');
+    if (leadsContainer) {
+        new LeadUnreadStatus();
+    }
 });
 
-export { RegisterComponent, LoginComponent, AlertComponent };
+export { RegisterComponent, LoginComponent, AlertComponent, LeadUnreadStatus };

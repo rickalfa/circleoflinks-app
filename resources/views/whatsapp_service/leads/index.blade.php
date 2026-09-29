@@ -8,7 +8,7 @@
         
         <div class="col-lg-12">
 
-            <div>
+            <div id="leads-list-container">
                 <table class="table table-dark table-borderless">
                     <thead>
                         <tr>
@@ -58,7 +58,10 @@
                                                              width="50px" 
                                                              alt="Avatar de {{ $Lead->name }}"
                                                              onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($Lead->name ?? 'Lead') }}&background=25D366&color=fff&size=128'" />  
-
+                                                        
+                                                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle unread-badge" data-lead-id="{{ $Lead->id }}" style="display: {{ $Lead->has_unread_messages ? 'inline-block' : 'none' }};">
+                                                            <span class="visually-hidden">Mensajes no leídos</span>
+                                                        </span>
                                                     </div>
                                                     <div class="px-2">
                                                         <i class="bi bi-whatsapp" style="color: green"> </i>

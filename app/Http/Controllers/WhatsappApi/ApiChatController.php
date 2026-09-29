@@ -33,6 +33,11 @@ class ApiChatController extends Controller
         // Cargar los mensajes de esa conversación
         $conversation->load('messages');
 
+        // Marcar como leído
+        if ($lead->has_unread_messages) {
+            $lead->update(['has_unread_messages' => false]);
+        }
+
         return response()->json([
             'conversation' => $conversation,
             'lead' => $lead
@@ -133,6 +138,18 @@ class ApiChatController extends Controller
             'success'    => true,
             'avatar_url' => $freshAvatarUrl,
             'lead'       => $lead,
+        ]);
+    }
+
+    /**
+     * Devuelve el estado de mensajes no leídos para cada lead.
+     */
+    public function getUnreadStatus()
+    {
+        $leads = Lead::select('id', 'has_unread_messages')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $leads
         ]);
     }
 }

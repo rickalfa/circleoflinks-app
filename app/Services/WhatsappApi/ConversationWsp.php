@@ -44,6 +44,7 @@ class ConversationWsp extends Controller{
                         'phone_number'      => $phoneAsString,
                         'last_message_time' => now(),
                         'state'             => 'active',
+                        'has_unread_messages' => true,
                         'avatar_url'        => $leadAvatarUrl ?? ($existingLead->avatar_url ?? null),
                     ]
                 );
@@ -69,6 +70,7 @@ class ConversationWsp extends Controller{
                          'phone_number'      => $phoneAsString,
                          'last_message_time' => now(),
                          'state'             => 'active',
+                         'has_unread_messages' => true,
                          'avatar_url'        => $leadAvatarUrl,
                      ]
                  );
