@@ -17,6 +17,7 @@ class Lead extends Model
         'state',
         'user_id',
         'avatar_url',
+        'has_unread_messages',
     ];
 
 
