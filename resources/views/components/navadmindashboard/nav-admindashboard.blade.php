@@ -151,6 +151,22 @@
         </ul>
       </div>
     </li>
+    
+    <li class="admin-nav-divider"></li>
+
+    {{-- ── Plan ── --}}
+    <li class="mb-1 px-3 mt-4">
+        <div class="card border-0 shadow-sm" style="background-color: rgba(13, 110, 253, 0.05);">
+            <div class="card-body p-3 text-center">
+                <h6 class="card-title text-uppercase text-muted fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Plan Actual</h6>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                    <i class="bi bi-star-fill text-warning me-2 fs-5"></i>
+                    <span class="fw-bold text-primary fs-6">{{ auth()->user()->plan ?? 'Gratuito' }}</span>
+                </div>
+                <a href="#" class="btn btn-sm btn-primary w-100 rounded-pill fw-semibold shadow-sm" style="font-size: 0.8rem;">Mejorar Plan</a>
+            </div>
+        </div>
+    </li>
 
   </ul>
 </div>

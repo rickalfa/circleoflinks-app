@@ -134,7 +134,18 @@
                                   {{ $user->address ?? 'Not provided' }}
                                 </div>
                               </div>
+                              <hr class="text-muted opacity-25 my-2">
                               
+                              <div class="info-row row align-items-center">
+                                <div class="col-sm-4 info-label">
+                                  <i class="bi bi-star-fill text-warning"></i> Plan Actual
+                                </div>
+                                <div class="col-sm-8 info-value">
+                                  <span class="badge bg-success px-3 py-2 rounded-pill shadow-sm text-uppercase">
+                                    {{ $user->plan ?? 'Gratuito' }}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
