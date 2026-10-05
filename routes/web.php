@@ -38,6 +38,7 @@ Route::get('/dashboard', function () {
 
 
 use App\Http\Controllers\WhatsappApi\OnboardingController;
+use App\Http\Controllers\WhatsappApi\ProjectSettingsController;
 
 // -------------------------------------------------------------
 // ONBOARDING ROUTES
@@ -45,6 +46,7 @@ use App\Http\Controllers\WhatsappApi\OnboardingController;
 Route::middleware(['auth'])->group(function () {
     Route::get('/onboarding/setup', [OnboardingController::class, 'setup'])->name('onboarding.setup');
     Route::post('/onboarding/setup', [OnboardingController::class, 'store'])->name('onboarding.store');
+    Route::post('/onboarding/skip', [OnboardingController::class, 'skip'])->name('onboarding.skip');
 });
 
 // -------------------------------------------------------------
@@ -54,6 +56,10 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::get('/admindashboard', function(){
         return view('dashboard');
     })->name('admindashboard');
+
+    // CONFIGURACIÓN DE PROYECTO (Servicio WhatsApp / Teléfono)
+    Route::get('/admindashboard/project/settings', [ProjectSettingsController::class, 'edit'])->name('project.settings');
+    Route::put('/admindashboard/project/settings', [ProjectSettingsController::class, 'update'])->name('project.settings.update');
 
     Route::get('/admindashboard/user', [UserAppWeb::class, 'index'])->name('/admindashboard/user');
     Route::get('/admindashboard/user/{id}', [UserAppWeb::class, 'show'])->name('/admindashboard/user/');

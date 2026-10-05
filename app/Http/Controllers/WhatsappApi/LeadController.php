@@ -19,6 +19,12 @@ class LeadController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        // Si el usuario es Tipo B (sin proyecto o servicio activo), invitarlo a activar el servicio
+        if ($user && $user->isTypeB()) {
+            return redirect()->route('onboarding.setup')
+                ->with('warning', 'Para acceder al módulo de Leads debes activar el servicio de WhatsApp y registrar tu número de celular.');
+        }
         
         // 1. Obtenemos todas las compañías del usuario
         $companyIds = $user->companies()->pluck('id');

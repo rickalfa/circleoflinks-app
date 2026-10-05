@@ -52,6 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
     return [
         'email_verified_at' => 'datetime',
         'password' => 'hashed', // <--- Laravel lo encriptará solo al guardar
+        'onboarding_completed' => 'boolean',
     ];
 }
 
@@ -70,5 +71,50 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+    /**
+     * Relación con proyectos a través de las compañías del usuario.
+     */
+    public function projects()
+    {
+        return $this->hasManyThrough(Project::class, Company::class);
+    }
 
+    /**
+     * Obtiene el proyecto actual activo del usuario.
+     */
+    public function currentProject(): ?Project
+    {
+        $sessionProjectId = session('current_project_id');
+        if ($sessionProjectId) {
+            $project = $this->projects()->where('projects.id', $sessionProjectId)->first();
+            if ($project) {
+                return $project;
+            }
+        }
+        return $this->projects()->first();
+    }
+
+    /**
+     * Usuario Tipo A: Tiene proyecto configurado con número de celular para el servicio de conversaciones.
+     */
+    public function isTypeA(): bool
+    {
+        return $this->projects()->whereNotNull('phone_number')->exists();
+    }
+
+    /**
+     * Usuario Tipo B: No suscrito o sin proyecto / celular configurado.
+     */
+    public function isTypeB(): bool
+    {
+        return !$this->isTypeA();
+    }
+
+    /**
+     * Alias para saber si tiene el servicio activo.
+     */
+    public function hasActiveService(): bool
+    {
+        return $this->isTypeA();
+    }
 }

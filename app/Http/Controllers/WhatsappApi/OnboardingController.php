@@ -17,16 +17,16 @@ class OnboardingController extends Controller
     {
         $user = $request->user();
 
-        // Si ya completó el onboarding, redirigir al dashboard
-        if ($user->onboarding_completed) {
-            return redirect()->route('admindashboard');
+        // Si ya es un usuario Tipo A (proyecto activo y celular configurado), redirigir
+        if ($user && $user->isTypeA()) {
+            return redirect()->route('admindashboard')->with('info', 'Ya cuentas con un proyecto activo configurado.');
         }
 
         return view('whatsapp_service.onboarding.setup');
     }
 
     /**
-     * Procesa y guarda los datos de Empresa y Proyecto.
+     * Procesa y guarda los datos de Empresa, Proyecto y Teléfono para Conversaciones de Servicio.
      */
     public function store(Request $request)
     {
@@ -40,32 +40,52 @@ class OnboardingController extends Controller
             
             'project_name' => 'required|string|max:255',
             'project_description' => 'nullable|string',
-            'project_phone' => 'nullable|string|max:20',
+            'project_phone' => 'required|string|max:25',
+        ], [
+            'company_name.required' => 'El nombre de la empresa es obligatorio.',
+            'project_name.required' => 'El nombre del proyecto es obligatorio.',
+            'project_phone.required' => 'El número de celular para el servicio de conversaciones es obligatorio.',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // 1. Crear Empresa
-            $company = Company::create([
-                'user_id' => $user->id,
-                'name' => $validated['company_name'],
-                'industry' => $validated['company_industry'],
-                'tax_id' => $validated['company_tax_id'],
-            ]);
+            // 1. Obtener o crear Empresa
+            $company = $user->companies()->first();
+            if (!$company) {
+                $company = Company::create([
+                    'user_id' => $user->id,
+                    'name' => $validated['company_name'],
+                    'industry' => $validated['company_industry'],
+                    'tax_id' => $validated['company_tax_id'],
+                ]);
+            } else {
+                $company->update([
+                    'name' => $validated['company_name'],
+                    'industry' => $validated['company_industry'],
+                    'tax_id' => $validated['company_tax_id'],
+                ]);
+            }
 
-            // 2. Crear Proyecto
-            $project = Project::create([
-                'company_id' => $company->id,
-                'name' => $validated['project_name'],
-                'description' => $validated['project_description'],
-                'phone_number' => $validated['project_phone'],
-            ]);
+            // 2. Crear o actualizar Proyecto
+            $project = $company->projects()->first();
+            if (!$project) {
+                $project = Project::create([
+                    'company_id' => $company->id,
+                    'name' => $validated['project_name'],
+                    'description' => $validated['project_description'],
+                    'phone_number' => $validated['project_phone'],
+                ]);
+            } else {
+                $project->update([
+                    'name' => $validated['project_name'],
+                    'description' => $validated['project_description'],
+                    'phone_number' => $validated['project_phone'],
+                ]);
+            }
 
-            // 3. Marcar usuario como onboarding completado
+            // 3. Marcar usuario como onboarding completado (Usuario Tipo A)
             $user->onboarding_completed = true;
-            // Por defecto, si el usuario es nuevo, asumimos que tiene plan "free"
-            // (esto ya está en la migración por defecto, pero podemos forzarlo)
             if (empty($user->plan)) {
                 $user->plan = 'free';
             }
@@ -73,11 +93,28 @@ class OnboardingController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admindashboard')->with('success', 'Configuración completada con éxito. ¡Bienvenido!');
+            return redirect()->route('admindashboard')
+                ->with('success', '¡Servicio "Conversaciones de Servicio" activado con éxito! Tu proyecto y número de WhatsApp han sido configurados.');
 
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Ocurrió un error al guardar la configuración: ' . $e->getMessage())->withInput();
         }
+    }
+
+    /**
+     * Permite al usuario saltar el Onboarding y entrar al dashboard como Usuario Tipo B (Sin proyecto activo).
+     */
+    public function skip(Request $request)
+    {
+        $user = $request->user();
+        $user->onboarding_completed = true;
+        if (empty($user->plan)) {
+            $user->plan = 'free';
+        }
+        $user->save();
+
+        return redirect()->route('admindashboard')
+            ->with('warning', 'Has ingresado en modo sin proyecto configurado (Usuario Tipo B). Puedes activar tu servicio gratuito de Conversaciones de WhatsApp en cualquier momento desde el menú lateral.');
     }
 }
