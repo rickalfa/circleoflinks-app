@@ -7,6 +7,7 @@ use App\Models\UserApp;
 use App\Models\userAppContact;
 use App\Models\WhatsappApi\Conversation;
 use App\Models\WhatsappApi\Lead;
+use App\Models\Project;
 
 class ConversationWsp extends Controller{
 
@@ -14,11 +15,23 @@ class ConversationWsp extends Controller{
     protected $Userwsp;
     protected $Botwsp;
     protected $currentUserId;
+    protected $currentProjectId; // Nuevo: El ID del proyecto (bot)
 
     public function __construct($dates)
     {
         $data = $dates;
     
+        // 1. Identificar el Bot/Proyecto receptor
+        $this->currentProjectId = null;
+        if (isset($data['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'])) {
+            $botNumber = $data['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'];
+            $project = Project::where('phone_number', $botNumber)->first();
+            if ($project) {
+                $this->currentProjectId = $project->id;
+            }
+        }
+
+        // 2. Procesar el remitente (Lead)
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
             $phoneUser = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
             $phoneAsString = (string) $phoneUser;
@@ -35,12 +48,13 @@ class ConversationWsp extends Controller{
             if(isset($Userexist)){
                 $this->currentUserId = $Userexist->user_id;
 
-                // Actualizar Lead: si ya tiene avatar guardado, no sobreescribir con null
+                // Actualizar Lead existente (inyectando project_id por si no lo tenía)
                 $existingLead = Lead::where('user_id', $Userexist->user_id)->first();
                 $newCount = ($existingLead->unread_messages_count ?? 0) + 1;
                 Lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
+                        'project_id'        => $this->currentProjectId,
                         'name'              => $leadName,
                         'phone_number'      => $phoneAsString,
                         'last_message_time' => now(),
@@ -51,7 +65,9 @@ class ConversationWsp extends Controller{
                     ]
                 );
             }else{
+                 // Crear nuevo usuario amarrado al proyecto actual
                  $usernew = UserApp::create([
+                    'project_id'         => $this->currentProjectId,
                     'name'               => $leadName,
                     'password'           => "provisorio",
                     'user_app_status_id' => 2,
@@ -65,9 +81,11 @@ class ConversationWsp extends Controller{
                     'status'       => "no register"
                  ]);
 
+                 // Crear nuevo Lead amarrado al proyecto actual
                  Lead::updateOrCreate(
                      ['user_id' => $usernew->id],
                      [
+                         'project_id'        => $this->currentProjectId,
                          'name'              => $leadName,
                          'phone_number'      => $phoneAsString,
                          'last_message_time' => now(),
@@ -87,8 +105,6 @@ class ConversationWsp extends Controller{
 
     public function startConversation()
     {
-        // Si no hay un UserApp asociado (por ejemplo, es un webhook de confirmación de lectura de Meta)
-        // abortamos porque no hay conversación que procesar
         if (!$this->currentUserId) {
             \Illuminate\Support\Facades\Log::info("ConversationWsp: Webhook ignorado (no es un mensaje entrante o no hay usuario).");
             return;
@@ -97,11 +113,11 @@ class ConversationWsp extends Controller{
         $user_msg_wsp = $this->Userwsp->getMessage();
         $user_phone_wsp = $this->Userwsp->getPhone();
 
-        // 1. Obtener o crear la Conversación Activa
-        // Por defecto, se asocia al bot principal (agente id 1) si es nueva
+        // 1. Obtener o crear la Conversación Activa amarrada al proyecto
         $conversation = Conversation::firstOrCreate(
             ['user_id' => $this->currentUserId],
             [
+                'project_id' => $this->currentProjectId, // Aislamiento multi-tenant
                 'agent_id' => 1, 
                 'status' => 'bot_active',
                 'type' => 'user',
@@ -121,15 +137,13 @@ class ConversationWsp extends Controller{
         }
 
         // 3. Evaluar el Estado (HANDOVER PATTERN)
-        // Si el estado es 'human_active', el bot se silencia y no responde.
         if ($conversation->status === 'bot_active') {
             // El bot toma el control
             $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
-            $botResponse = $this->Botwsp->getLogicResponse(); // Obtenemos la respuesta calculada
+            $botResponse = $this->Botwsp->getLogicResponse(); 
             
             $this->Botwsp->sendWspMessage();
             
-            // Guardamos el mensaje saliente del Bot en la base de datos
             if ($botResponse) {
                 \App\Models\WhatsappApi\Message::create([
                     'conversation_id' => $conversation->id,
@@ -140,8 +154,6 @@ class ConversationWsp extends Controller{
                 ]);
             }
         } else {
-            // Está en 'human_active'. No hacemos nada automático.
-            // El mensaje ya quedó guardado en la BD y el operador lo verá en su panel Vue.
             \Illuminate\Support\Facades\Log::info("Chat en modo humano. Bot silenciado para el user_id: " . $this->currentUserId);
         }
     }

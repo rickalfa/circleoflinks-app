@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\WhatsappApi;
 
 use App\Models\WhatsappApi\Lead;
+use App\Models\Project;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreleadRequest;
 use App\Http\Requests\UpdateleadRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LeadController extends Controller
 {
@@ -16,15 +18,20 @@ class LeadController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         
-        $Leads = Lead::all();
-
+        // 1. Obtenemos todas las compañías del usuario
+        $companyIds = $user->companies()->pluck('id');
+        
+        // 2. Obtenemos todos los proyectos (números de bot) de esas compañías
+        $projectIds = Project::whereIn('company_id', $companyIds)->pluck('id');
+        
+        // 3. Traemos solo los Leads que pertenecen a esos proyectos
+        $Leads = Lead::whereIn('project_id', $projectIds)->latest()->get();
 
         return view('whatsapp_service.leads.index', compact('Leads'));
-
     }
 
-   
     /**
      * Show the form for creating a new resource.
      *
@@ -44,9 +51,6 @@ class LeadController extends Controller
     public function store(StoreleadRequest $request)
     {
         //
-
-
-
     }
 
     /**
