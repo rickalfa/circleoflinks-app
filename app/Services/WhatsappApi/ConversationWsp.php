@@ -8,6 +8,7 @@ use App\Models\userAppContact;
 use App\Models\WhatsappApi\Conversation;
 use App\Models\WhatsappApi\Lead;
 use App\Models\Project;
+use Illuminate\Support\Facades\Log;
 
 class ConversationWsp extends Controller{
 
@@ -15,21 +16,55 @@ class ConversationWsp extends Controller{
     protected $Userwsp;
     protected $Botwsp;
     protected $currentUserId;
-    protected $currentProjectId; // Nuevo: El ID del proyecto (bot)
+    protected $currentProjectId; // ID del proyecto (bot receptor)
 
     public function __construct($dates)
     {
         $data = $dates;
     
-        // 1. Identificar el Bot/Proyecto receptor
+        // 1. Identificar el Bot/Proyecto receptor mediante búsqueda flexible del teléfono
         $this->currentProjectId = null;
+        $botNumber = null;
+
         if (isset($data['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'])) {
             $botNumber = $data['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'];
-            $project = Project::where('phone_number', $botNumber)->first();
+        }
+
+        if ($botNumber) {
+            $cleanBotNumber = preg_replace('/\D+/', '', (string)$botNumber);
+
+            // Búsqueda flexible en todos los proyectos comparando dígitos limpios
+            $project = Project::all()->first(function ($p) use ($cleanBotNumber) {
+                if (empty($p->phone_number)) {
+                    return false;
+                }
+                $cleanProjectNumber = preg_replace('/\D+/', '', (string)$p->phone_number);
+
+                // A. Coincidencia exacta de dígitos (ej. 56967431234 === 56967431234)
+                if ($cleanProjectNumber === $cleanBotNumber) {
+                    return true;
+                }
+
+                // B. Coincidencia de los últimos 8 dígitos (tolera diferencias de prefijo de país)
+                if (strlen($cleanProjectNumber) >= 8 && strlen($cleanBotNumber) >= 8) {
+                    return substr($cleanProjectNumber, -8) === substr($cleanBotNumber, -8);
+                }
+
+                return false;
+            });
+
             if ($project) {
                 $this->currentProjectId = $project->id;
             }
         }
+
+        // Fallback: Si no hubo match por teléfono pero solo hay 1 proyecto en la BD, vincularlo a ese
+        if (!$this->currentProjectId && Project::count() === 1) {
+            $singleProject = Project::first();
+            $this->currentProjectId = $singleProject->id;
+        }
+
+        Log::info("ConversationWsp: Teléfono receptor Meta '{$botNumber}'. Project ID asignado: " . ($this->currentProjectId ?? 'NULL'));
 
         // 2. Procesar el remitente (Lead)
         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
@@ -48,13 +83,15 @@ class ConversationWsp extends Controller{
             if(isset($Userexist)){
                 $this->currentUserId = $Userexist->user_id;
 
-                // Actualizar Lead existente (inyectando project_id por si no lo tenía)
+                // Actualizar Lead existente (inyectando project_id si no lo tenía)
                 $existingLead = Lead::where('user_id', $Userexist->user_id)->first();
                 $newCount = ($existingLead->unread_messages_count ?? 0) + 1;
+                $targetProjectId = $this->currentProjectId ?? ($existingLead->project_id ?? null);
+
                 Lead::updateOrCreate(
                     ['user_id' => $Userexist->user_id],
                     [
-                        'project_id'        => $this->currentProjectId,
+                        'project_id'        => $targetProjectId,
                         'name'              => $leadName,
                         'phone_number'      => $phoneAsString,
                         'last_message_time' => now(),
@@ -64,6 +101,11 @@ class ConversationWsp extends Controller{
                         'avatar_url'        => $leadAvatarUrl ?? ($existingLead->avatar_url ?? null),
                     ]
                 );
+
+                // Asegurar que el UserApp tenga project_id si era nulo
+                if ($targetProjectId) {
+                    UserApp::where('id', $Userexist->user_id)->whereNull('project_id')->update(['project_id' => $targetProjectId]);
+                }
             }else{
                  // Crear nuevo usuario amarrado al proyecto actual
                  $usernew = UserApp::create([
@@ -106,7 +148,7 @@ class ConversationWsp extends Controller{
     public function startConversation()
     {
         if (!$this->currentUserId) {
-            \Illuminate\Support\Facades\Log::info("ConversationWsp: Webhook ignorado (no es un mensaje entrante o no hay usuario).");
+            Log::info("ConversationWsp: Webhook ignorado (no es un mensaje entrante o no hay usuario).");
             return;
         }
 
@@ -124,6 +166,12 @@ class ConversationWsp extends Controller{
                 'message' => 'Chat iniciado' // Evita error SQL porque la columna message no es nullable
             ]
         );
+
+        // Si la conversación ya existía pero no tenía project_id, asignarlo ahora
+        if ($this->currentProjectId && empty($conversation->project_id)) {
+            $conversation->project_id = $this->currentProjectId;
+            $conversation->save();
+        }
 
         // 2. Guardar el Mensaje Entrante
         if ($user_msg_wsp) {
@@ -154,7 +202,7 @@ class ConversationWsp extends Controller{
                 ]);
             }
         } else {
-            \Illuminate\Support\Facades\Log::info("Chat en modo humano. Bot silenciado para el user_id: " . $this->currentUserId);
+            Log::info("Chat en modo humano. Bot silenciado para el user_id: " . $this->currentUserId);
         }
     }
 }
