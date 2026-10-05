@@ -14,6 +14,7 @@ class Conversation extends Model
     protected $table = 'conversations';
 
     protected $fillable = [
+        'project_id',
         'user_id',
         'agent_id',
         'message',
@@ -44,4 +45,19 @@ class Conversation extends Model
     {
         return $this->hasMany(Message::class, 'conversation_id', 'id');
     }
+
+    public function project()
+    {
+        return $this->belongsTo(\App\Models\Project::class);
+    }
+
+
+    /**
+     * Obtiene la instancia del proyecto al que pertenece este modelo.
+     */
+    public function currentProject()
+    {
+        return $this->project;
+    }
+
 }

@@ -20,4 +20,10 @@ class Project extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function agents() { return $this->hasMany(\App\Models\WhatsappApi\Agent::class); }
+    public function userApps() { return $this->hasMany(\App\Models\UserApp::class); }
+    public function leads() { return $this->hasMany(\App\Models\WhatsappApi\Lead::class); }
+    public function conversations() { return $this->hasMany(\App\Models\WhatsappApi\Conversation::class); }
+
 }

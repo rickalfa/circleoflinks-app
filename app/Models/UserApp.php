@@ -18,6 +18,7 @@ class UserApp extends Model
     protected $table = 'user_app';
 
     protected $fillable = [
+        'project_id',
         'name',
         'email',
         'password',
@@ -72,6 +73,21 @@ class UserApp extends Model
     public static function getUserAppIdsWithContact()
     {
         return self::has('contact')->pluck('id');
+    }
+
+
+    public function project()
+    {
+        return $this->belongsTo(\App\Models\Project::class);
+    }
+
+
+    /**
+     * Obtiene la instancia del proyecto al que pertenece este modelo.
+     */
+    public function currentProject()
+    {
+        return $this->project;
     }
 
 }

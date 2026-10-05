@@ -11,6 +11,7 @@ class Lead extends Model
     use HasFactory;
 
     protected $fillable = [
+        'project_id',
         'name',
         'phone_number',
         'last_message_time',
@@ -26,6 +27,21 @@ class Lead extends Model
 
         return $this->belongsTo(UserApp::class, 'user_id', 'id');
 
+    }
+
+
+    public function project()
+    {
+        return $this->belongsTo(\App\Models\Project::class);
+    }
+
+
+    /**
+     * Obtiene la instancia del proyecto al que pertenece este modelo.
+     */
+    public function currentProject()
+    {
+        return $this->project;
     }
 
 }
