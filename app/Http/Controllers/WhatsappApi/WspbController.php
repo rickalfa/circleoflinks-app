@@ -75,51 +75,52 @@ class WspbController extends Controller
       *  https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-messages#solicitudes
       */
       public function recibir(Request $request){
-        //LEEMOS LOS DATOS ENVIADOS POR WHATSAPP
-
-          
-        Log::info('WhatsApp Webhook dates message Request:', $request->all());
-
-        $data = array();
+        // 1. Validación de Seguridad (Firma de Meta)
+        $secret = env('WHATSAPP_APP_SECRET');
+        $signature = $request->header('X-Hub-Signature-256');
         
-
-         $data =  $request->all();
-
-         $this->dates_message =$data;
-
-         
-
-         
-         if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
-          $messageBody = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
-
-          // Convertir el valor a string, aunque debería serlo ya
-          $messageBodyAsString = (string) $messageBody;
-
-          // Registrar el valor en el log
-
-         if(isset($messageBodyAsString)){
-
-          Log::info('WhatsApp message user : ' . $messageBodyAsString);
-
-
-         }else{
-
-          Log::info('Message no Encontrado :  $messageBodyAsString');
-
-
-         }
-
-         
+        if ($secret && $signature) {
+            $payload = $request->getContent();
+            $expectedHash = 'sha256=' . hash_hmac('sha256', $payload, $secret);
+            if (!hash_equals($expectedHash, $signature)) {
+                Log::warning('Firma de Meta inválida. Se rechazó el webhook.');
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+        } elseif ($secret && !$signature) {
+            Log::warning('Webhook recibido sin firma de Meta.');
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
+        $data = $request->all();
+        $this->dates_message = $data;
+
+        // 2. Deduplicación de mensajes (Meta reintenta si tardamos en responder)
+        $wamid = $data['entry'][0]['changes'][0]['value']['messages'][0]['id'] ?? null;
+        if ($wamid) {
+            // Cache::add devuelve true solo si la clave NO existía.
+            if (!\Illuminate\Support\Facades\Cache::add('wamid_' . $wamid, true, now()->addDay())) {
+                Log::info("Mensaje duplicado ignorado (ya procesado): {$wamid}");
+                return response('OK', 200); // Respondemos a Meta sin procesar
+            }
+        }
+
+        Log::info('WhatsApp Webhook dates message Request:', $data);
+
+        if (isset($data['entry'][0]['changes'][0]['value']['messages'][0]['from'])) {
+          $messageBody = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
+          $messageBodyAsString = (string) $messageBody;
+
+         if(isset($messageBodyAsString)){
+          Log::info('WhatsApp message user : ' . $messageBodyAsString);
+         }else{
+          Log::info('Message no Encontrado :  $messageBodyAsString');
+         }
+        }
 
         $convessation = new ConversationWsp($data);
-
         $convessation->startConversation();
 
-        return " peticion recibir";
-
+        return response('OK', 200);
       }
 
      
