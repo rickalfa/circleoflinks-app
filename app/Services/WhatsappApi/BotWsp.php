@@ -18,12 +18,15 @@ Class BotWsp {
     private $SendMsgWsp;
 
     private $num_phone = 0;
+    private $project_id;
 
-     public function __construct(){
+     public function __construct($project_id = null){
 
         $this->AgentWsp = new Agent();
 
         $this->SendMsgWsp = new WspSendMessageController();
+        
+        $this->project_id = $project_id;
 
      }
      public function getMessage(){
@@ -80,8 +83,14 @@ Class BotWsp {
 
     private function selectResponsesFromBotActive($key_string)
     {
-        $BotsActives = Agent::where('status', 'active')->get();
-        Log::info("BotWsp: Bots con status 'active' encontrados: " . $BotsActives->count());
+        $query = Agent::where('status', 'active');
+        
+        if ($this->project_id) {
+            $query->where('project_id', $this->project_id);
+        }
+        
+        $BotsActives = $query->get();
+        Log::info("BotWsp: Bots con status 'active' encontrados para el proyecto {$this->project_id}: " . $BotsActives->count());
 
         if ($BotsActives->isEmpty()) {
             Log::warning("BotWsp: ¡No hay ningún bot activo en la tabla 'agents'! Ve al panel web y activa un bot.");

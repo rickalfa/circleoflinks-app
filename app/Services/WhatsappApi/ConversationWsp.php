@@ -141,7 +141,7 @@ class ConversationWsp extends Controller{
         }
 
         $this->Userwsp = new UserWsp($dates);
-        $this->Botwsp = new BotWsp();
+        $this->Botwsp = new BotWsp($this->currentProjectId);
     }
 
 
