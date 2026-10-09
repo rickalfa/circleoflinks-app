@@ -69,18 +69,10 @@ class AgentController extends Controller
 
     public function createlogicresponse($Agent)
     {
+        $projectId = auth()->user()->currentProject()?->id;
+        $agent = Agent::where('project_id', $projectId)->findOrFail($Agent);
 
-
-        //echo 'nombre del nuevo agente '. $Agent->name;
-        
-      
-        $agent = Agent::findOrFail($Agent);
-
-
-
-       return view('whatsapp_service.agent.createlogicresponse', compact('agent'));
-
-
+        return view('whatsapp_service.agent.createlogicresponse', compact('agent'));
     }
 
     /**
@@ -123,10 +115,9 @@ class AgentController extends Controller
      */
     public function show($id)
     {
-
-        $Bot = Agent::findOrFail($id);
+        $projectId = auth()->user()->currentProject()?->id;
+        $Bot = Agent::where('project_id', $projectId)->findOrFail($id);
         
-
         return view('whatsapp_service.agent.show')->with('Bot', $Bot);
     }
 
@@ -160,9 +151,8 @@ class AgentController extends Controller
             ]);
             
     
-            //dd($request);
-    
-            $bot = Agent::findOrFail($id);
+            $projectId = auth()->user()->currentProject()?->id;
+            $bot = Agent::where('project_id', $projectId)->findOrFail($id);
 
             $bot->update($request->all());
     
