@@ -19,7 +19,10 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $Bots = Agent::paginate(10); // Obtener todos los usuarios
+        $project = auth()->user()->currentProject();
+        $projectId = $project ? $project->id : null;
+        
+        $Bots = Agent::where('project_id', $projectId)->paginate(10); 
         return view('whatsapp_service.agent.index', compact('Bots'));
 
 
@@ -40,8 +43,10 @@ class AgentController extends Controller
      * 
      */
     public function activesBots(Request $request){
+        $project = auth()->user()->currentProject();
+        $projectId = $project ? $project->id : null;
 
-        $Bots = Agent::paginate(10); 
+        $Bots = Agent::where('project_id', $projectId)->paginate(10); 
 
         $pass_var = isset($success);
 
@@ -97,6 +102,10 @@ class AgentController extends Controller
 
         if (empty($dates_request['status'])) {
             $dates_request['status'] = 'active';
+        }
+
+        if (auth()->check() && auth()->user()->currentProject()) {
+            $dates_request['project_id'] = auth()->user()->currentProject()->id;
         }
 
         $Agent = Agent::create($dates_request);
