@@ -9,13 +9,13 @@ class Message extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'conversation_id',
         'sender_id', 
         'sender_type', 
         'content', 
-        'sent_at'];
+        'sent_at'
+    ];
 
     public function conversation()
     {
@@ -27,4 +27,11 @@ class Message extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Registro de auditoría y tokens de IA vinculado a este mensaje.
+     */
+    public function aiUsageLog()
+    {
+        return $this->hasOne(AiUsageLog::class, 'message_id', 'id');
+    }
 }

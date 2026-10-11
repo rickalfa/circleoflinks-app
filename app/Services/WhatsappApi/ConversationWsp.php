@@ -182,11 +182,14 @@ class ConversationWsp extends Controller{
                 'content' => $user_msg_wsp,
                 'sent_at' => now(),
             ]);
+        } else {
+            Log::info("ConversationWsp: Mensaje entrante no contiene texto (posible audio, imagen o sticker).");
+            return;
         }
 
         // 3. Evaluar el Estado (HANDOVER PATTERN)
         if ($conversation->status === 'bot_active') {
-            // El bot toma el control
+            // El bot toma el control: evaluar reglas clásicas primero (Paso 1)
             $this->Botwsp->receptionMessage($user_msg_wsp, $user_phone_wsp);
             $botResponse = $this->Botwsp->getLogicResponse(); 
             
@@ -200,6 +203,18 @@ class ConversationWsp extends Controller{
                     'content' => $botResponse,
                     'sent_at' => now(),
                 ]);
+            } else {
+                // Si ninguna regla coincidió, delegar la respuesta al Agente de IA en segundo plano
+                if ($this->currentProjectId) {
+                    $debounceSeconds = (int) config('ai.debounce_seconds', 5);
+                    \App\Jobs\WhatsappApi\ProcessAiReplyJob::dispatch(
+                        $conversation->id,
+                        $user_msg_wsp,
+                        $this->currentProjectId
+                    )->delay(now()->addSeconds($debounceSeconds));
+
+                    Log::info("ConversationWsp: Sin match en reglas estáticas. ProcessAiReplyJob despachado en cola con delay de {$debounceSeconds}s.");
+                }
             }
         } else {
             Log::info("Chat en modo humano. Bot silenciado para el user_id: " . $this->currentUserId);
