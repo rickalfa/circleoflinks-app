@@ -140,9 +140,12 @@ class AgentController extends Controller
      * @param  \App\Models\WhatsappApi\Agent  $agent
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agent $agent)
+    public function edit($id)
     {
-        //
+        $projectId = auth()->user()->currentProject()?->id;
+        $Bot = Agent::where('project_id', $projectId)->findOrFail($id);
+
+        return view('whatsapp_service.agent.edit', compact('Bot'));
     }
 
     /**
@@ -181,16 +184,14 @@ class AgentController extends Controller
 
             $bot->update($data);
     
-            return redirect()->route('bot.actives')
-                              ->with('success', 'se pudo actualizar');
+            return redirect()->route('/admindashboard/bots-r/', $id)
+                              ->with('success', '¡Bot y configuración de IA actualizados correctamente!');
                             
        
          } catch (Exception $th) {
             
-            return redirect()->route('bot.actives')
-                             ->with('success', ' no se pudo actualizar');
-
-
+            return redirect()->back()->withInput()
+                             ->with('error', 'No se pudo actualizar: ' . $th->getMessage());
          }
   
 

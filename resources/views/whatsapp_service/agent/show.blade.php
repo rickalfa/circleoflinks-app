@@ -20,15 +20,32 @@
     </div>
   </div>
 
+  @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
   <div class="row">
         <div class="card text-white bg-dark mb-3 fs-4" style="width: 100%;">
-          <div class="card-header"><i class="bi bi-robot" style="font-size: 2rem; color: rgb(252, 249, 54);"></i>  Name : {{ $Bot->name}}
-          
-            <h6> Version Bot : {{$Bot->version}}</h6>
-
-            <h6> Status Bot : {{$Bot->status}}</h6>
-          
-
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-robot" style="font-size: 2rem; color: rgb(252, 249, 54);"></i>  Name : {{ $Bot->name}}
+              <h6> Version Bot : {{$Bot->version}}</h6>
+              <h6> Status Bot : 
+                @if($Bot->status === 'active')
+                  <span class="badge bg-success">Activo</span>
+                @else
+                  <span class="badge bg-danger">Inactivo</span>
+                @endif
+              </h6>
+            </div>
+            <div>
+              <a href="{{ route('bot.edit', $Bot->id) }}" class="btn btn-warning shadow-sm">
+                <i class="bi bi-pencil-square me-1"></i> Editar Bot y Configurar IA
+              </a>
+            </div>
           </div>
           <div class="card-body">
             <h5 class="card-title">Description</h5>

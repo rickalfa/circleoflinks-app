@@ -166,12 +166,15 @@
               </td>
 
               <td>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={{$name_modal }}>
-                Update Status
-              </button>
+                <a href="{{ route('bot.edit', $Bot->id) }}" class="btn btn-warning btn-sm me-1">
+                  <i class="bi bi-gear-fill me-1"></i> Configurar IA
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target={{$name_modal }}>
+                  Rápido
+                </button>
               </td>
               
-              <td> <a href="{{ route('/admindashboard/bots-r/', $Bot->id) }}">Details</a> </td>
+              <td> <a href="{{ route('/admindashboard/bots-r/', $Bot->id) }}" class="btn btn-info btn-sm">Detalles</a> </td>
             </tr>
 
 

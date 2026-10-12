@@ -59,9 +59,12 @@
               <th scope="row">{{ $count++}}</th>
               <td><i class="bi bi-robot" style="font-size: 2rem; color: rgb(252, 160, 54);"></i> {{ $Bot->name}}</td>
               <td>{{ $Bot->version}}</td>
-              <td>{{ $Bot->description}}</td>
-              <td> <a href="{{ route('/admindashboard/bots-r/', $Bot->id) }}">Details</a> </td>
-            </tr>
+              <td>
+                <a href="{{ route('/admindashboard/bots-r/', $Bot->id) }}" class="btn btn-sm btn-outline-info me-1">Detalles</a>
+                <a href="{{ route('bot.edit', $Bot->id) }}" class="btn btn-sm btn-outline-warning">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </a>
+              </td>
             @endforeach
    
           </tbody>

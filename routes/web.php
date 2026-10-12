@@ -78,6 +78,7 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     // RUTAS AGENTE BOTS
     Route::get('/admindashboard/bots-r', [AgentController::class, 'index'])->name('/admindashboard/bots-r');
     Route::get('/admindashboard/bots-r/{id}', [AgentController::class, 'show'])->name('/admindashboard/bots-r/');
+    Route::get('/admindashboard/bots-r/{id}/edit', [AgentController::class, 'edit'])->name('bot.edit');
     Route::get('/admindashboard/bots-r-fabric', [AgentController::class, 'create'])->name('/admindashboard/bots-r-fabric');
     Route::post('/admindashboard/bots-r-store', [AgentController::class, 'store'])->name('bot.store');
     Route::get('/admindashboard/bots-r-logicresponsecreate/{Agent}', [AgentController::class, 'createlogicresponse'])->name('/admindashboard/bots-r-logicresponsecreate');
