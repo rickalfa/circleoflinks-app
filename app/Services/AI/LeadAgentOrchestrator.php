@@ -93,15 +93,29 @@ class LeadAgentOrchestrator
         // -------------------------------------------------------------
         // PASO 5: Obtener y Validar el Agente Configurado para el Proyecto
         // -------------------------------------------------------------
-        // Buscar primer agente del proyecto con IA activada, o el agente asignado
+        // Buscar primer agente del proyecto con IA activada
         $agent = Agent::where('project_id', $project->id)
             ->where('status', 'active')
             ->where('ai_enabled', true)
             ->first();
 
-        // Si no hay bot con IA activa para el proyecto, no responder
+        // Fallback 1: Buscar por el agent_id asignado en la conversación
+        if (!$agent && !empty($conversation->agent_id)) {
+            $agent = Agent::where('id', $conversation->agent_id)
+                ->where('ai_enabled', true)
+                ->first();
+        }
+
+        // Fallback 2: Buscar cualquier bot activo que tenga ai_enabled = true
         if (!$agent) {
-            Log::info("LeadAgentOrchestrator: Proyecto {$project->id} no tiene ningún agente activo con 'ai_enabled' = true.");
+            $agent = Agent::where('status', 'active')
+                ->where('ai_enabled', true)
+                ->first();
+        }
+
+        // Si no hay bot con IA activa en el sistema, no responder
+        if (!$agent) {
+            Log::warning("LeadAgentOrchestrator: No se encontró ningún agente activo con 'ai_enabled' = true.");
             return null;
         }
 

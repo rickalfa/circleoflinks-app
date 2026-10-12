@@ -214,6 +214,8 @@ class ConversationWsp extends Controller{
                     )->delay(now()->addSeconds($debounceSeconds));
 
                     Log::info("ConversationWsp: Sin match en reglas estáticas. ProcessAiReplyJob despachado en cola con delay de {$debounceSeconds}s.");
+                } else {
+                    Log::warning("ConversationWsp: No se despachó ProcessAiReplyJob porque currentProjectId es NULL.");
                 }
             }
         } else {

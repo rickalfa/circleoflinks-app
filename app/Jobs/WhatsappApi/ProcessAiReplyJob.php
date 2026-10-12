@@ -54,8 +54,14 @@ class ProcessAiReplyJob implements ShouldQueue
         }
 
         // Obtener teléfono del usuario para enviar la respuesta
+        $userPhone = null;
         $contact = userAppContact::where('user_id', $conversation->user_id)->first();
-        $userPhone = $contact ? $contact->phone_number : null;
+        if ($contact && !empty($contact->phone_number)) {
+            $userPhone = $contact->phone_number;
+        } else {
+            $lead = \App\Models\WhatsappApi\Lead::where('user_id', $conversation->user_id)->first();
+            $userPhone = $lead ? $lead->phone_number : null;
+        }
 
         if (!$userPhone) {
             Log::warning("ProcessAiReplyJob: No se encontró número de teléfono para el usuario ID {$conversation->user_id}.");

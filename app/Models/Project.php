@@ -58,6 +58,11 @@ class Project extends Model
      */
     public function hasAvailableAiBudget(): bool
     {
-        return $this->currentMonthAiExpense() < (float) $this->ai_monthly_budget_usd;
+        $budget = (float) ($this->ai_monthly_budget_usd ?? 10.00);
+        if ($budget <= 0) {
+            $budget = 10.00;
+        }
+
+        return $this->currentMonthAiExpense() < $budget;
     }
 }
