@@ -31,9 +31,43 @@
 
           </div>
           <div class="card-body">
-            <h5 class="card-title">Description </h5>
+            <h5 class="card-title">Description</h5>
             <p class="card-text">{{$Bot->description}}</p>
 
+            <hr class="border-secondary">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-stars text-warning me-2"></i>Motor de Inteligencia Artificial (IA)
+              </h5>
+              @if($Bot->ai_enabled)
+                <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i>IA Habilitada ({{ $Bot->ai_provider }})</span>
+              @else
+                <span class="badge bg-secondary fs-6"><i class="bi bi-dash-circle me-1"></i>IA Desactivada</span>
+              @endif
+            </div>
+
+            @if($Bot->ai_enabled)
+              <div class="bg-black bg-opacity-25 rounded p-3 small mb-3">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <strong>Personaje:</strong> <span class="text-info">{{ $Bot->persona_name ?: 'Sin definir' }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Rol:</strong> <span>{{ $Bot->role ?: 'Sin definir' }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Tono:</strong> <span class="badge bg-primary-subtle text-primary">{{ $Bot->tone ?: 'cercano' }}</span>
+                  </div>
+                  @if($Bot->knowledge_base)
+                    <div class="col-12 mt-2">
+                      <strong>Base de Conocimiento:</strong>
+                      <div class="p-2 bg-dark rounded border border-secondary mt-1 font-monospace" style="white-space: pre-wrap; max-height: 150px; overflow-y: auto;">{{ $Bot->knowledge_base }}</div>
+                    </div>
+                  @endif
+                </div>
+              </div>
+            @endif
           </div>
 
           <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

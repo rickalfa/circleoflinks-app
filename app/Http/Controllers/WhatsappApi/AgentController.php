@@ -85,12 +85,25 @@ class AgentController extends Controller
     {
         
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'version' => 'required',
+            'name'           => 'required|string|max:255',
+            'description'    => 'required|string|max:255',
+            'version'        => 'required',
+            'ai_enabled'     => 'nullable',
+            'persona_name'   => 'nullable|string|max:100',
+            'role'           => 'nullable|string|max:150',
+            'tone'           => 'nullable|string|max:50',
+            'personality'    => 'nullable|string',
+            'backstory'      => 'nullable|string',
+            'knowledge_base' => 'nullable|string',
+            'style_rules'    => 'nullable|string',
+            'boundaries'     => 'nullable|string',
+            'temperature'    => 'nullable|numeric|between:0,1',
         ]);
 
         $dates_request = $request->all();
+
+        // Convertir checkbox HTML a booleano
+        $dates_request['ai_enabled'] = $request->has('ai_enabled');
 
         if (empty($dates_request['status'])) {
             $dates_request['status'] = 'active';
@@ -144,17 +157,29 @@ class AgentController extends Controller
          try {
           
             $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'version' => 'required|numeric',
-                'status' => 'required|string',
+                'name'           => 'required|string|max:255',
+                'description'    => 'required|string',
+                'version'        => 'required',
+                'status'         => 'required|string',
+                'ai_enabled'     => 'nullable',
+                'persona_name'   => 'nullable|string|max:100',
+                'role'           => 'nullable|string|max:150',
+                'tone'           => 'nullable|string|max:50',
+                'personality'    => 'nullable|string',
+                'backstory'      => 'nullable|string',
+                'knowledge_base' => 'nullable|string',
+                'style_rules'    => 'nullable|string',
+                'boundaries'     => 'nullable|string',
+                'temperature'    => 'nullable|numeric|between:0,1',
             ]);
             
+            $data = $request->all();
+            $data['ai_enabled'] = $request->has('ai_enabled');
     
             $projectId = auth()->user()->currentProject()?->id;
             $bot = Agent::where('project_id', $projectId)->findOrFail($id);
 
-            $bot->update($request->all());
+            $bot->update($data);
     
             return redirect()->route('bot.actives')
                               ->with('success', 'se pudo actualizar');
