@@ -30,7 +30,7 @@ return [
         'gemini' => [
             'api_key'  => env('GEMINI_API_KEY', env('AI_API_KEY')),
             'base_url' => env('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta'),
-            'model'    => env('GEMINI_DEFAULT_MODEL', 'gemini-2.5-flash-lite'),
+            'model'    => env('GEMINI_DEFAULT_MODEL', 'gemini-3.5-flash-lite'),
             // Tarifas de referencia para cálculo en ai_usage_logs (USD / 1M tokens)
             'rates'    => [
                 'input_per_million'  => 0.10,

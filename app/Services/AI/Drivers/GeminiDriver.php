@@ -19,7 +19,7 @@ class GeminiDriver implements MllServiceInterface
     {
         $config = config('ai.providers.gemini');
         $this->apiKey  = (string) ($config['api_key'] ?? '');
-        $this->model   = $model ?: ($config['model'] ?? 'gemini-2.5-flash-lite');
+        $this->model   = $model ?: ($config['model'] ?? 'gemini-3.5-flash-lite');
         $this->baseUrl = $config['base_url'] ?? 'https://generativelanguage.googleapis.com/v1beta';
         $this->rates   = $config['rates'] ?? ['input_per_million' => 0.10, 'output_per_million' => 0.40];
     }

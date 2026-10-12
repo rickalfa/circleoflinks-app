@@ -39,7 +39,7 @@ class Agent extends Model
         'status' => 'active',
         'ai_enabled' => false,
         'ai_provider' => 'gemini',
-        'ai_model' => 'gemini-2.5-flash-lite',
+        'ai_model' => 'gemini-3.5-flash-lite',
         'tone' => 'cercano',
         'temperature' => 0.70,
     ];
