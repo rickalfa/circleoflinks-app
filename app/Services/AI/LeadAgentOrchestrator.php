@@ -74,8 +74,13 @@ class LeadAgentOrchestrator
         }
 
         // -------------------------------------------------------------
-        // PASO 4: Validación de Presupuesto Mensual del Proyecto
+        // PASO 4: Validación de Presupuesto Mensual del Proyecto y Plan
         // -------------------------------------------------------------
+        if (!$project->allowsAiBots()) {
+            Log::warning("LeadAgentOrchestrator: Proyecto ID {$project->id} pertenece a un plan Free (sin IA). Cancelando procesamiento LLM.");
+            return null;
+        }
+
         if (!$this->budgetGuard->hasBudget($project)) {
             Log::warning("LeadAgentOrchestrator: Presupuesto mensual agotado para proyecto {$project->id}. Derivando a humano.");
             return new LlmResponse(

@@ -47,6 +47,12 @@ class ProcessAiReplyJob implements ShouldQueue
             return;
         }
 
+        // Validación estricta de plan de negocio: Bots con IA son exclusivos de Premium
+        if (!$project->allowsAiBots()) {
+            Log::warning("ProcessAiReplyJob: Proyecto ID {$project->id} pertenece a un plan Free. Abortando llamada a IA (exclusiva de Premium).");
+            return;
+        }
+
         // Si mientras el Job estaba en cola un humano tomó el control, no responder con IA
         if ($conversation->status !== 'bot_active') {
             Log::info("ProcessAiReplyJob: Conversación no está en 'bot_active' (estado actual: {$conversation->status}). IA silenciada.");

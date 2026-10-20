@@ -204,16 +204,22 @@ class ConversationWsp extends Controller{
                     'sent_at' => now(),
                 ]);
             } else {
-                // Si ninguna regla coincidió, delegar la respuesta al Agente de IA en segundo plano
+                // Si ninguna regla coincidió, verificar si el plan del proyecto permite IA (solo Premium)
                 if ($this->currentProjectId) {
-                    $debounceSeconds = (int) config('ai.debounce_seconds', 5);
-                    \App\Jobs\WhatsappApi\ProcessAiReplyJob::dispatch(
-                        $conversation->id,
-                        $user_msg_wsp,
-                        $this->currentProjectId
-                    )->delay(now()->addSeconds($debounceSeconds));
+                    $project = \App\Models\Project::find($this->currentProjectId);
 
-                    Log::info("ConversationWsp: Sin match en reglas estáticas. ProcessAiReplyJob despachado en cola con delay de {$debounceSeconds}s.");
+                    if ($project && $project->allowsAiBots()) {
+                        $debounceSeconds = (int) config('ai.debounce_seconds', 5);
+                        \App\Jobs\WhatsappApi\ProcessAiReplyJob::dispatch(
+                            $conversation->id,
+                            $user_msg_wsp,
+                            $this->currentProjectId
+                        )->delay(now()->addSeconds($debounceSeconds));
+
+                        Log::info("ConversationWsp: Sin match en reglas estáticas. ProcessAiReplyJob despachado para proyecto Premium ID {$this->currentProjectId}.");
+                    } else {
+                        Log::info("ConversationWsp: Sin match en reglas estáticas y el proyecto ID {$this->currentProjectId} está en plan Free (IA no permitida). Conversación queda para atención humana en Live Chat.");
+                    }
                 } else {
                     Log::warning("ConversationWsp: No se despachó ProcessAiReplyJob porque currentProjectId es NULL.");
                 }

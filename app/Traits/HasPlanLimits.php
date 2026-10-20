@@ -56,6 +56,26 @@ trait HasPlanLimits
      */
     public function canSendProactiveMessages(): bool
     {
-        return $this->getPlanConfig()['proactive_messaging'];
+        return (bool) ($this->getPlanConfig()['proactive_messaging'] ?? false);
+    }
+
+    /**
+     * Check if the user is allowed to use AI-powered bots (LLM).
+     *
+     * @return bool
+     */
+    public function canUseAiBots(): bool
+    {
+        return (bool) ($this->getPlanConfig()['ai_bots'] ?? false);
+    }
+
+    /**
+     * Check if the user is allowed to configure a custom phone number.
+     *
+     * @return bool
+     */
+    public function canUseCustomPhone(): bool
+    {
+        return (bool) ($this->getPlanConfig()['custom_phone'] ?? false);
     }
 }

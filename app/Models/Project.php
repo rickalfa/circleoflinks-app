@@ -27,6 +27,23 @@ class Project extends Model
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Obtiene el usuario dueño del proyecto a través de la empresa.
+     */
+    public function owner(): ?User
+    {
+        return $this->company?->user;
+    }
+
+    /**
+     * Verifica si el plan del dueño del proyecto permite el uso de bots con IA.
+     */
+    public function allowsAiBots(): bool
+    {
+        $owner = $this->owner();
+        return $owner ? $owner->canUseAiBots() : false;
+    }
+
     public function agents() { return $this->hasMany(\App\Models\WhatsappApi\Agent::class); }
     public function userApps() { return $this->hasMany(\App\Models\UserApp::class); }
     public function leads() { return $this->hasMany(\App\Models\WhatsappApi\Lead::class); }

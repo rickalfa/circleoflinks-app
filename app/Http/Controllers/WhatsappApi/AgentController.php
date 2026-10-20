@@ -9,7 +9,6 @@ use App\Http\Requests\UpdateAgentRequest;
 use Exception;
 use Illuminate\Http\Request;
 
-
 class AgentController extends Controller
 {
     /**
@@ -19,13 +18,17 @@ class AgentController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Agent::class);
+
         $project = auth()->user()->currentProject();
         $projectId = $project ? $project->id : null;
         
+        $currentBotCount = $projectId ? Agent::where('project_id', $projectId)->count() : 0;
+        $canCreateMore = auth()->user()->canCreateMoreBots($currentBotCount);
+        $canUseAi = auth()->user()->canUseAiBots();
+
         $Bots = Agent::where('project_id', $projectId)->paginate(10); 
-        return view('whatsapp_service.agent.index', compact('Bots'));
-
-
+        return view('whatsapp_service.agent.index', compact('Bots', 'canCreateMore', 'canUseAi', 'currentBotCount'));
     }
 
     /**
@@ -35,36 +38,30 @@ class AgentController extends Controller
      */
     public function create()
     {
-        return view('whatsapp_service.agent.create');
+        $this->authorize('create', Agent::class);
 
+        $canUseAi = auth()->user()->canUseAiBots();
+
+        return view('whatsapp_service.agent.create', compact('canUseAi'));
     }
 
     /**
-     * 
+     * Listado de bots activos.
      */
-    public function activesBots(Request $request){
+    public function activesBots(Request $request)
+    {
+        $this->authorize('viewAny', Agent::class);
+
         $project = auth()->user()->currentProject();
         $projectId = $project ? $project->id : null;
 
-        $Bots = Agent::where('project_id', $projectId)->paginate(10); 
+        $Bots = Agent::where('project_id', $projectId)
+            ->where('status', 'active')
+            ->paginate(10); 
 
-        $pass_var = isset($success);
-
-
-        if ($pass_var) {
-
-            $success = "";
-
-        } else {
-            $success = $request->success;
-        }
-        
-
-        echo $request->success;
+        $success = $request->success ?? "";
 
         return view('whatsapp_service.agent.actives', compact('Bots'))->with('success', $success);
-
-
     } 
 
     public function createlogicresponse($Agent)
@@ -72,18 +69,21 @@ class AgentController extends Controller
         $projectId = auth()->user()->currentProject()?->id;
         $agent = Agent::where('project_id', $projectId)->findOrFail($Agent);
 
+        $this->authorize('update', $agent);
+
         return view('whatsapp_service.agent.createlogicresponse', compact('agent'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAgentRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        
+        $this->authorize('create', Agent::class);
+
         $request->validate([
             'name'           => 'required|string|max:255',
             'description'    => 'required|string|max:255',
@@ -100,10 +100,19 @@ class AgentController extends Controller
             'temperature'    => 'nullable|numeric|between:0,1',
         ]);
 
+        $wantsAi = $request->has('ai_enabled') && $request->input('ai_enabled') == '1';
+
+        // Validación estricta en servidor: Bots con IA son exclusivos de Premium
+        if ($wantsAi && !auth()->user()->canUseAiBots()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Los bots con Inteligencia Artificial (LLM) son exclusivos del Plan Premium. Actualiza tu suscripción para habilitar esta funcionalidad.');
+        }
+
         $dates_request = $request->all();
 
-        // Convertir checkbox HTML a booleano
-        $dates_request['ai_enabled'] = $request->has('ai_enabled');
+        // Convertir checkbox HTML a booleano solo si el plan lo permite
+        $dates_request['ai_enabled'] = $wantsAi && auth()->user()->canUseAiBots();
 
         if (empty($dates_request['status'])) {
             $dates_request['status'] = 'active';
@@ -115,21 +124,22 @@ class AgentController extends Controller
 
         $Agent = Agent::create($dates_request);
 
-        return redirect()->route('/admindashboard/bots-r-logicresponsecreate',compact('Agent'));
-
-
+        return redirect()->route('/admindashboard/bots-r-logicresponsecreate', compact('Agent'))
+            ->with('success', 'Bot creado exitosamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\WhatsappApi\Agent  $agent
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $projectId = auth()->user()->currentProject()?->id;
         $Bot = Agent::where('project_id', $projectId)->findOrFail($id);
+
+        $this->authorize('view', $Bot);
         
         return view('whatsapp_service.agent.show')->with('Bot', $Bot);
     }
@@ -137,7 +147,7 @@ class AgentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\WhatsappApi\Agent  $agent
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -145,20 +155,28 @@ class AgentController extends Controller
         $projectId = auth()->user()->currentProject()?->id;
         $Bot = Agent::where('project_id', $projectId)->findOrFail($id);
 
-        return view('whatsapp_service.agent.edit', compact('Bot'));
+        $this->authorize('update', $Bot);
+
+        $canUseAi = auth()->user()->canUseAiBots();
+
+        return view('whatsapp_service.agent.edit', compact('Bot', 'canUseAi'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAgentRequest  $request
-     * @param  \App\Models\WhatsappApi\Agent  $agent
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-         try {
-          
+        try {
+            $projectId = auth()->user()->currentProject()?->id;
+            $bot = Agent::where('project_id', $projectId)->findOrFail($id);
+
+            $this->authorize('update', $bot);
+
             $request->validate([
                 'name'           => 'required|string|max:255',
                 'description'    => 'required|string',
@@ -176,36 +194,46 @@ class AgentController extends Controller
                 'temperature'    => 'nullable|numeric|between:0,1',
             ]);
             
+            $wantsAi = $request->has('ai_enabled') && $request->input('ai_enabled') == '1';
+
+            // Validación estricta en servidor: Bots con IA son exclusivos de Premium
+            if ($wantsAi && !auth()->user()->canUseAiBots()) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Los bots con Inteligencia Artificial (LLM) son exclusivos del Plan Premium. Actualiza tu suscripción para habilitar esta funcionalidad.');
+            }
+
             $data = $request->all();
-            $data['ai_enabled'] = $request->has('ai_enabled');
-    
-            $projectId = auth()->user()->currentProject()?->id;
-            $bot = Agent::where('project_id', $projectId)->findOrFail($id);
+            $data['ai_enabled'] = $wantsAi && auth()->user()->canUseAiBots();
 
             $bot->update($data);
     
             return redirect()->route('/admindashboard/bots-r/', $id)
-                              ->with('success', '¡Bot y configuración de IA actualizados correctamente!');
+                ->with('success', '¡Bot y configuración actualizados correctamente!');
                             
-       
-         } catch (Exception $th) {
-            
-            return redirect()->back()->withInput()
-                             ->with('error', 'No se pudo actualizar: ' . $th->getMessage());
-         }
-  
-
-
+        } catch (Exception $th) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'No se pudo actualizar: ' . $th->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\WhatsappApi\Agent  $agent
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agent $agent)
+    public function destroy($id)
     {
-        //
+        $projectId = auth()->user()->currentProject()?->id;
+        $bot = Agent::where('project_id', $projectId)->findOrFail($id);
+
+        $this->authorize('delete', $bot);
+
+        $bot->delete();
+
+        return redirect()->route('/admindashboard/bots-r')
+            ->with('success', 'Bot eliminado exitosamente.');
     }
 }

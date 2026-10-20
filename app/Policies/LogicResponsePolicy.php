@@ -3,92 +3,72 @@
 namespace App\Policies;
 
 use App\Models\WhatsappApi\LogicResponse;
+use App\Models\WhatsappApi\Agent;
 use App\Models\User;
+use App\Enums\PermissionEnum;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class LogicResponsePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        //
+        return $user->can(PermissionEnum::WHATSAPP_VIEW->value) 
+            || $user->can(PermissionEnum::WHATSAPP_MANAGE->value);
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\LogicResponse  $logicResponse
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function view(User $user, LogicResponse $logicResponse)
+    public function view(User $user, LogicResponse $logicResponse): bool
     {
-        //
+        if (!$this->viewAny($user)) {
+            return false;
+        }
+
+        $agent = $logicResponse->agent;
+        return $agent ? $this->ownsAgentProject($user, $agent) : false;
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
+    public function create(User $user, ?Agent $agent = null): bool
     {
-        //
+        if (!$user->can(PermissionEnum::WHATSAPP_MANAGE->value)) {
+            return false;
+        }
+
+        if ($agent && !$this->ownsAgentProject($user, $agent)) {
+            return false;
+        }
+
+        return true;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\LogicResponse  $logicResponse
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, LogicResponse $logicResponse)
+    public function update(User $user, LogicResponse $logicResponse): bool
     {
-        //
+        if (!$user->can(PermissionEnum::WHATSAPP_MANAGE->value)) {
+            return false;
+        }
+
+        $agent = $logicResponse->agent;
+        return $agent ? $this->ownsAgentProject($user, $agent) : false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\LogicResponse  $logicResponse
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, LogicResponse $logicResponse)
+    public function delete(User $user, LogicResponse $logicResponse): bool
     {
-        //
+        if (!$user->can(PermissionEnum::WHATSAPP_MANAGE->value)) {
+            return false;
+        }
+
+        $agent = $logicResponse->agent;
+        return $agent ? $this->ownsAgentProject($user, $agent) : false;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\LogicResponse  $logicResponse
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, LogicResponse $logicResponse)
+    protected function ownsAgentProject(User $user, Agent $agent): bool
     {
-        //
-    }
+        if (empty($agent->project_id)) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\LogicResponse  $logicResponse
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, LogicResponse $logicResponse)
-    {
-        //
+        $userProjectIds = $user->projects()->pluck('projects.id')->toArray();
+
+        return in_array($agent->project_id, $userProjectIds);
     }
 }
