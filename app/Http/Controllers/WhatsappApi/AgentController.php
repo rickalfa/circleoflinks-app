@@ -46,6 +46,48 @@ class AgentController extends Controller
     }
 
     /**
+     * Formulario de creación para Bot Normal (Reglas de respuesta, sin IA).
+     * Disponible para Free y Premium.
+     */
+    public function createRules()
+    {
+        $this->authorize('create', Agent::class);
+
+        $project = auth()->user()->currentProject();
+        $projectId = $project ? $project->id : null;
+        $currentBotCount = $projectId ? Agent::where('project_id', $projectId)->count() : 0;
+
+        if (!auth()->user()->canCreateMoreBots($currentBotCount)) {
+            return redirect()->route('/admindashboard/bots-r')
+                ->with('error', 'Has alcanzado el límite máximo de bots permitidos en tu plan ' . ucfirst(auth()->user()->plan) . '.');
+        }
+
+        return view('whatsapp_service.agent.create_rules');
+    }
+
+    /**
+     * Formulario de creación para Bot con Inteligencia Artificial (MLL).
+     * Exclusivo para Premium.
+     */
+    public function createMll()
+    {
+        $this->authorize('create', Agent::class);
+
+        $project = auth()->user()->currentProject();
+        $projectId = $project ? $project->id : null;
+        $currentBotCount = $projectId ? Agent::where('project_id', $projectId)->count() : 0;
+
+        if (!auth()->user()->canCreateMoreBots($currentBotCount)) {
+            return redirect()->route('/admindashboard/bots-r')
+                ->with('error', 'Has alcanzado el límite máximo de bots permitidos en tu plan ' . ucfirst(auth()->user()->plan) . '.');
+        }
+
+        $canUseAi = auth()->user()->canUseAiBots();
+
+        return view('whatsapp_service.agent.create_mll', compact('canUseAi'));
+    }
+
+    /**
      * Listado de bots activos.
      */
     public function activesBots(Request $request)

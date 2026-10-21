@@ -39,10 +39,19 @@
     <div class="row align-items-center mb-3">
         <div class="col-md-6 mb-2 mb-md-0">
             @if($canCreateMore)
-                <a href="{{ url('/admindashboard/bots-r-fabric') }}" class="btn btn-primary shadow-sm" role="button">
-                    <img src="{{ asset('imgs/svg/ampolleta_bot.svg') }}" alt="Crear Bot" width="24px" height="24px" class="me-1">
-                    Crear Nuevo Bot
-                </a>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <a href="{{ route('bot.create.rules') }}" class="btn btn-primary shadow-sm" role="button">
+                        <i class="bi bi-robot me-1"></i> Crear Bot Normal
+                    </a>
+                    <a href="{{ route('bot.create.mll') }}" class="btn btn-outline-success shadow-sm" role="button">
+                        <i class="bi bi-stars me-1 text-warning"></i> Crear Bot MLL (IA)
+                        @if(!$canUseAi)
+                            <span class="badge bg-warning text-dark ms-1" style="font-size: 0.65rem;">
+                                <i class="bi bi-lock-fill"></i> PRO
+                            </span>
+                        @endif
+                    </a>
+                </div>
             @else
                 <button class="btn btn-secondary disabled" title="Has alcanzado el límite de bots de tu plan">
                     <i class="bi bi-lock-fill me-1"></i> Límite de Bots Alcanzado

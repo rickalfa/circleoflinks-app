@@ -29,6 +29,22 @@
         </div>
       @endif
 
+      <div class="card bg-light border-0 shadow-sm p-3 mb-4 rounded-3">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <span class="fw-semibold text-secondary small">
+            <i class="bi bi-ui-checks-grid me-1"></i> Selecciona la experiencia de creación:
+          </span>
+          <div class="btn-group btn-group-sm">
+            <a href="{{ route('bot.create.rules') }}" class="btn btn-outline-primary">
+              <i class="bi bi-robot me-1"></i> Modo Bot Normal (Reglas)
+            </a>
+            <a href="{{ route('bot.create.mll') }}" class="btn btn-outline-success">
+              <i class="bi bi-stars me-1 text-warning"></i> Modo Bot con IA (MLL)
+            </a>
+          </div>
+        </div>
+      </div>
+
       <form action="{{ route('bot.store') }}" method="POST">
         @csrf
 

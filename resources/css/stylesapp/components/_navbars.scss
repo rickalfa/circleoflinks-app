@@ -351,3 +351,36 @@
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
 }
+
+// ── Submenú anidado de nivel 2 (ej. Opciones de Bots-R) ─────────
+.admin-subnav-inner {
+  padding-left: 0.75rem;
+  margin-top: 0.2rem;
+  margin-left: 1.2rem;
+  border-left: 1.5px dashed #cbd5e1;
+}
+
+.admin-nav-link-sub {
+  display: flex;
+  align-items: center;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.815rem;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 2px;
+
+  &:hover {
+    color: #0d6efd;
+    background-color: #f1f5f9;
+    transform: translateX(3px);
+  }
+
+  &.active {
+    color: #0d6efd;
+    font-weight: 600;
+    background-color: rgba(13, 110, 253, 0.08);
+  }
+}

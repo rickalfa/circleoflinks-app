@@ -54,14 +54,48 @@
               @if(auth()->user()->isTypeB()) <i class="bi bi-lock-fill ms-auto small text-muted"></i> @endif
             </a>
           </li>
+          {{-- ── Menú Bots-R con subenlaces dedicados ── --}}
           <li>
             <a href="{{ auth()->user()->isTypeB() ? route('onboarding.setup') : route('/admindashboard/bots-r') }}" 
-               class="admin-nav-link {{ auth()->user()->isTypeB() ? 'opacity-50' : '' }}"
+               class="admin-nav-link {{ auth()->user()->isTypeB() ? 'opacity-50' : '' }} {{ request()->is('admindashboard/bots-r*') ? 'active text-primary fw-semibold' : '' }}"
                title="{{ auth()->user()->isTypeB() ? 'Requiere activar servicio' : '' }}">
               <i class="bi bi-robot menu-icon"></i>
               <span>Bots-R</span>
               @if(auth()->user()->isTypeB()) <i class="bi bi-lock-fill ms-auto small text-muted"></i> @endif
             </a>
+
+            @if(auth()->check() && !auth()->user()->isTypeB())
+              <ul class="admin-subnav-inner list-unstyled mb-2">
+                {{-- Crear Bot Normal --}}
+                <li>
+                  <a href="{{ route('bot.create.rules') }}" 
+                     class="admin-nav-link-sub {{ request()->routeIs('bot.create.rules') ? 'active' : '' }}"
+                     title="Crear Bot estándar de respuestas predefinidas">
+                    <i class="bi bi-plus-circle me-1.5 text-primary"></i>
+                    <span>Crear Bot Normal</span>
+                  </a>
+                </li>
+
+                {{-- Crear Bot IA (MLL) --}}
+                <li>
+                  <a href="{{ route('bot.create.mll') }}" 
+                     class="admin-nav-link-sub {{ request()->routeIs('bot.create.mll') ? 'active' : '' }} d-flex align-items-center justify-content-between"
+                     title="Crear Bot impulsado por Modelo de Lenguaje (IA)">
+                    <div class="d-flex align-items-center text-truncate">
+                      <i class="bi bi-stars me-1.5 text-warning"></i>
+                      <span>Crear Bot MLL</span>
+                    </div>
+                    @if(auth()->user()->canUseAiBots())
+                      <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.62rem; padding: 0.15rem 0.35rem;">IA</span>
+                    @else
+                      <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle" style="font-size: 0.62rem; padding: 0.15rem 0.35rem;">
+                        <i class="bi bi-lock-fill"></i> PRO
+                      </span>
+                    @endif
+                  </a>
+                </li>
+              </ul>
+            @endif
           </li>
           <li>
             <a href="{{ auth()->user()->isTypeB() ? route('onboarding.setup') : route('/admindashboard/contacts') }}" 

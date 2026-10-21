@@ -10,9 +10,12 @@
     <div class="row">
       <div class="d-grid gap-2 d-md-block">
 
-          <a  href="{{url('/admindashboard/bots-r-fabric')}}" class="btn btn-primary" role="button"> 
-            Fabric-bot
-            <img src="{{ asset('imgs/svg/ampolleta_bot.svg') }}" alt="Descripción de la imagen" width="32px" height="32px">
+          <a  href="{{ route('bot.create.rules') }}" class="btn btn-primary" role="button"> 
+            <i class="bi bi-robot me-1"></i> Crear Bot Normal
+          </a>
+          <a href="{{ route('bot.create.mll') }}" class="btn btn-outline-success ms-2" role="button">
+            <i class="bi bi-stars me-1 text-warning"></i> Crear Bot MLL (IA)
+
         
           </a>
       </div>
