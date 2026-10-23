@@ -11,11 +11,15 @@ export default class ApiService {
 
   constructor(resourcePath: string = "/") {
 
-    // 1. Obtenemos la URL base del .env o usamos el origen actual del navegador como fallback
-    const baseURL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    // 1. Obtenemos la URL base del .env o usamos el origen actual del navegador como fallback,
+    // normalizando las barras para evitar '//' (ej. '.../public//chat-api') en subdirectorios XAMPP.
+    const rawBase = (import.meta.env.VITE_API_BASE_URL || window.location.origin).replace(/\/+$/, "");
+    const cleanPath = resourcePath && resourcePath !== "/"
+      ? "/" + resourcePath.replace(/^\/+|\/+$/g, "")
+      : "";
 
     this.api = axios.create({
-      baseURL: `${baseURL}${resourcePath}`,
+      baseURL: `${rawBase}${cleanPath}`,
       headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",

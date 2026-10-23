@@ -80,6 +80,18 @@ class User extends Authenticatable
     }
 
     /**
+     * IDs de los proyectos (números de bot) a los que este usuario tiene acceso.
+     *
+     * SEGURIDAD: Es la fuente única de verdad para autorizar el acceso a
+     * Leads y Conversaciones. Nunca confiar en IDs enviados por el cliente
+     * sin filtrarlos contra esta lista.
+     */
+    public function accessibleProjectIds(): \Illuminate\Support\Collection
+    {
+        return $this->projects()->pluck('projects.id');
+    }
+
+    /**
      * Obtiene el proyecto actual activo del usuario.
      */
     public function currentProject(): ?Project

@@ -56,7 +56,7 @@ class UserApp extends Model
     public function contact()
      {
         
-        return $this->hasOne(UserAppContact::class, 'user_id');
+        return $this->hasOne(userAppContact::class, 'user_id');
      
     }
     

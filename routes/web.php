@@ -115,7 +115,9 @@ Route::get('/wspservice', [WspbController::class, 'webhook']);
 Route::post('/wspservice', [WspbController::class, 'recibir']);
 
 
-Route::get('/sendmessage', [WspSendMessageController::class, 'sendmessage']);
+// SEGURIDAD: Ruta deshabilitada — antes permitía enviar mensajes de WhatsApp sin autenticación.
+// Para envíos desde el panel autenticado usar POST /chat-api/send.
+// Route::get('/sendmessage', [WspSendMessageController::class, 'sendmessage']);
 
 
 
@@ -127,6 +129,8 @@ Route::middleware('auth')->group(function () {
 
     // Rutas para Chat en Vivo con Vue
     Route::prefix('chat-api')->group(function () {
+        Route::get('/leads', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'getLeadsTable'])->name('chat-api.leads');
+        Route::post('/leads/{leadId}/convert-to-contact', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'convertToContact'])->name('chat-api.leads.convert');
         Route::get('/conversation/lead/{leadId}', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'getConversation']);
         Route::post('/take-control', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'takeControl']);
         Route::post('/send', [\App\Http\Controllers\WhatsappApi\ApiChatController::class, 'sendMessage']);

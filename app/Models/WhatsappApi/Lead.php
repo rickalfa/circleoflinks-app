@@ -35,6 +35,14 @@ class Lead extends Model
         return $this->belongsTo(\App\Models\Project::class);
     }
 
+    /**
+     * Última conversación registrada para el UserApp asociado a este Lead.
+     */
+    public function latestConversation()
+    {
+        return $this->hasOne(Conversation::class, 'user_id', 'user_id')->latestOfMany('id');
+    }
+
 
     /**
      * Obtiene la instancia del proyecto al que pertenece este modelo.
@@ -42,6 +50,20 @@ class Lead extends Model
     public function currentProject()
     {
         return $this->project;
+    }
+
+
+    /**
+     * Restringe la consulta a los Leads que pertenecen a los proyectos del usuario.
+     *
+     * SEGURIDAD: Usar SIEMPRE este scope al buscar un Lead a partir de un ID
+     * recibido desde el cliente, para evitar acceso entre cuentas (IDOR).
+     *
+     * Uso: Lead::ownedBy($user)->findOrFail($id);
+     */
+    public function scopeOwnedBy($query, \App\Models\User $user)
+    {
+        return $query->whereIn('project_id', $user->accessibleProjectIds());
     }
 
 }

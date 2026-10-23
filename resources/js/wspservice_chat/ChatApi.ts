@@ -3,10 +3,12 @@ import type { Conversation, ChatMessage, Lead, ConversationResponse } from './in
 
 export class ChatApi {
     private csrfToken: string;
+    private basePath: string;
 
     constructor() {
         const meta = document.querySelector('meta[name="csrf-token"]');
         this.csrfToken = meta ? meta.getAttribute('content') || '' : '';
+        this.basePath = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
         
         // Configuramos axios por defecto
         axios.defaults.headers.common['X-CSRF-TOKEN'] = this.csrfToken;
@@ -15,7 +17,7 @@ export class ChatApi {
 
     public async getConversation(leadId: number): Promise<ConversationResponse | null> {
         try {
-            const response = await axios.get(`/chat-api/conversation/lead/${leadId}`);
+            const response = await axios.get(`${this.basePath}/chat-api/conversation/lead/${leadId}`);
             if (response.data && response.data.conversation) {
                 return {
                     conversation: response.data.conversation,
@@ -31,7 +33,7 @@ export class ChatApi {
 
     public async sendMessage(conversationId: number, phone: string, message: string): Promise<ChatMessage | null> {
         try {
-            const response = await axios.post('/chat-api/send', {
+            const response = await axios.post(`${this.basePath}/chat-api/send`, {
                 conversation_id: conversationId,
                 phone: phone,
                 message: message
@@ -48,7 +50,7 @@ export class ChatApi {
 
     public async takeControl(conversationId: number, action: 'human_active' | 'bot_active' = 'human_active'): Promise<boolean> {
         try {
-            const response = await axios.post('/chat-api/take-control', {
+            const response = await axios.post(`${this.basePath}/chat-api/take-control`, {
                 conversation_id: conversationId,
                 action: action
             });

@@ -1,5 +1,6 @@
 // Importa Bootstrap
-import '../../node_modules/bootstrap/js/index.esm.js';
+import * as bootstrap from '../../node_modules/bootstrap/js/index.esm.js';
+(window as any).bootstrap = bootstrap;
 
 // Si tienes Alpine.js, lo inicializamos aquí
 import Alpine from 'alpinejs';
@@ -11,6 +12,7 @@ import { RegisterComponent } from './components/RegisterComponent';
 import { LoginComponent } from './components/LoginComponent';
 import { AlertComponent } from './components/ui/AlertComponent';
 import { LeadUnreadStatus } from './components/LeadUnreadStatus';
+import { LeadsTableComponent, initLeadsTable } from './components/view/leadsTable';
 
 // Exportar globalmente para componentes o scripts legacy si se requiere
 (window as any).AlertComponent = AlertComponent;
@@ -33,11 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
         new LoginComponent('#formlogin', '#messageresponselogin');
     }
 
-    // Inicializar el polling de leads si estamos en la vista de leads
-    const leadsContainer = document.getElementById('leads-list-container');
-    if (leadsContainer) {
+    // Inicializar el componente de Tabla de Leads (TypeScript)
+    if (document.getElementById('leads-table-root')) {
+        initLeadsTable();
+    } else if (document.getElementById('leads-list-container')) {
+        // Fallback legacy si otra vista usa #leads-list-container
         new LeadUnreadStatus();
     }
 });
 
-export { RegisterComponent, LoginComponent, AlertComponent, LeadUnreadStatus };
+export {
+    RegisterComponent,
+    LoginComponent,
+    AlertComponent,
+    LeadUnreadStatus,
+    LeadsTableComponent,
+    initLeadsTable,
+};

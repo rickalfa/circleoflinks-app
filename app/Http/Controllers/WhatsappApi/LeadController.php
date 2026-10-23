@@ -26,14 +26,8 @@ class LeadController extends Controller
                 ->with('warning', 'Para acceder al módulo de Leads debes activar el servicio de WhatsApp y registrar tu número de celular.');
         }
         
-        // 1. Obtenemos todas las compañías del usuario
-        $companyIds = $user->companies()->pluck('id');
-        
-        // 2. Obtenemos todos los proyectos (números de bot) de esas compañías
-        $projectIds = Project::whereIn('company_id', $companyIds)->pluck('id');
-        
-        // 3. Traemos solo los Leads que pertenecen a esos proyectos
-        $Leads = Lead::whereIn('project_id', $projectIds)->latest()->get();
+        // Obtenemos solo los Leads que pertenecen a los proyectos de las compañías del usuario
+        $Leads = Lead::ownedBy($user)->latest()->get();
 
         return view('whatsapp_service.leads.index', compact('Leads'));
     }

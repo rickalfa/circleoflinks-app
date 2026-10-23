@@ -51,6 +51,14 @@ class Conversation extends Model
         return $this->belongsTo(\App\Models\Project::class);
     }
 
+    /**
+     * Último mensaje de la conversación (para previsualización en tabla de Leads).
+     */
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class, 'conversation_id', 'id')->latestOfMany('id');
+    }
+
 
     /**
      * Obtiene la instancia del proyecto al que pertenece este modelo.

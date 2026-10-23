@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup — Tabla de Leads (Propuesta)</title>
+  <!-- SOLO PARA EL MOCKUP: en la implementación real se usan los assets de Vite -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --wsp: #25D366; }
+    body { background: #ffc107; min-height: 100vh; } /* simula el bg-warning del layout admindashboard */
+
+    .leads-card { border: 0; border-radius: 1rem; overflow: hidden; }
+    .leads-table { margin: 0; }
+    .leads-table thead th {
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--bs-secondary-color); border-bottom: 1px solid var(--bs-border-color);
+      background: var(--bs-tertiary-bg);
+    }
+    .leads-table td { vertical-align: middle; padding-top: .9rem; padding-bottom: .9rem; }
+    .leads-table tbody tr { transition: background .15s; }
+    .leads-table tbody tr:hover { background: rgba(255,255,255,.03); }
+    .leads-table tbody tr.row-waiting { box-shadow: inset 4px 0 0 var(--bs-danger); }
+
+    .avatar { width: 48px; height: 48px; border: 2px solid var(--wsp); object-fit: cover; }
+    .unread-badge { font-size: .65rem; }
+    .muted-xs { font-size: .75rem; color: var(--bs-secondary-color); }
+    .contact-empty { border: 1px dashed var(--bs-border-color); border-radius: .75rem; padding: .6rem .8rem; }
+    .contact-box { background: rgba(37,211,102,.06); border: 1px solid rgba(37,211,102,.25); border-radius: .75rem; padding: .6rem .8rem; }
+    .preview { font-size: .78rem; color: var(--bs-secondary-color); font-style: italic; max-width: 280px; }
+
+    .status-pill { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; font-size: .8rem;
+      padding: .3rem .7rem; border-radius: 50rem; }
+    .pulse { position: relative; }
+    .pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50rem;
+      box-shadow: 0 0 0 0 rgba(220,53,69,.7); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(220,53,69,0); } 100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); } }
+
+    .page-link { min-width: 2.25rem; text-align: center; }
+
+    /* Responsive: filas → tarjetas en < 992px */
+    @media (max-width: 991.98px) {
+      .leads-table thead { display: none; }
+      .leads-table, .leads-table tbody, .leads-table tr, .leads-table td { display: block; width: 100%; }
+      .leads-table tr { border-bottom: 1px solid var(--bs-border-color); padding: .5rem 0; }
+      .leads-table td { border: 0; padding: .4rem 1rem; }
+      .leads-table td[data-label]::before { content: attr(data-label); display: block;
+        font-size: .65rem; text-transform: uppercase; letter-spacing: .05em; color: var(--bs-secondary-color); margin-bottom: .25rem; }
+    }
+  </style>
+</head>
+<body class="p-3 p-md-4">
+
+  <div class="container-xxl">
+    <!-- Nota del mockup -->
+    <div class="alert alert-light border-0 shadow-sm small mb-3 text-dark">
+      <i class="bi bi-info-circle me-1"></i>
+      <strong>Mockup de propuesta</strong> — datos ficticios. Prueba el selector 5/10 y la paginación.
+      Documentación: <code>docs/LEADS_TABLE_COMPONENT.md</code>
+    </div>
+
+    <div class="card leads-card shadow-lg">
+      <!-- Header -->
+      <div class="card-header bg-body-tertiary py-3 px-4 d-flex flex-wrap gap-3 align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:42px;height:42px;background:rgba(37,211,102,.15)">
+            <i class="bi bi-whatsapp fs-5" style="color:var(--wsp)"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Leads</h5>
+            <div class="muted-xs">Prospectos que escribieron a tu número de WhatsApp</div>
+          </div>
+          <!-- Fase 3 (opcional): resumen -->
+          <span id="waiting-summary" class="badge rounded-pill text-bg-danger ms-2 d-none">
+            <i class="bi bi-person-raised-hand me-1"></i><span></span>
+          </span>
+        </div>
+
+        <!-- PageSizeSelector -->
+        <div class="d-flex align-items-center gap-2">
+          <label for="page-size" class="muted-xs mb-0">Mostrar</label>
+          <select id="page-size" class="form-select form-select-sm" style="width:auto">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+          </select>
+          <span class="muted-xs">registros</span>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-responsive-lg">
+        <table class="table leads-table">
+          <thead>
+            <tr>
+              <th scope="col" class="ps-4" style="width:34%">Lead</th>
+              <th scope="col" style="width:30%">Contacto en plataforma</th>
+              <th scope="col" class="pe-4">Estado de atención</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Footer: info + Pagination -->
+      <div class="card-footer bg-body-tertiary py-3 px-4 d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div id="page-info" class="muted-xs"></div>
+        <nav aria-label="Paginación de leads">
+          <ul id="pagination" class="pagination pagination-sm mb-0"></ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Leyenda de estados -->
+    <div class="card border-0 shadow-sm mt-3">
+      <div class="card-body py-2 px-4 d-flex flex-wrap gap-3 align-items-center small">
+        <strong class="me-1">Estados:</strong>
+        <span class="status-pill text-bg-danger"><i class="bi bi-person-raised-hand"></i>Solicita humano</span>
+        <span class="status-pill text-bg-warning"><i class="bi bi-headset"></i>Atendido por humano</span>
+        <span class="status-pill text-bg-success"><i class="bi bi-robot"></i>Atendido por bot</span>
+        <span class="status-pill text-bg-secondary"><i class="bi bi-check2-circle"></i>Cerrada</span>
+        <span class="status-pill bg-body-secondary text-body-secondary"><i class="bi bi-dash-circle"></i>Sin conversación</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ======================================================================
+ * MOCKUP — JS plano solo para la demo visual.
+ * La implementación real será TypeScript (ver docs/LEADS_TABLE_COMPONENT.md §7).
+ * ====================================================================== */
+const MIN = 60 * 1000;
+const now = Date.now();
+const ago = (m) => new Date(now - m * MIN).toISOString();
+
+const names = ['María González','Juan Pérez','Camila Rojas','Diego Muñoz','Valentina Soto','Matías Díaz','Fernanda Silva',
+  'Benjamín Torres','Josefa Contreras','Tomás Morales','Isidora Fuentes','Vicente Araya','Antonia Espinoza','Lucas Reyes',
+  'Martina Castillo','Agustín Vargas','Florencia Herrera','Joaquín Núñez','Catalina Sepúlveda','Sebastián Lagos',
+  'Emilia Pizarro','Nicolás Bravo','Sofía Carrasco'];
+const previews = ['Quiero hablar con una persona por favor','¿Cuál es el precio del plan mensual?','Gracias, quedo atento',
+  'Necesito ayuda con mi pedido','Hola, ¿tienen disponibilidad mañana?','¿Me pueden llamar?','Ok perfecto 👍',
+  'No entiendo la respuesta del bot','¿Hacen envíos a regiones?','Me interesa el servicio'];
+const statuses = ['WAITING_HUMAN','BOT_ACTIVE','HUMAN_ACTIVE','BOT_ACTIVE','CLOSED','BOT_ACTIVE','NO_CONVERSATION','WAITING_HUMAN','BOT_ACTIVE','HUMAN_ACTIVE'];
+const operators = ['Rodrigo (tú)','Paula','Andrés'];
+
+/** Forma idéntica al contrato API propuesto (LeadRow) */
+const allLeads = names.map((name, i) => {
+  const status = i === 14 ? 'WAITING_HUMAN' : statuses[i % statuses.length];
+  const isContact = i % 3 === 0;
+  const phone = '569' + String(10000000 + i * 734521).slice(0, 8);
+  return {
+    id: i + 1,
+    name,
+    phone_number: phone,
+    avatar_url: null,
+    last_message_time: ago(2 + i * 17),
+    unread_messages_count: status === 'WAITING_HUMAN' ? (i % 4) + 1 : (i % 5 === 0 ? 2 : 0),
+    contact: {
+      is_contact: isContact,
+      name: isContact ? name : null,
+      email: isContact ? name.toLowerCase().split(' ')[0].normalize('NFD').replace(/[\u0300-\u036f]/g, '') + '@correo.cl' : null,
+      address: isContact && i % 2 === 0 ? 'Av. Providencia ' + (100 + i * 37) + ', Santiago' : null,
+      phone_number: isContact ? phone : null,
+      status_name: isContact ? 'contact' : (i % 2 ? 'email-no-verificed' : 'verificed'),
+    },
+    attention: {
+      status,
+      assigned_user: status === 'HUMAN_ACTIVE' ? { id: 1, name: operators[i % operators.length] } : null,
+      since: status === 'NO_CONVERSATION' ? null : ago(3 + i * 4),
+      last_message_preview: status === 'NO_CONVERSATION' ? null : (status === 'WAITING_HUMAN' ? previews[i % 2 === 0 ? 0 : 5] : previews[i % previews.length]),
+    },
+  };
+});
+
+/* ---------- utils/formatters ---------- */
+const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const truncate = (s, n) => s && s.length > n ? s.slice(0, n - 1) + '…' : s;
+const formatPhone = (p) => p ? `+${p.slice(0,2)} ${p.slice(2,3)} ${p.slice(3,7)} ${p.slice(7)}` : '—';
+function timeAgo(iso) {
+  const m = Math.round((now - new Date(iso).getTime()) / MIN);
+  if (m < 1) return 'ahora';
+  if (m < 60) return `hace ${m} min`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `hace ${h} h`;
+  return `hace ${Math.round(h / 24)} d`;
+}
+const avatarUrl = (l) => l.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(l.name)}&background=25D366&color=fff&size=96&bold=true`;
+
+/* ---------- utils/leadStatus ---------- */
+const STATUS = {
+  WAITING_HUMAN:   { cls: 'text-bg-danger pulse', icon: 'bi-person-raised-hand', label: 'Solicita atención humana' },
+  HUMAN_ACTIVE:    { cls: 'text-bg-warning',      icon: 'bi-headset',            label: 'Atendido por humano' },
+  BOT_ACTIVE:      { cls: 'text-bg-success',      icon: 'bi-robot',              label: 'Atendido por el bot' },
+  CLOSED:          { cls: 'text-bg-secondary',    icon: 'bi-check2-circle',      label: 'Conversación cerrada' },
+  NO_CONVERSATION: { cls: 'bg-body-secondary text-body-secondary', icon: 'bi-dash-circle', label: 'Sin conversación' },
+};
+const PRIORITY = { WAITING_HUMAN: 0, HUMAN_ACTIVE: 1, BOT_ACTIVE: 2, CLOSED: 2, NO_CONVERSATION: 2 };
+
+/* ---------- Orden: piden humano primero (los que más esperan arriba) ---------- */
+allLeads.sort((a, b) => {
+  const pa = PRIORITY[a.attention.status], pb = PRIORITY[b.attention.status];
+  if (pa !== pb) return pa - pb;
+  if (pa === 0) return new Date(a.attention.since) - new Date(b.attention.since);
+  return new Date(b.last_message_time) - new Date(a.last_message_time);
+});
+
+/* ---------- Celdas ---------- */
+function leadCell(l) {
+  const unread = l.unread_messages_count > 0
+    ? `<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light unread-badge">${l.unread_messages_count > 99 ? '99+' : l.unread_messages_count}<span class="visually-hidden">Mensajes no leídos</span></span>` : '';
+  return `
+    <div class="d-flex align-items-center gap-3">
+      <div class="position-relative flex-shrink-0">
+        <img src="${avatarUrl(l)}" class="rounded-circle avatar" alt="Avatar de ${escapeHtml(l.name)}">${unread}
+      </div>
+      <div class="flex-grow-1 min-w-0">
+        <div class="fw-semibold text-truncate"><i class="bi bi-whatsapp me-1" style="color:var(--wsp)"></i>${escapeHtml(l.name)}</div>
+        <div class="muted-xs">${formatPhone(l.phone_number)}</div>
+        <div class="muted-xs" title="${new Date(l.last_message_time).toLocaleString('es-CL')}"><i class="bi bi-clock me-1"></i>Último mensaje ${timeAgo(l.last_message_time)}</div>
+      </div>
+      <button type="button" class="btn btn-primary btn-sm rounded-pill px-3 flex-shrink-0" data-lead-id="${l.id}">
+        <i class="bi bi-chat-dots-fill me-1"></i>Chat Live
+      </button>
+    </div>`;
+}
+
+function contactCell(l) {
+  const c = l.contact;
+  if (!c.is_contact) {
+    return `
+      <div class="contact-empty d-flex align-items-center justify-content-between gap-2">
+        <div>
+          <div class="muted-xs"><i class="bi bi-person-dash me-1"></i>Aún no es contacto</div>
+          <span class="badge bg-body-secondary text-body-secondary fw-normal mt-1">${escapeHtml(c.status_name)}</span>
+        </div>
+        <button type="button" class="btn btn-outline-success btn-sm rounded-pill" title="Fase 2">
+          <i class="bi bi-person-plus me-1"></i>Convertir
+        </button>
+      </div>`;
+  }
+  return `
+    <div class="contact-box">
+      <div class="d-flex align-items-center justify-content-between mb-1">
+        <span class="fw-semibold small text-truncate">${escapeHtml(c.name)}</span>
+        <span class="badge rounded-pill" style="background:var(--wsp)"><i class="bi bi-person-check me-1"></i>Contacto</span>
+      </div>
+      <div class="muted-xs text-truncate"><i class="bi bi-envelope me-1"></i>${escapeHtml(c.email || '—')}</div>
+      <div class="muted-xs"><i class="bi bi-telephone me-1"></i>${formatPhone(c.phone_number)}</div>
+      ${c.address ? `<div class="muted-xs text-truncate"><i class="bi bi-geo-alt me-1"></i>${escapeHtml(c.address)}</div>` : ''}
+      <a href="#" class="muted-xs link-success text-decoration-none d-inline-block mt-1">Ver ficha <i class="bi bi-arrow-right-short"></i></a>
+    </div>`;
+}
+
+function statusCell(l) {
+  const a = l.attention, s = STATUS[a.status];
+  let sub = '';
+  let action = '';
+  if (a.status === 'WAITING_HUMAN') {
+    sub = `<div class="small text-danger-emphasis mt-1"><i class="bi bi-hourglass-split me-1"></i>Esperando ${timeAgo(a.since).replace('hace ', '')}</div>`;
+    action = `<button class="btn btn-danger btn-sm rounded-pill mt-2"><i class="bi bi-hand-index-thumb me-1"></i>Tomar chat</button>`;
+  } else if (a.status === 'HUMAN_ACTIVE') {
+    sub = `<div class="small mt-1"><i class="bi bi-person-badge me-1"></i>Atendido por <strong>${escapeHtml(a.assigned_user.name)}</strong></div>`;
+    if (a.assigned_user.name.includes('(tú)')) action = `<button class="btn btn-outline-secondary btn-sm rounded-pill mt-2"><i class="bi bi-robot me-1"></i>Devolver al bot</button>`;
+  }
+  const preview = a.last_message_preview ? `<div class="preview mt-1 text-truncate">"${escapeHtml(truncate(a.last_message_preview, 60))}"</div>` : '';
+  return `
+    <span class="status-pill ${s.cls}"><i class="bi ${s.icon}"></i>${s.label}</span>
+    ${sub}${preview}${action}`;
+}
+
+/* ---------- LeadsTable (estado + render) ---------- */
+const state = { page: 1, perPage: Number(localStorage.getItem('leads.perPage')) || 10 };
+const $tbody = document.getElementById('leads-tbody');
+const $info = document.getElementById('page-info');
+const $pag = document.getElementById('pagination');
+const $size = document.getElementById('page-size');
+$size.value = String(state.perPage);
+
+function pageList(current, last) {
+  // 1 … 4 5 6 … 10
+  const pages = new Set([1, last, current - 1, current, current + 1]);
+  const arr = [...pages].filter(p => p >= 1 && p <= last).sort((a, b) => a - b);
+  const out = [];
+  arr.forEach((p, i) => { if (i && p - arr[i - 1] > 1) out.push('…'); out.push(p); });
+  return out;
+}
+
+function render() {
+  const total = allLeads.length;
+  const last = Math.max(1, Math.ceil(total / state.perPage));
+  state.page = Math.min(state.page, last);
+  const from = (state.page - 1) * state.perPage;
+  const rows = allLeads.slice(from, from + state.perPage);
+
+  $tbody.innerHTML = rows.map(l => `
+    <tr class="${l.attention.status === 'WAITING_HUMAN' ? 'row-waiting' : ''}">
+      <td class="ps-4" data-label="Lead">${leadCell(l)}</td>
+      <td data-label="Contacto en plataforma">${contactCell(l)}</td>
+      <td class="pe-4" data-label="Estado de atención">${statusCell(l)}</td>
+    </tr>`).join('');
+
+  $info.textContent = `Mostrando ${from + 1}–${from + rows.length} de ${total} leads`;
+
+  const item = (label, page, { disabled = false, active = false, aria = '' } = {}) =>
+    `<li class="page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}">
+       ${label === '…' ? `<span class="page-link">…</span>`
+         : `<button class="page-link" data-page="${page}" ${aria ? `aria-label="${aria}"` : ''} ${active ? 'aria-current="page"' : ''}>${label}</button>`}
+     </li>`;
+
+  $pag.innerHTML =
+    item('<i class="bi bi-chevron-left"></i> Anterior', state.page - 1, { disabled: state.page === 1, aria: 'Anterior' }) +
+    pageList(state.page, last).map(p => p === '…' ? item('…') : item(p, p, { active: p === state.page })).join('') +
+    item('Siguiente <i class="bi bi-chevron-right"></i>', state.page + 1, { disabled: state.page === last, aria: 'Siguiente' });
+
+  const waiting = allLeads.filter(l => l.attention.status === 'WAITING_HUMAN').length;
+  const $sum = document.getElementById('waiting-summary');
+  $sum.classList.toggle('d-none', waiting === 0);
+  $sum.querySelector('span').textContent = `${waiting} esperando humano`;
+}
+
+$pag.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-page]');
+  if (!btn) return;
+  state.page = Number(btn.dataset.page);
+  render();
+});
+$size.addEventListener('change', () => {
+  state.perPage = Number($size.value);
+  state.page = 1;
+  localStorage.setItem('leads.perPage', String(state.perPage));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
